@@ -1,0 +1,81 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
+}
+.container_forgot {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  letter-spacing: 0.5px;
+}
+
+.login_box_forgot {
+  height: 370px;
+  width: 470px;
+  max-width: 500px;
+  min-height: 350px;
+  min-width: 470px;
+  max-height: 500px;
+  position: relative;
+  padding: 50px;
+  border: 2.5px solid;
+  margin-top: 180px;
+  box-shadow: 0.2em 0.2em 1em;
+}
+
+.input_field_forgot {
+  padding: 10px;
+  border: none;
+}
+
+.input_group_forgot h3 {
+  padding-bottom: 20px;
+}
+
+.header_forgot {
+  position: absolute;
+  margin-top: -30%;
+  margin-left: 20%;
+}
+
+.input_forgot {
+  height: 40px;
+  border: 1.5px solid #ccc;
+  display: inline-block;
+  border-radius: 5px;
+  margin-top: 10px;
+  width: 350px;
+  outline: none;
+  padding-bottom: 0px;
+  padding-left: 20px;
+}
+
+.header_img_forgot {
+  position: absolute;
+  margin-top: -29%;
+  margin-left: 9%;
+}
+
+.button_forgot {
+  height: 35px;
+  padding-inline: 35px;
+  background-color: rgb(15, 98, 167);
+  color: #ffffff;
+  font-size: 15px;
+  border: none;
+  border-radius: 5px;
+  margin: 30px 120px;
+  cursor: pointer;
+}
+
+.para_forgot {
+  padding-bottom: 20px;
+  font-size: 15px;
+  font-weight: 590;
+}
