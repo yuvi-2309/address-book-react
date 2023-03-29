@@ -3,11 +3,56 @@ import "./addressBook.css";
 import countryData from "../../JSON files/countryData.json";
 import React, { useState } from "react";
 
-function CreateAddressBook({ onFormDataChange }) {
+function CreateAddressBook({ onFormDataChange }, props) {
   const [formData, setFormData] = useState([]);
+  // console.log(editValue);
+  
+
+  // regex for validation
   const emailRegex = /^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$/;
   const nameRegex = /^([a-zA-Z]{1,29})+$/;
-  
+
+  // function to validate email
+  const validateEmail = (event) => {
+    const emailbox = document.getElementById("email");
+    const email = event.target.value;
+    const email_warning = document.getElementById("email_warning");
+    if (emailRegex.test(email)) {
+      emailbox.style.borderColor = "gray";
+      email_warning.innerHTML = "";
+    } else {
+      email_warning.innerHTML = "Please enter a valid email";
+      emailbox.style.borderColor = "red";
+    }
+  };
+
+  // function to validate name
+  const validateName = (event) => {
+    const namebox = document.getElementById("name");
+    const name = event.target.value;
+    const firstNameWarn = document.getElementById("name_warning");
+    if (nameRegex.test(name)) {
+      namebox.style.borderColor = "gray";
+      firstNameWarn.innerHTML = "";
+    } else {
+      firstNameWarn.innerHTML = "Please enter a valid first name";
+      namebox.style.borderColor = "red";
+    }
+  };
+
+  const validateLastName = (event) => {
+    const namebox = document.getElementById("last_name");
+    const name = event.target.value;
+    const lastNameWarn = document.getElementById("last_name_warning");
+    if (nameRegex.test(name)) {
+      namebox.style.borderColor = "gray";
+      lastNameWarn.innerHTML = "";
+    } else {
+      lastNameWarn.innerHTML = "Please enter a valid last name";
+      namebox.style.borderColor = "red";
+    }
+  };
+
   // function to set the values to setFormData state
   const handleInputChange = (event) => {
     setFormData({
@@ -41,24 +86,38 @@ function CreateAddressBook({ onFormDataChange }) {
       <div className="main_page">
         <form onSubmit={handleSubmit} className="reset">
           <div className="name_bar">
-            <input
-              name="first_name"
-              className="input_address"
-              placeholder="First Name"
-              type="text"
-              // defaultValue={updateState.name}
-              required
-              onChange={handleInputChange}
-            />
-
-            <input
-              name="last_name"
-              className="input_address"
-              placeholder="Last Name"
-              type="text"
-              required
-              onChange={handleInputChange}
-            />
+            <span style={{ display: "flex", flexDirection: "column" }}>
+              <input
+                name="first_name"
+                className="input_address"
+                placeholder="First Name"
+                type="text"
+                id="name"
+                required
+                onChange={handleInputChange}
+                onBlurCapture={validateName}
+              />
+              <div
+                id="name_warning"
+                style={{ color: "red", fontSize: "12px" }}
+              ></div>
+            </span>
+            <span style={{ display: "flex", flexDirection: "column" }}>
+              <input
+                name="last_name"
+                className="input_address"
+                placeholder="Last Name"
+                type="text"
+                id="last_name"
+                required
+                onChange={handleInputChange}
+                onBlurCapture={validateLastName}
+              />
+              <div
+                id="last_name_warning"
+                style={{ color: "red", fontSize: "12px" }}
+              ></div>
+            </span>
           </div>
 
           <div className="address_bar">
@@ -110,11 +169,14 @@ function CreateAddressBook({ onFormDataChange }) {
                 className="input_address"
                 placeholder="Pin Code"
                 onChange={handleInputChange}
-                
                 required
               />
 
-              <select name="Country" className="select" required onChange={handleInputChange}>
+              <select
+                name="Country"
+                className="select"
+                onChange={handleInputChange}
+              >
                 <option className="option">Country</option>
 
                 {countryData.map((getCountry, index) => (
@@ -124,7 +186,11 @@ function CreateAddressBook({ onFormDataChange }) {
                 ))}
               </select>
 
-              <select className="select" required name="type_address" onChange={handleInputChange}> 
+              <select
+                className="select"
+                name="type_address"
+                onChange={handleInputChange}
+              >
                 <option name="Type" className="option">
                   Type
                 </option>
@@ -145,18 +211,29 @@ function CreateAddressBook({ onFormDataChange }) {
             </div>
 
             <div className="name_bar1 wrapA2">
-              <input
-                name="email"
-                className="input_address"
-                placeholder="Email Address"
-                type="email"
-                autoComplete="off"
-                // defaultValue={updateState.email}
+              <span style={{ display: "flex", flexDirection: "column" }}>
+                <input
+                  id="email"
+                  name="email"
+                  className="input_address"
+                  placeholder="Email Address"
+                  type="email"
+                  autoComplete="off"
+                  // defaultValue={updateState.email}
+                  onChange={handleInputChange}
+                  onBlurCapture={validateEmail}
+                  required
+                />
+                <div
+                  id="email_warning"
+                  style={{ color: "red", fontSize: "12px" }}
+                ></div>
+              </span>
+              <select
+                name="type_email"
+                className="select"
                 onChange={handleInputChange}
-                required
-              />
-
-              <select name="type_email" className="select" required onChange={handleInputChange}>
+              >
                 <option className="option">Type</option>
                 <option>Personal</option>
                 <option>Work</option>
@@ -182,7 +259,12 @@ function CreateAddressBook({ onFormDataChange }) {
                 required
               />
 
-              <select name="type_phone_number" className="select" required onChange={handleInputChange}>
+              <select
+                name="type_phone_number"
+                className="select"
+                required
+                onChange={handleInputChange}
+              >
                 <option className="option">Type</option>
                 <option>Personal</option>
                 <option>Work</option>
