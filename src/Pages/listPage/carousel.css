@@ -1,0 +1,33 @@
+.number-buttons {
+  position: relative;
+  margin-top: 1rem;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 0.5rem 0;
+}
+
+.button-container button {
+  display: flex;
+  width: 100%;
+  background-color: #fff;
+  color: black;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid #ccc;
+  /* border-top: 1px solid #ccc; */
+  cursor: pointer;
+}
+
+.button-container button.active {
+  background-color: lightseagreen;
+  color: #fff;
+}
+
+.carousel-arrow {
+  margin: 20px 10px 0 10px;
+}

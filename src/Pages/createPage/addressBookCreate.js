@@ -3,10 +3,8 @@ import "./addressBook.css";
 import countryData from "../../JSON files/countryData.json";
 import React, { useState } from "react";
 
-function CreateAddressBook({ onFormDataChange }, props) {
-  const [formData, setFormData] = useState([]);
-  // console.log(editValue);
-  
+function CreateAddressBook({ onFormDataChange, editValue }) {
+  const [formData, setFormData] = useState(editValue);
 
   // regex for validation
   const emailRegex = /^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$/;
@@ -78,9 +76,20 @@ function CreateAddressBook({ onFormDataChange }, props) {
     onFormDataChange(formData);
     setFormData("");
     event.target.reset();
+    console.log(formData);
     // const updatedRowData = { ...formData };
   };
 
+  const handleAddEmail1 = (event) => {
+    event.preventDefault();
+    const email1 = document.getElementById("email").value;
+    formData.email = [email1];
+    console.log(formData.email);
+  };
+
+  const cancel_nav_toList = () => {
+    console.log(editValue);
+  };
   return (
     <React.Fragment>
       <div className="main_page">
@@ -93,6 +102,7 @@ function CreateAddressBook({ onFormDataChange }, props) {
                 placeholder="First Name"
                 type="text"
                 id="name"
+                value={formData.first_name}
                 required
                 onChange={handleInputChange}
                 onBlurCapture={validateName}
@@ -109,6 +119,7 @@ function CreateAddressBook({ onFormDataChange }, props) {
                 placeholder="Last Name"
                 type="text"
                 id="last_name"
+                value={formData.last_name}
                 required
                 onChange={handleInputChange}
                 onBlurCapture={validateLastName}
@@ -133,6 +144,7 @@ function CreateAddressBook({ onFormDataChange }, props) {
                 placeholder="Line 1"
                 type="text"
                 required
+                value={formData.address_line1}
                 // defaultValue={updateState.address}
                 onChange={handleInputChange}
               />
@@ -143,6 +155,7 @@ function CreateAddressBook({ onFormDataChange }, props) {
                 placeholder="Line 2"
                 type="text"
                 required
+                value={formData.address_line2}
                 onChange={handleInputChange}
               />
 
@@ -152,6 +165,7 @@ function CreateAddressBook({ onFormDataChange }, props) {
                 placeholder="City"
                 type="text"
                 required
+                value={formData.city}
                 onChange={handleInputChange}
               />
 
@@ -161,6 +175,7 @@ function CreateAddressBook({ onFormDataChange }, props) {
                 placeholder="State"
                 type="text"
                 required
+                value={formData.state}
                 onChange={handleInputChange}
               />
 
@@ -169,18 +184,20 @@ function CreateAddressBook({ onFormDataChange }, props) {
                 className="input_address"
                 placeholder="Pin Code"
                 onChange={handleInputChange}
+                value={formData.pin_code}
                 required
               />
 
               <select
-                name="Country"
+                name="country"
                 className="select"
                 onChange={handleInputChange}
+                value={formData.country}
               >
                 <option className="option">Country</option>
 
                 {countryData.map((getCountry, index) => (
-                  <option value={getCountry.country_id} key={index}>
+                  <option value={getCountry.country_name} key={index}>
                     {getCountry.country_name}
                   </option>
                 ))}
@@ -190,14 +207,15 @@ function CreateAddressBook({ onFormDataChange }, props) {
                 className="select"
                 name="type_address"
                 onChange={handleInputChange}
+                value={formData.type_address}
               >
                 <option name="Type" className="option">
                   Type
                 </option>
 
-                <option>Permanent</option>
+                <option>Personal</option>
 
-                <option>Correspondence</option>
+                <option>Work</option>
               </select>
             </div>
 
@@ -219,6 +237,7 @@ function CreateAddressBook({ onFormDataChange }, props) {
                   placeholder="Email Address"
                   type="email"
                   autoComplete="off"
+                  value={formData.email}
                   // defaultValue={updateState.email}
                   onChange={handleInputChange}
                   onBlurCapture={validateEmail}
@@ -233,6 +252,7 @@ function CreateAddressBook({ onFormDataChange }, props) {
                 name="type_email"
                 className="select"
                 onChange={handleInputChange}
+                value={formData.type_email}
               >
                 <option className="option">Type</option>
                 <option>Personal</option>
@@ -240,7 +260,9 @@ function CreateAddressBook({ onFormDataChange }, props) {
               </select>
             </div>
 
-            <button className="button_1">Add</button>
+            <button className="button_1" onClick={handleAddEmail1}>
+              Add
+            </button>
           </div>
 
           <div className="phone_number">
@@ -254,6 +276,7 @@ function CreateAddressBook({ onFormDataChange }, props) {
                 name="phone_number"
                 className="input_address"
                 placeholder="Phone Number"
+                value={formData.phone_number}
                 // defaultValue={updateState.phno}
                 onChange={handleInputChange}
                 required
@@ -264,6 +287,7 @@ function CreateAddressBook({ onFormDataChange }, props) {
                 className="select"
                 required
                 onChange={handleInputChange}
+                value={formData.type_phone_number}
               >
                 <option className="option">Type</option>
                 <option>Personal</option>
@@ -276,9 +300,11 @@ function CreateAddressBook({ onFormDataChange }, props) {
 
           <div className="footer_address">
             <button className="button_2" type="submit">
-              Save
+              {editValue ? "Update" : "Save"}
             </button>
-            <button className="button_2">Cancel</button>
+            <button className="button_2" onClick={cancel_nav_toList}>
+              Cancel
+            </button>
           </div>
         </form>
       </div>
@@ -287,87 +313,3 @@ function CreateAddressBook({ onFormDataChange }, props) {
 }
 
 export default CreateAddressBook;
-
-// let display1 = 1;
-
-// function Wrap1() {
-
-//  const details = document.getElementsByClassName("wrapA1");
-
-//  const btn_change = document.querySelector(".button_wrap1");
-
-//  if (display1 === 1) {
-
-//   details[0].style.display = "grid";
-
-//   display1 = 0;
-
-//   btn_change.textContent = "-";
-
-//  } else {
-
-//   details[0].style.display = "none";
-
-//   display1 = 1;
-
-//   btn_change.textContent = "+";
-
-//  }
-
-// }
-
-// let display2 = 1;
-
-// function Wrap2() {
-
-//  const details = document.getElementsByClassName("wrapA2");
-
-//  const btn_change = document.querySelector(".button_wrap2");
-
-//  if (display2 === 1) {
-
-//   details[0].style.display = "grid";
-
-//   display2 = 0;
-
-//   btn_change.textContent = "-";
-
-//  } else {
-
-//   details[0].style.display = "none";
-
-//   display2 = 1;
-
-//   btn_change.textContent = "+";
-
-//  }
-
-// }
-
-// let display3 = 1;
-
-// function Wrap3() {
-
-//  const details = document.getElementsByClassName("wrapA3");
-
-//  const btn_change = document.querySelector(".button_wrap3");
-
-//  if (display3 === 1) {
-
-//   details[0].style.display = "grid";
-
-//   display3 = 0;
-
-//   btn_change.textContent = "-";
-
-//  } else {
-
-//   details[0].style.display = "none";
-
-//   display3 = 1;
-
-//   btn_change.textContent = "+";
-
-//  }
-
-// }

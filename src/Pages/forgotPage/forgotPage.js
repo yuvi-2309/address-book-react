@@ -16,6 +16,11 @@ function Forgot() {
     }
   };
 
+  const sendMail = () => {
+    const email = document.getElementById("email").value;
+    console.log(email);
+  };
+
   return (
     <div className="container_forgot">
       <form className="login_box_forgot">
@@ -37,8 +42,11 @@ function Forgot() {
             onBlur={validateEmail}
             required
           />
-          <div id="email_warning" style={{color:"red", fontSize:"12px"}}></div>
-          <button className="button_forgot" type="button">
+          <div
+            id="email_warning"
+            style={{ color: "red", fontSize: "12px" }}
+          ></div>
+          <button className="button_forgot" type="button" onClick={sendMail}>
             Send
           </button>
         </div>

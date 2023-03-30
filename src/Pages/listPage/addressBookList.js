@@ -6,12 +6,14 @@ import CreateAddressBook from "../createPage/addressBookCreate";
 import { Modal } from "antd";
 import View from "../viewPage/viewContact";
 import Edit from "../editPage/editPage";
+import Breadcrumb from "../baseLayouts/breadCrumbs";
+import NumberCarousel from "./carousel";
 
 function AddressList() {
   const [formData, setFormData] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [editData, setEditData] = useState([]);
+  const [editData, setEditData] = useState({});
   //function for search bar
   // const filteredData = items.filter(item => item.name.includes(searchQuery));
 
@@ -46,6 +48,8 @@ function AddressList() {
     };
   };
 
+  // const [crumbs, setCrumbs] = useState(["Home", "Address Book", "Create Page"]);
+
   // function to view the record
   const [selectedData, viewSelectedData] = useState();
   const [viewAddress, setView] = useState(false);
@@ -56,8 +60,18 @@ function AddressList() {
   };
 
   const handleEdit = (item) => {
+    // setView(!viewAddress);
     setEditData(item);
-    console.log(editData);
+    setIsSubmitted(false);
+    // console.log(editData);
+  };
+
+  // const selected = (crumb) => {
+  //   console.log(crumb);
+  // };
+
+  const handleCancelNav = () => {
+    setView(true);
   };
 
   return (
@@ -65,93 +79,131 @@ function AddressList() {
       {/* bread scrumbs */}
       <div className="nav_bar">
         <Link to="/home" className="textColor">
-          Home
+          Home /
         </Link>
         <Link to="/" className="textColor">
-          Address Book
+          Address Book /
         </Link>
         <Link to="/" className="textColor">
           Create
         </Link>
 
         {/* button to navigate between create and list page */}
+
+        {/* <Breadcrumb crumbs={crumbs} selected={selected}> </Breadcrumb> */}
         <button
+          className="button_to_navigate"
           onClick={pageNav}
           id="changePage"
-          style={{
-            position: "absolute",
-            marginLeft: "65%",
-          }}
+          // style={{
+          //   position: "absolute",
+          //   marginLeft: "65%",
+          // }}
         >
           {isSubmitted ? "Create Page" : "List Page"}
         </button>
       </div>
-      {viewAddress ? (
-        <View state={selectedData} />
-        // <Edit editValue={editData} />
-      ) : (
-        <>
-          {isSubmitted ? (
-            // list page
-            <>
-              <div className="main_page_list">
-                <input
-                  placeholder="Search"
-                  name="search"
-                  id="search"
-                  autoComplete="off"
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  style={{ paddingLeft: "20px", marginLeft: "40px" }}
-                ></input>
+      <div className="main_page">
+        {viewAddress ? (
+          <View state={selectedData} />
+        ) : (
+          <>
+            {isSubmitted ? (
+              // list page
+              <>
+                <div className="main_page_list">
+                  <input
+                    placeholder="Search"
+                    name="search"
+                    id="search"
+                    autoComplete="off"
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    style={{
+                      paddingLeft: "20px",
+                      marginLeft: "40px",
+                      marginBottom: "20px",
+                      marginTop: "10px",
+                      width: "30%",
+                    }}
+                  ></input>
 
-                <table className="addressBook_table">
-                  <thead className="table_head">
-                    <tr>
-                      <th>Name</th>
-                      <th>Phone Number</th>
-                      <th>Email</th>
-                      <th>Address</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
+                  <table className="tableWrapper">
+                    <thead className="table_head">
+                      <tr>
+                        <th>Name</th>
+                        <th>Phone Number</th>
+                        <th>Email</th>
+                        <th>Address</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
 
-                  {/* table to display the details */}
-                  <tbody className="table_body">
-                    {/* {searchQuery.length !== 0 && filteredData.length === 0 && (
+                    {/* table to display the details */}
+                    <tbody className="table_body">
+                      {/* {searchQuery.length !== 0 && filteredData.length === 0 && (
                   <>
                     <tr>Searched field does not exist</tr>
                   </>
                 )} */}
 
-                    {formData.length === 0 && <tr>No data</tr>}
-                    {searchQuery.length === 0 && (
-                      <>
-                        {formData.map((item, index) => (
-                          <tr key={index}>
-                            <td onClick={() => handleViewClick(item)}>
-                              {item.first_name} {item.last_name}
-                            </td>
-                            <td>
-                              {item.phone_number ? item.phone_number : "-"}
-                            </td>
-                            <td>{item.email ? item.email : "-"}</td>
-                            <td>
-                              {item.address_line1 ? item.address_line1 : "-"}
-                            </td>
-                            <td>
-                              <button onClick={() => handleEdit(item)}>
-                                Edit
-                              </button>
-                              <button onClick={handleDelete(index)}>
-                                Delete
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
-                      </>
-                    )}
+                      {formData.length === 0 && (
+                        <div
+                          style={{
+                            position: "absolute",
+                          }}
+                        >
+                          No records to display
+                        </div>
+                      )}
+                      {searchQuery.length === 0 && (
+                        <>
+                          {formData.map((item, index) => (
+                            <tr key={index}>
+                              <td onClick={() => handleViewClick(item)}>
+                                {item.first_name} {item.last_name}
+                              </td>
+                              <td onClick={() => handleViewClick(item)}>{item.phone_number}</td>
+                              <td onClick={() => handleViewClick(item)}>{item.email}</td>
+                              <td onClick={() => handleViewClick(item)}>
+                                {item.address_line1 +
+                                  ", " +
+                                  item.address_line2 +
+                                  ", " +
+                                  item.city +
+                                  "-" +
+                                  item.pin_code +
+                                  ", " +
+                                  item.state +
+                                  ", " +
+                                  item.country}
+                              </td>
+                              <td>
+                                <span
+                                  style={{
+                                    display: "flex",
+                                    gap: "5px",
+                                  }}
+                                >
+                                  <button
+                                    onClick={() => handleEdit(item)}
+                                    className="button_list"
+                                  >
+                                    Edit
+                                  </button>
+                                  <button
+                                    onClick={handleDelete(index)}
+                                    className="button_list"
+                                  >
+                                    Delete
+                                  </button>
+                                </span>
+                              </td>
+                            </tr>
+                          ))}
+                        </>
+                      )}
 
-                    {/* {searchQuery.length !== 0 && (
+                      {/* {searchQuery.length !== 0 && (
                   <>
                     {filteredData.map((item, index) => (
                       <tr key={index}>
@@ -176,19 +228,24 @@ function AddressList() {
                     ))}
                   </>
                 )} */}
-                  </tbody>
-                </table>
-              </div>
-            </>
-          ) : (
-            // child page is called here
-            <CreateAddressBook
-              editValue={editData}
-              onFormDataChange={handleFormDataChange}
-            />
-          )}
-        </>
-      )}
+                    </tbody>
+                  </table>
+                  <div className="carousel">
+                    <NumberCarousel />
+                  </div>
+                </div>
+              </>
+            ) : (
+              // child page is called here
+              <CreateAddressBook
+                editValue={editData}
+                onFormDataChange={handleFormDataChange}
+                cancelNav={handleCancelNav}
+              />
+            )}
+          </>
+        )}
+      </div>
     </>
   );
 }
