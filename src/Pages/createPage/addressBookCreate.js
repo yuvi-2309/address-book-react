@@ -3,7 +3,7 @@ import "./addressBook.css";
 import countryData from "../../JSON files/countryData.json";
 import React, { useState } from "react";
 
-function CreateAddressBook({ onFormDataChange, editValue }) {
+function CreateAddressBook({ onFormDataChange, editValue, editID }) {
   const [formData, setFormData] = useState(editValue);
 
   // regex for validation
@@ -38,6 +38,7 @@ function CreateAddressBook({ onFormDataChange, editValue }) {
     }
   };
 
+  // function to validate last name
   const validateLastName = (event) => {
     const namebox = document.getElementById("last_name");
     const name = event.target.value;
@@ -59,41 +60,22 @@ function CreateAddressBook({ onFormDataChange, editValue }) {
     });
   };
 
-  // function updateTableRow(updatedRowData) {
-  //   const updatedTableData = formData.map((row) => {
-  //     if (row.index === updatedRowData.id) {
-  //       return updatedRowData;
-  //     }
-  //     return row;
-  //   });
-
-  //   setFormData(updatedTableData);
-  // }
-
   // function to handle the submit button in the form
   const handleSubmit = (event) => {
     event.preventDefault();
     onFormDataChange(formData);
     setFormData("");
     event.target.reset();
-    console.log(formData);
-    // const updatedRowData = { ...formData };
+    console.log(editID);
+    const id = editID;
+    
   };
 
-  const handleAddEmail1 = (event) => {
-    event.preventDefault();
-    const email1 = document.getElementById("email").value;
-    formData.email = [email1];
-    console.log(formData.email);
-  };
-
-  const cancel_nav_toList = () => {
-    console.log(editValue);
-  };
   return (
     <React.Fragment>
       <div className="main_page">
         <form onSubmit={handleSubmit} className="reset">
+          {/* input fields for name */}
           <div className="name_bar">
             <span style={{ display: "flex", flexDirection: "column" }}>
               <input
@@ -131,12 +113,12 @@ function CreateAddressBook({ onFormDataChange, editValue }) {
             </span>
           </div>
 
+          {/* input fields for address */}
           <div className="address_bar">
             <div className="inline_h3button">
               <h3>Address</h3>
               <button className="button_wrap1">+</button>
             </div>
-
             <div className="form_grid wrapA1">
               <input
                 name="address_line1"
@@ -145,7 +127,6 @@ function CreateAddressBook({ onFormDataChange, editValue }) {
                 type="text"
                 required
                 value={formData.address_line1}
-                // defaultValue={updateState.address}
                 onChange={handleInputChange}
               />
 
@@ -195,7 +176,6 @@ function CreateAddressBook({ onFormDataChange, editValue }) {
                 value={formData.country}
               >
                 <option className="option">Country</option>
-
                 {countryData.map((getCountry, index) => (
                   <option value={getCountry.country_name} key={index}>
                     {getCountry.country_name}
@@ -212,9 +192,7 @@ function CreateAddressBook({ onFormDataChange, editValue }) {
                 <option name="Type" className="option">
                   Type
                 </option>
-
                 <option>Personal</option>
-
                 <option>Work</option>
               </select>
             </div>
@@ -222,6 +200,7 @@ function CreateAddressBook({ onFormDataChange, editValue }) {
             <button className="button_1">Add</button>
           </div>
 
+          {/* input fields for email addresss */}
           <div className="email_address">
             <div className="inline_h3button">
               <h3>Email Address</h3>
@@ -238,7 +217,6 @@ function CreateAddressBook({ onFormDataChange, editValue }) {
                   type="email"
                   autoComplete="off"
                   value={formData.email}
-                  // defaultValue={updateState.email}
                   onChange={handleInputChange}
                   onBlurCapture={validateEmail}
                   required
@@ -259,29 +237,24 @@ function CreateAddressBook({ onFormDataChange, editValue }) {
                 <option>Work</option>
               </select>
             </div>
-
-            <button className="button_1" onClick={handleAddEmail1}>
-              Add
-            </button>
+            <button className="button_1">Add</button>
           </div>
 
+          {/* input fields for phone number */}
           <div className="phone_number">
             <div className="inline_h3button">
               <h3>Phone number</h3>
               <button className="button_wrap3">+</button>
             </div>
-
             <div className="name_bar1 wrapA3">
               <input
                 name="phone_number"
                 className="input_address"
                 placeholder="Phone Number"
                 value={formData.phone_number}
-                // defaultValue={updateState.phno}
                 onChange={handleInputChange}
                 required
               />
-
               <select
                 name="type_phone_number"
                 className="select"
@@ -294,15 +267,15 @@ function CreateAddressBook({ onFormDataChange, editValue }) {
                 <option>Work</option>
               </select>
             </div>
-
             <button className="button_1">Add</button>
           </div>
 
+          {/* buttons for saving and cancelling record */}
           <div className="footer_address">
             <button className="button_2" type="submit">
-              {editValue ? "Update" : "Save"}
+              Save
             </button>
-            <button className="button_2" onClick={cancel_nav_toList}>
+            <button className="button_2" type="button">
               Cancel
             </button>
           </div>

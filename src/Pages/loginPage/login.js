@@ -1,8 +1,6 @@
 /* eslint-disable react/jsx-pascal-case */
 import React, { useState } from "react";
-// import "./Login.css";
 import Logo from "../../Assets/logo.png";
-
 import { Link, useNavigate } from "react-router-dom";
 import {
   Container_login,
@@ -21,6 +19,8 @@ import {
 function Login() {
   let Navigate = useNavigate();
   const [message, setMessage] = useState();
+
+  // function to navigate to the address book page and validate email
   function LoginToAddressList(e) {
     e.preventDefault();
     const email = document.getElementById("email-login");
@@ -30,16 +30,13 @@ function Login() {
       Navigate("/home");
     }
     if (password.value === "" && email.value === "") {
-      warning.innerText = "password is required";
-
-      setMessage("email is required");
+      warning.innerText = "Password is required";
+      setMessage("Email is required");
     } else if (password.value === "" && email.value !== "") {
-      warning.innerText = "password is required";
-
+      warning.innerText = "Password is required";
       setMessage("");
     } else if (password.value !== "" && email.value === "") {
-      setMessage("email is required");
-
+      setMessage("Email is required");
       warning.innerText = "";
     } else if (email.value !== "" && password.value !== "") {
       setMessage("");
@@ -47,6 +44,7 @@ function Login() {
     }
   }
 
+  // function to reset the form fields
   function Reset() {
     document.getElementById("reset-function").reset();
   }
@@ -57,24 +55,21 @@ function Login() {
         <Header_img src={Logo} width="40px" alt="Logo" />
         <Header>Address Book</Header>
         <H2_tag>Login to your account</H2_tag>
-        
         <Input_field>
-          <Input_tag
-            type="email"
-            placeholder="Email"
-            id="email-login"
-            
-          />
-          {message ? <div style={{ fontSize: "12px", color: "red" }}>{message}</div> : ""}
+          <Input_tag type="email" placeholder="Email" id="email-login" />
+          {message ? (
+            <div style={{ fontSize: "12px", color: "red" }}>{message}</div>
+          ) : (
+            ""
+          )}
         </Input_field>
         <Input_field>
           <Input_tag
             type="password"
             placeholder="Password"
             id="password-login"
-            
           />
-          <div id="warning" style={{ fontSize: "12px", color:"red" }}></div>
+          <div id="warning" style={{ fontSize: "12px", color: "red" }}></div>
         </Input_field>
 
         <Pass>

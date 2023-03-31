@@ -5,17 +5,23 @@ import { useState } from "react";
 import CreateAddressBook from "../createPage/addressBookCreate";
 import { Modal } from "antd";
 import View from "../viewPage/viewContact";
-import Edit from "../editPage/editPage";
-import Breadcrumb from "../baseLayouts/breadCrumbs";
 import NumberCarousel from "./carousel";
 
 function AddressList() {
+  // useStates
   const [formData, setFormData] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [editData, setEditData] = useState({});
+  const [selectedData, viewSelectedData] = useState();
+  const [viewAddress, setView] = useState(false);
+  const [editDataID, setEditDataID] = useState();
+
   //function for search bar
-  // const filteredData = items.filter(item => item.name.includes(searchQuery));
+  const items = formData;
+  const filteredData = items.filter((item) =>
+    item.first_name.includes(searchQuery)
+  );
 
   // callback function to update the form data
   const handleFormDataChange = (data) => {
@@ -27,6 +33,7 @@ function AddressList() {
   // function to navigate between create and list page
   const pageNav = () => {
     isSubmitted ? setIsSubmitted(false) : setIsSubmitted(true);
+    setView(false);
   };
 
   // function to delete the form data
@@ -48,30 +55,17 @@ function AddressList() {
     };
   };
 
-  // const [crumbs, setCrumbs] = useState(["Home", "Address Book", "Create Page"]);
-
   // function to view the record
-  const [selectedData, viewSelectedData] = useState();
-  const [viewAddress, setView] = useState(false);
-
   const handleViewClick = (data) => {
     viewSelectedData(data);
     setView(true);
   };
 
-  const handleEdit = (item) => {
-    // setView(!viewAddress);
+  // function to handle the editable record
+  const handleEdit = (index, item) => {
     setEditData(item);
+    setEditDataID(index);
     setIsSubmitted(false);
-    // console.log(editData);
-  };
-
-  // const selected = (crumb) => {
-  //   console.log(crumb);
-  // };
-
-  const handleCancelNav = () => {
-    setView(true);
   };
 
   return (
@@ -81,10 +75,10 @@ function AddressList() {
         <Link to="/home" className="textColor">
           Home /
         </Link>
-        <Link to="/" className="textColor">
+        <Link to="/home" className="textColor">
           Address Book /
         </Link>
-        <Link to="/" className="textColor">
+        <Link to="/home" className="textColor">
           Create
         </Link>
 
@@ -95,15 +89,12 @@ function AddressList() {
           className="button_to_navigate"
           onClick={pageNav}
           id="changePage"
-          // style={{
-          //   position: "absolute",
-          //   marginLeft: "65%",
-          // }}
         >
-          {isSubmitted ? "Create Page" : "List Page"}
+          {viewAddress ? "Go back" : isSubmitted ? "Create Page" : "List Page"}
         </button>
       </div>
       <div className="main_page">
+        {/* view page is called here */}
         {viewAddress ? (
           <View state={selectedData} />
         ) : (
@@ -117,13 +108,16 @@ function AddressList() {
                     name="search"
                     id="search"
                     autoComplete="off"
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value);
+                    }}
                     style={{
                       paddingLeft: "20px",
                       marginLeft: "40px",
                       marginBottom: "20px",
                       marginTop: "10px",
                       width: "30%",
+                      outline: "none",
                     }}
                   ></input>
 
@@ -138,23 +132,8 @@ function AddressList() {
                       </tr>
                     </thead>
 
-                    {/* table to display the details */}
                     <tbody className="table_body">
-                      {/* {searchQuery.length !== 0 && filteredData.length === 0 && (
-                  <>
-                    <tr>Searched field does not exist</tr>
-                  </>
-                )} */}
-
-                      {formData.length === 0 && (
-                        <div
-                          style={{
-                            position: "absolute",
-                          }}
-                        >
-                          No records to display
-                        </div>
-                      )}
+                      {/* renders if there is no search query */}
                       {searchQuery.length === 0 && (
                         <>
                           {formData.map((item, index) => (
@@ -162,8 +141,12 @@ function AddressList() {
                               <td onClick={() => handleViewClick(item)}>
                                 {item.first_name} {item.last_name}
                               </td>
-                              <td onClick={() => handleViewClick(item)}>{item.phone_number}</td>
-                              <td onClick={() => handleViewClick(item)}>{item.email}</td>
+                              <td onClick={() => handleViewClick(item)}>
+                                {item.phone_number}
+                              </td>
+                              <td onClick={() => handleViewClick(item)}>
+                                {item.email}
+                              </td>
                               <td onClick={() => handleViewClick(item)}>
                                 {item.address_line1 +
                                   ", " +
@@ -185,7 +168,7 @@ function AddressList() {
                                   }}
                                 >
                                   <button
-                                    onClick={() => handleEdit(item)}
+                                    onClick={() => handleEdit(index, item)}
                                     className="button_list"
                                   >
                                     Edit
@@ -203,34 +186,90 @@ function AddressList() {
                         </>
                       )}
 
-                      {/* {searchQuery.length !== 0 && (
-                  <>
-                    {filteredData.map((item, index) => (
-                      <tr key={index}>
-                        <td> {item.first_name}</td>
-
-                        <td> {item.phone_number ? item.phno : "-"}</td>
-
-                        <td> {item.email ? item.email : "-"}</td>
-
-                        <td> {item.address_line1 ? item.address : "-"}</td>
-
-                        <td>
-                          <button
-                          // onClick={handleEdit(item, index)}
-                          >
-                            Edit
-                          </button>
-
-                          <button onClick={handleDelete(index)}>Delete</button>
-                        </td>
-                      </tr>
-                    ))}
-                  </>
-                )} */}
+                      {/* renders if the search bar is active */}
+                      {searchQuery.length !== 0 && (
+                        <>
+                          {filteredData.map((item, index) => (
+                            <tr
+                              key={index}
+                              onClick={() => handleViewClick(item)}
+                            >
+                              <td>
+                                {item.first_name} {item.last_name}
+                              </td>
+                              <td>{item.phone_number}</td>
+                              <td>{item.email}</td>
+                              <td>
+                                {item.address_line1 +
+                                  ", " +
+                                  item.address_line2 +
+                                  ", " +
+                                  item.city +
+                                  "-" +
+                                  item.pin_code +
+                                  ", " +
+                                  item.state +
+                                  ", " +
+                                  item.country}
+                              </td>
+                              <td>
+                                <span
+                                  style={{
+                                    display: "flex",
+                                    gap: "5px",
+                                  }}
+                                >
+                                  <button
+                                    onClick={() => handleEdit(item, index)}
+                                    className="button_list"
+                                  >
+                                    Edit
+                                  </button>
+                                  <button
+                                    onClick={handleDelete(index)}
+                                    className="button_list"
+                                  >
+                                    Delete
+                                  </button>
+                                </span>
+                              </td>
+                            </tr>
+                          ))}
+                        </>
+                      )}
                     </tbody>
                   </table>
+
+                  {/* renders if there is no data in the table */}
+                  {formData.length === 0 && (
+                    <div
+                      style={{
+                        textAlign: "center",
+                        marginTop: "50px",
+                        marginBottom: "-60px",
+                      }}
+                    >
+                      No records to display
+                    </div>
+                  )}
+
+                  {/* renders if the search query is not found */}
+                  {searchQuery.length !== 0 && filteredData.length === 0 && (
+                    <>
+                      <div
+                        style={{
+                          textAlign: "center",
+                          marginTop: "50px",
+                          marginBottom: "-60px",
+                        }}
+                      >
+                        Searched field does not exist
+                      </div>
+                    </>
+                  )}
+
                   <div className="carousel">
+                    {/* carousel is called here */}
                     <NumberCarousel />
                   </div>
                 </div>
@@ -240,7 +279,7 @@ function AddressList() {
               <CreateAddressBook
                 editValue={editData}
                 onFormDataChange={handleFormDataChange}
-                cancelNav={handleCancelNav}
+                editID={editDataID}
               />
             )}
           </>

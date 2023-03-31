@@ -31,3 +31,18 @@
 .carousel-arrow {
   margin: 20px 10px 0 10px;
 }
+
+@media screen and (max-width:800px){
+  .button-container button {
+    padding: 0.2rem 0.4rem;
+  }
+}
+
+@media screen and (max-width:650px){
+  .button-container button {
+    padding: 0.1rem 0.3rem;
+  }
+  .carousel-arrow {
+  margin: 12px 5px 0px 5px;
+}
+}

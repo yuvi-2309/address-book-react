@@ -61,3 +61,31 @@ tbody td {
   margin-top: 200px;
   margin-bottom: 30px;
 }
+
+
+
+@media screen and (max-width: 800px){
+  tbody td {
+  padding: 2px;
+}
+  .carousel {
+    margin-left: 25%;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .main_page_list {
+    margin: 0px;
+  }
+  .carousel {
+    margin-left: 10%;
+  }
+  thead th {
+    padding: 2px;
+  }
+
+  tbody td {
+  padding: 0px;
+}
+
+}

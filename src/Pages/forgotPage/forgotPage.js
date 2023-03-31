@@ -2,7 +2,10 @@ import React from "react";
 import Logo from "../../Assets/logo.png";
 import "./forgot.css";
 function Forgot() {
+  // regex for email validation
   const emailRegex = /^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$/;
+
+  // function to validate email
   const validateEmail = (event) => {
     const emailbox = document.getElementById("email");
     const email = event.target.value;
@@ -16,6 +19,7 @@ function Forgot() {
     }
   };
 
+  // function to send mail in the console for now
   const sendMail = () => {
     const email = document.getElementById("email").value;
     console.log(email);

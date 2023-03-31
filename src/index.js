@@ -7,13 +7,12 @@ import Forgot from "./Pages/forgotPage/forgotPage";
 import Login from "./Pages/loginPage/login";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<Login />} />
-      <Route path="/home" element={<MainPage />} />
+      <Route path="/home" element={<MainPage />}></Route>
       <Route path="/forgot" element={<Forgot />} />
     </Routes>
   </BrowserRouter>
