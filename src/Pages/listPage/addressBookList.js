@@ -12,23 +12,26 @@ function AddressList() {
   const [formData, setFormData] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [editData, setEditData] = useState({});
+  const [editData, setEditData] = useState([]);
   const [selectedData, viewSelectedData] = useState();
   const [viewAddress, setView] = useState(false);
-  const [editDataID, setEditDataID] = useState();
+  const [editDataID, setEditDataID] = useState(null);
 
   // callback function to update the form data
   const handleFormDataChange = (data) => {
     const value = data;
+    console.log(value);
     if (editDataID === null) {
       setFormData([...formData, value]);
-      console.log(value);
+      console.log("noEdit");
     } else {
-      value[editDataID] = formData;
-      setFormData(value[editDataID]);
+      formData[editDataID] = value;
+      console.log("Edit");
     }
     // setFormData(item);
+    // setFormData([...formData, value]);
     setIsSubmitted(true);
+    setEditDataID(null);
   };
 
   //function for search bar

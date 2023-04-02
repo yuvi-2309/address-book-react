@@ -6,7 +6,7 @@ export const SideBarData = [
 
   {
     title: "Create",
-    path: "/create",
+    path: "/home",
   },
 
   {

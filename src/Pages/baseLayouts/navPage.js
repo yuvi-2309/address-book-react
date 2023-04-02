@@ -5,12 +5,10 @@ import { Route, Routes } from "react-router-dom";
 
 const NavPage = () => {
   return (
-    
-     <Routes>
-        <Route path="/" element={<AddressList />} />
-        <Route path="/create" element={<CreateAddressBook />} />
-      </Routes>
-   
+    <Routes>
+      <Route path="/" element={<AddressList />} />
+      <Route path="/" element={<CreateAddressBook />} />
+    </Routes>
   );
 };
 

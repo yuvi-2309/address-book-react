@@ -114,7 +114,7 @@ function CreateAddressBook({ onFormDataChange, editValue, editID }) {
           <div className="address_bar">
             <div className="inline_h3button">
               <h3>Address</h3>
-              <button className="button_wrap1">+</button>
+              <button className="button_wrap1" type="button">+</button>
             </div>
             <div className="form_grid wrapA1">
               <input
