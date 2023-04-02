@@ -17,18 +17,25 @@ function AddressList() {
   const [viewAddress, setView] = useState(false);
   const [editDataID, setEditDataID] = useState();
 
+  // callback function to update the form data
+  const handleFormDataChange = (data) => {
+    const value = data;
+    if (editDataID === null) {
+      setFormData([...formData, value]);
+      console.log(value);
+    } else {
+      value[editDataID] = formData;
+      setFormData(value[editDataID]);
+    }
+    // setFormData(item);
+    setIsSubmitted(true);
+  };
+
   //function for search bar
   const items = formData;
   const filteredData = items.filter((item) =>
     item.first_name.includes(searchQuery)
   );
-
-  // callback function to update the form data
-  const handleFormDataChange = (data) => {
-    const value = data;
-    setFormData([...formData, value]);
-    setIsSubmitted(true);
-  };
 
   // function to navigate between create and list page
   const pageNav = () => {
@@ -82,9 +89,7 @@ function AddressList() {
           Create
         </Link>
 
-        {/* button to navigate between create and list page */}
-
-        {/* <Breadcrumb crumbs={crumbs} selected={selected}> </Breadcrumb> */}
+        {/* button to navigate to create and list page */}
         <button
           className="button_to_navigate"
           onClick={pageNav}
@@ -121,6 +126,7 @@ function AddressList() {
                     }}
                   ></input>
 
+                  {/* table to display the records */}
                   <table className="tableWrapper">
                     <thead className="table_head">
                       <tr>
@@ -279,7 +285,7 @@ function AddressList() {
               <CreateAddressBook
                 editValue={editData}
                 onFormDataChange={handleFormDataChange}
-                editID={editDataID}
+                // editID={editData}
               />
             )}
           </>

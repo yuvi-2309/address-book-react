@@ -4,7 +4,7 @@ import "./forgot.css";
 function Forgot() {
   // regex for email validation
   const emailRegex = /^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$/;
-
+  
   // function to validate email
   const validateEmail = (event) => {
     const emailbox = document.getElementById("email");

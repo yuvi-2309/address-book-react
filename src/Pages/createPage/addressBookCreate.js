@@ -66,9 +66,6 @@ function CreateAddressBook({ onFormDataChange, editValue, editID }) {
     onFormDataChange(formData);
     setFormData("");
     event.target.reset();
-    console.log(editID);
-    const id = editID;
-    
   };
 
   return (
