@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+
 import "./carousel.css";
 function NumberCarousel() {
   // numbers to be shown in the carousel
   const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
+  // useState 
   const [currentNumber, setCurrentNumber] = useState(0);
-  const [showNumbers, setShowNumbers] = useState(true);
 
   // function to move to the next number
   const nextNumber = () => {
@@ -27,20 +28,19 @@ function NumberCarousel() {
       <div className="number-buttons">
         <div style={{ display: "flex", position: "relative" }}>
           <FaChevronLeft className="carousel-arrow" onClick={prevNumber} />
-          {showNumbers && (
-            <div className="button-container">
-              {numbers.map((number, index) => (
-                <button
-                  key={index}
-                  className={currentNumber === index ? "active" : ""}
-                  onClick={() => setCurrentNumber(index)}
-                >
-                  {number}
-                </button>
-              ))}
-            </div>
-          )}
-          <FaChevronRight className="carousel-arrow" onClick={nextNumber} />
+
+          <div className="button-container">
+            {numbers.map((number, index) => (
+              <button
+                key={index}
+                className={currentNumber === index ? "active" : ""}
+                onClick={() => setCurrentNumber(index)}
+              >
+                {number}
+              </button>
+            ))}
+          </div>
+<FaChevronRight className="carousel-arrow" onClick={nextNumber} />
         </div>
       </div>
     </div>

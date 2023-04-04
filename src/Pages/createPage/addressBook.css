@@ -9,7 +9,6 @@
 
 .wrapper {
   position: relative;
-  max-width: 1000px;
   width: 100%;
 }
 
@@ -33,7 +32,7 @@
   margin-top: 5px;
 }
 
-.inline_h3button {
+.wrap {
   display: flex;
   margin-bottom: -3%;
   padding: 10px;
@@ -151,6 +150,7 @@
 
 .forgot_login:hover {
   text-decoration: underline;
+  text-underline-offset: 3px;
 }
 .name_bar1 {
   --input-width: 100%;
@@ -163,27 +163,7 @@
   box-shadow: 0 0 1px;
 }
 
-.button_wrap1 {
-  border: none;
-  background: none;
-  font-size: 150%;
-  padding-bottom: 25px;
-  cursor: pointer;
-  margin-top: -2px;
-  margin-left: 5px;
-}
-
-.button_wrap2 {
-  border: none;
-  background: none;
-  font-size: 150%;
-  padding-bottom: 25px;
-  cursor: pointer;
-  margin-top: -2px;
-  margin-left: 5px;
-}
-
-.button_wrap3 {
+.button_add {
   border: none;
   background: none;
   font-size: 150%;

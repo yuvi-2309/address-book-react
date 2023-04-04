@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-pascal-case */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
 import Logo from "../../Assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -16,6 +17,7 @@ import {
   H2_tag,
 } from "./login.style";
 
+
 function Login() {
   let Navigate = useNavigate();
   const [message, setMessage] = useState();
@@ -28,6 +30,7 @@ function Login() {
     const warning = document.getElementById("warning");
     if (email.value === "yuvi@gmail.com" && password.value === "yuvi") {
       Navigate("/home");
+      localStorage.setItem("auth", true);
     }
     if (password.value === "" && email.value === "") {
       warning.innerText = "Password is required";
@@ -49,6 +52,10 @@ function Login() {
     document.getElementById("reset-function").reset();
   }
 
+  useEffect(() => {
+    if (localStorage.getItem("auth")) Navigate("/home");
+  });
+
   return (
     <Container_login>
       <Login_box id="reset-function">
@@ -57,10 +64,8 @@ function Login() {
         <H2_tag>Login to your account</H2_tag>
         <Input_field>
           <Input_tag type="email" placeholder="Email" id="email-login" />
-          {message ? (
+          {message && (
             <div style={{ fontSize: "12px", color: "red" }}>{message}</div>
-          ) : (
-            ""
           )}
         </Input_field>
         <Input_field>
@@ -73,7 +78,7 @@ function Login() {
         </Input_field>
 
         <Pass>
-          <Link to="/Forgot" className="forgot_login">
+          <Link to="/forgot" className="forgot_login">
             Forgot Password?
           </Link>
         </Pass>

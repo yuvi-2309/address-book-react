@@ -1,4 +1,5 @@
 import React from "react";
+
 import "./viewContact.css";
 
 export default function View({ state }) {

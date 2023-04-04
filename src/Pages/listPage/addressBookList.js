@@ -1,9 +1,9 @@
 import React from "react";
-import "./addressBookList.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import CreateAddressBook from "../createPage/addressBookCreate";
 import { Modal } from "antd";
+import "./addressBookList.css";
+import CreateAddressBook from "../createPage/addressBookCreate";
 import View from "../viewPage/viewContact";
 import NumberCarousel from "./carousel";
 
@@ -20,16 +20,11 @@ function AddressList() {
   // callback function to update the form data
   const handleFormDataChange = (data) => {
     const value = data;
-    console.log(value);
     if (editDataID === null) {
       setFormData([...formData, value]);
-      console.log("noEdit");
     } else {
       formData[editDataID] = value;
-      console.log("Edit");
     }
-    // setFormData(item);
-    // setFormData([...formData, value]);
     setIsSubmitted(true);
     setEditDataID(null);
   };
@@ -111,7 +106,20 @@ function AddressList() {
               // list page
               <>
                 <div className="main_page_list">
-                  <input
+                  
+
+                  {/* renders if there is no data in the table */}
+                  {formData.length === 0 ? (
+                    <div
+                      style={{
+                        textAlign: "left",
+                      }}
+                    >
+                      No records to display
+                    </div>
+                  ) : (
+                    <>
+                      <input
                     placeholder="Search"
                     name="search"
                     id="search"
@@ -129,74 +137,76 @@ function AddressList() {
                     }}
                   ></input>
 
-                  {/* table to display the records */}
-                  <table className="tableWrapper">
-                    <thead className="table_head">
-                      <tr>
-                        <th>Name</th>
-                        <th>Phone Number</th>
-                        <th>Email</th>
-                        <th>Address</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
+                      {/* table to display the records */}
+                      <table className="tableWrapper">
+                        <thead className="table_head">
+                          <tr>
+                            <th>Name</th>
+                            <th>Phone Number</th>
+                            <th>Email</th>
+                            <th>Address</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
 
-                    <tbody className="table_body">
-                      {/* renders if there is no search query */}
-                      {searchQuery.length === 0 && (
-                        <>
-                          {formData.map((item, index) => (
-                            <tr key={index}>
-                              <td onClick={() => handleViewClick(item)}>
-                                {item.first_name} {item.last_name}
-                              </td>
-                              <td onClick={() => handleViewClick(item)}>
-                                {item.phone_number}
-                              </td>
-                              <td onClick={() => handleViewClick(item)}>
-                                {item.email}
-                              </td>
-                              <td onClick={() => handleViewClick(item)}>
-                                {item.address_line1 +
-                                  ", " +
-                                  item.address_line2 +
-                                  ", " +
-                                  item.city +
-                                  "-" +
-                                  item.pin_code +
-                                  ", " +
-                                  item.state +
-                                  ", " +
-                                  item.country}
-                              </td>
-                              <td>
-                                <span
-                                  style={{
-                                    display: "flex",
-                                    gap: "5px",
-                                  }}
-                                >
-                                  <button
-                                    onClick={() => handleEdit(index, item)}
-                                    className="button_list"
-                                  >
-                                    Edit
-                                  </button>
-                                  <button
-                                    onClick={handleDelete(index)}
-                                    className="button_list"
-                                  >
-                                    Delete
-                                  </button>
-                                </span>
-                              </td>
-                            </tr>
-                          ))}
-                        </>
-                      )}
+                        <tbody className="table_body">
+                          {/* renders if there is no search query */}
+                          {searchQuery.length === 0 &&(
+                            <>
+                              {formData.map((item, index) => (
+                                <tr key={index}>
+                                  <td>
+                                    {item.first_name} {item.last_name}
+                                  </td>
+                                  <td>{item.phone_number}</td>
+                                  <td>{item.email}</td>
+                                  <td>
+                                    {item.address_line1 +
+                                      ", " +
+                                      item.address_line2 +
+                                      ", " +
+                                      item.city +
+                                      "-" +
+                                      item.pin_code +
+                                      ", " +
+                                      item.state +
+                                      ", " +
+                                      item.country}
+                                  </td>
+                                  <td>
+                                    <span
+                                      style={{
+                                        display: "flex",
+                                        gap: "5px",
+                                      }}
+                                    >
+                                      <button
+                                        onClick={() => handleViewClick(item)}
+                                        className="button_list"
+                                      >
+                                        View details
+                                      </button>
+                                      <button
+                                        onClick={() => handleEdit(index, item)}
+                                        className="button_list"
+                                      >
+                                        Edit
+                                      </button>
+                                      <button
+                                        onClick={handleDelete(index)}
+                                        className="button_list"
+                                      >
+                                        Delete
+                                      </button>
+                                    </span>
+                                  </td>
+                                </tr>
+                              ))}
+                            </>
+                          )}
 
-                      {/* renders if the search bar is active */}
-                      {searchQuery.length !== 0 && (
+                          {/* renders if the search bar is active */}
+                          {/* {searchQuery.length !== 0 && (
                         <>
                           {filteredData.map((item, index) => (
                             <tr
@@ -245,21 +255,14 @@ function AddressList() {
                             </tr>
                           ))}
                         </>
-                      )}
-                    </tbody>
-                  </table>
-
-                  {/* renders if there is no data in the table */}
-                  {formData.length === 0 && (
-                    <div
-                      style={{
-                        textAlign: "center",
-                        marginTop: "50px",
-                        marginBottom: "-60px",
-                      }}
-                    >
-                      No records to display
-                    </div>
+                      )} */}
+                        </tbody>
+                      </table>
+                      <div className="carousel">
+                    {/* carousel is called here */}
+                    <NumberCarousel />
+                  </div>
+                    </>
                   )}
 
                   {/* renders if the search query is not found */}
@@ -277,10 +280,7 @@ function AddressList() {
                     </>
                   )}
 
-                  <div className="carousel">
-                    {/* carousel is called here */}
-                    <NumberCarousel />
-                  </div>
+                  
                 </div>
               </>
             ) : (

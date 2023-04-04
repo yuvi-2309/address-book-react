@@ -68,3 +68,10 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+Use of dependencies
+    1. antd : For the popup of the delete record in table
+    2. styled-components : Used in the login page
+    3. react-icons : Used in the carousel page for the arrows
+    4. 

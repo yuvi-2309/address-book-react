@@ -1,9 +1,10 @@
 /* eslint-disable no-restricted-globals */
-import "./addressBook.css";
-import countryData from "../../JSON files/countryData.json";
 import React, { useState } from "react";
 
-function CreateAddressBook({ onFormDataChange, editValue, editID }) {
+import "./addressBook.css";
+import countryData from "../../JSON files/countryData.json";
+
+function CreateAddressBook({ onFormDataChange, editValue }) {
   const [formData, setFormData] = useState(editValue);
 
   // regex for validation
@@ -112,9 +113,11 @@ function CreateAddressBook({ onFormDataChange, editValue, editID }) {
 
           {/* input fields for address */}
           <div className="address_bar">
-            <div className="inline_h3button">
+            <div className="wrap">
               <h3>Address</h3>
-              <button className="button_wrap1" type="button">+</button>
+              <button className="button_add" type="button">
+                +
+              </button>
             </div>
             <div className="form_grid wrapA1">
               <input
@@ -194,14 +197,18 @@ function CreateAddressBook({ onFormDataChange, editValue, editID }) {
               </select>
             </div>
 
-            <button className="button_1">Add</button>
+            <button type="button" className="button_1">
+              Add
+            </button>
           </div>
 
           {/* input fields for email addresss */}
           <div className="email_address">
-            <div className="inline_h3button">
+            <div className="wrap">
               <h3>Email Address</h3>
-              <button className="button_wrap2">+</button>
+              <button className="button_add" type="button">
+                +
+              </button>
             </div>
 
             <div className="name_bar1 wrapA2">
@@ -234,14 +241,18 @@ function CreateAddressBook({ onFormDataChange, editValue, editID }) {
                 <option>Work</option>
               </select>
             </div>
-            <button className="button_1">Add</button>
+            <button className="button_1" type="button">
+              Add
+            </button>
           </div>
 
           {/* input fields for phone number */}
           <div className="phone_number">
-            <div className="inline_h3button">
+            <div className="wrap">
               <h3>Phone number</h3>
-              <button className="button_wrap3">+</button>
+              <button className="button_add" type="button">
+                +
+              </button>
             </div>
             <div className="name_bar1 wrapA3">
               <input
@@ -264,7 +275,9 @@ function CreateAddressBook({ onFormDataChange, editValue, editID }) {
                 <option>Work</option>
               </select>
             </div>
-            <button className="button_1">Add</button>
+            <button className="button_1" type="button">
+              Add
+            </button>
           </div>
 
           {/* buttons for saving and cancelling record */}

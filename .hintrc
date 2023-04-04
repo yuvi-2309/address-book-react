@@ -7,9 +7,15 @@
       "default",
       {
         "ignore": [
-          "height: fit-content"
+          "height: fit-content",
+          "padding-inline",
+          "text-underline-offset",
+          "margin-inline"
         ]
       }
-    ]
+    ],
+    "detect-css-reflows/paint": "off",
+    "detect-css-reflows/composite": "off",
+    "detect-css-reflows/layout": "off"
   }
 }

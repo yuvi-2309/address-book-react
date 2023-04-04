@@ -12,5 +12,8 @@ export const SideBarData = [
   {
     title: "Sign out",
     path: "/",
+    onclick: () => {
+      localStorage.removeItem("auth");
+    },
   },
 ];

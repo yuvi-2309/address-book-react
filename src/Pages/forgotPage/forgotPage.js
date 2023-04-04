@@ -1,10 +1,12 @@
 import React from "react";
+
 import Logo from "../../Assets/logo.png";
 import "./forgot.css";
+
 function Forgot() {
   // regex for email validation
   const emailRegex = /^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$/;
-  
+
   // function to validate email
   const validateEmail = (event) => {
     const emailbox = document.getElementById("email");
@@ -20,14 +22,15 @@ function Forgot() {
   };
 
   // function to send mail in the console for now
-  const sendMail = () => {
+  const sendMail = (event) => {
     const email = document.getElementById("email").value;
-    console.log(email);
+    const clear = document.getElementById("reset");
+    clear.reset();
   };
 
   return (
     <div className="container_forgot">
-      <form className="login_box_forgot">
+      <form className="login_box_forgot" id="reset">
         <img src={Logo} width="40px" alt="Logo" className="header_img_forgot" />
         <h1 className="header_forgot">Address Book</h1>
         <div className="input_group_forgot">

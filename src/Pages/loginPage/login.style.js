@@ -20,7 +20,7 @@ export const Login_box = styled.form`
   align-items: center;
   justify-content: center;
   text-align: center;
-  box-shadow: 0.2em 0.2em 1em;
+  box-shadow: 0px 0px 5px;
 `;
 
 export const H2_tag = styled.h2`
@@ -96,8 +96,6 @@ export const Pass = styled.div`
   color: #3b3a3a;
   text-decoration: none;
 `;
-
-
 
 // export const link:hover = styled.a `
 //   text-decoration: underline;

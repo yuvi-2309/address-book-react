@@ -1,12 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
-* {
-  margin: 0;
-  padding: 0;
-  font-family: "Poppins", sans-serif;
-  box-sizing: border-box;
-}
-
 .main_page_list {
   margin-top: 15px;
   height: fit-content;
@@ -53,6 +46,7 @@ tbody td {
   color: black;
   cursor: pointer;
   justify-content: center;
+  align-items: center;
 }
 
 .carousel {
