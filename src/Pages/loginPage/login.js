@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-pascal-case */
 import React, { useState, useEffect } from "react";
 
-import Logo from "../../Assets/logo.png";
+import Logo from "../../Assets/logo.svg";
 import { Link, useNavigate } from "react-router-dom";
 import {
   Container_login,
@@ -31,21 +31,36 @@ function Login() {
     if (email.value === "yuvi@gmail.com" && password.value === "yuvi") {
       Navigate("/home");
       localStorage.setItem("auth", true);
-    }
+    } 
     if (password.value === "" && email.value === "") {
       warning.innerText = "Password is required";
       setMessage("Email is required");
-    } else if (password.value === "" && email.value !== "") {
+      email.style.borderColor = "red";
+      password.style.borderColor = "red";
+    }
+    else if(email.value === "yuvi@gmail.com" && password.value !== "yuvi") {
+      warning.innerText = "Incorrect password!!";
+      password.style.borderColor = "red";
+      email.style.borderColor = "gray";
+    }
+    else if (password.value === "" && email.value !== "") {
       warning.innerText = "Password is required";
       setMessage("");
+      email.style.borderColor = "gray";
+      password.style.borderColor = "red";
     } else if (password.value !== "" && email.value === "") {
       setMessage("Email is required");
+      email.style.borderColor = "red";
+      password.style.borderColor = "gray";
       warning.innerText = "";
-    } else if (email.value !== "" && password.value !== "") {
+    } else if (email.value !== "yuvi@gmail.com" && password.value !== "") {
       setMessage("");
       warning.innerText = "Incorrect Email address or password!!";
+      email.style.borderColor = "red";
+      password.style.borderColor = "red";
     }
   }
+
 
   // function to reset the form fields
   function Reset() {
@@ -63,18 +78,22 @@ function Login() {
         <Header>Address Book</Header>
         <H2_tag>Login to your account</H2_tag>
         <Input_field>
+        <span className="flex_column">
           <Input_tag type="email" placeholder="Email" id="email-login" />
           {message && (
-            <div style={{ fontSize: "12px", color: "red" }}>{message}</div>
+            <div className="warning_message">{message}</div>
           )}
+          </span>
         </Input_field>
         <Input_field>
+          <span className="flex_column">
           <Input_tag
             type="password"
             placeholder="Password"
             id="password-login"
           />
-          <div id="warning" style={{ fontSize: "12px", color: "red" }}></div>
+          <div id="warning" className="warning_message"></div>
+          </span>
         </Input_field>
 
         <Pass>

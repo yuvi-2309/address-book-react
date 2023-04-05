@@ -59,16 +59,22 @@
 
 .main_content {
   flex: 2;
-  margin-top: 9rem;
-
-  margin-left: 15rem;
-  /* height: 75vh; */
   z-index: 0;
   box-shadow: 0 0 5px;
-  margin-bottom: 20px;
+  margin: 9rem 0 0.5rem 15rem;
 }
 
 .textColor {
+  text-decoration: none;
+  color: #20232a;
+  padding-left: 10px;
+}
+
+.textColor:hover {
+  cursor:default;
+}
+
+.side_bar_textColor {
   text-decoration: none;
   color: #20232a;
   padding-left: 10px;
@@ -169,8 +175,7 @@
   font-size: 150%;
   padding-bottom: 25px;
   cursor: pointer;
-  margin-top: -2px;
-  margin-left: 5px;
+  margin: -2px 0 0 5px
 }
 
 .phone_number {
@@ -197,6 +202,22 @@
   color: white;
   padding: 5px;
   cursor: pointer;
+}
+
+.flex_column {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.logo{
+  width: 40px;
+  height: 40px;
+}
+
+.warning_message {
+  color: red;
+  font-size: 12px;  
 }
 
 .input_address {
@@ -226,8 +247,7 @@
 @media screen and (max-width: 800px) {
   .main_content {
     height: fit-content;
-    margin-left: 8rem;
-    margin-top: 8rem;
+    margin: 8rem 0 0 8rem
   }
 }
 
@@ -261,8 +281,7 @@
 @media screen and (max-width: 490px) {
   .main_content {
     height: fit-content;
-    margin-left: 5.9rem;
-    margin-top: 7rem;
+    margin: 7rem 0 0 5.9rem;
   }
 
   .heading_address h3 {

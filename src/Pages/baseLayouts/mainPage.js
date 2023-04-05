@@ -6,7 +6,7 @@ import SideBar from "./sideBar";
 
 function MainPage() {
   return (
-    <React.Fragment>
+    <>
       <div className="wrapper">
         <Header />
         <div className="content">
@@ -16,7 +16,7 @@ function MainPage() {
           </div>
         </div>
       </div>
-    </React.Fragment>
+    </>
   );
 }
 

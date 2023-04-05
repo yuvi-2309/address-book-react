@@ -4,62 +4,62 @@ import React, { useState } from "react";
 import "./addressBook.css";
 import countryData from "../../JSON files/countryData.json";
 
-function CreateAddressBook({ onFormDataChange, editValue }) {
-  const [formData, setFormData] = useState(editValue);
+
+
+function CreateAddressBook({ onFormDataChange, editValue, editID }) {
+  const [formData, setFormData] = useState(editValue ? editValue : {
+    first_name: '',
+    last_name: '',
+    address_line1: '',
+    address_line2: '',
+    state: '',
+    country: '',
+    pin_code: '',
+    type_email: '',
+    email: [''],
+    phone_number: ''
+  });
 
   // regex for validation
-  const emailRegex = /^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$/;
+  const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
   const nameRegex = /^([a-zA-Z]{1,29})+$/;
+  const numberRegex = /((\+*)((0[ -]*)*|((91 )*))((\d{12})+|(\d{10})+))|\d{5}([- ]*)\d{6}/;
 
-  // function to validate email
-  const validateEmail = (event) => {
-    const emailbox = document.getElementById("email");
-    const email = event.target.value;
-    const email_warning = document.getElementById("email_warning");
-    if (emailRegex.test(email)) {
-      emailbox.style.borderColor = "gray";
-      email_warning.innerHTML = "";
-    } else {
-      email_warning.innerHTML = "Please enter a valid email";
-      emailbox.style.borderColor = "red";
-    }
+  // function to validate the respective form fields
+  const validateForm = () => {
+    const firstName = document.getElementById("name").value;
+    const lastName = document.getElementById("last_name").value;
+    const email = document.getElementById("email").value;
+    const phone = document.getElementById("phone_number").value;
+
+    validate("name", "name_warning", firstName, nameRegex);
+    validate("last_name", "last_name_warning", lastName, nameRegex);
+    validate("email", "email_warning", email, emailRegex);
+    validate("phone_number", "phone_number_warning", phone, numberRegex)
   };
 
-  // function to validate name
-  const validateName = (event) => {
-    const namebox = document.getElementById("name");
-    const name = event.target.value;
-    const firstNameWarn = document.getElementById("name_warning");
-    if (nameRegex.test(name)) {
+  const validate = (inputId, warningId, name, regex) => {
+    const namebox = document.getElementById(inputId);
+    const nameWarn = document.getElementById(warningId);
+
+    if (regex.test(name)) {
       namebox.style.borderColor = "gray";
-      firstNameWarn.innerHTML = "";
+      nameWarn.innerHTML = "";
     } else {
-      firstNameWarn.innerHTML = "Please enter a valid first name";
+      nameWarn.innerHTML = `Please enter a valid ${inputId.replace('_', ' ')}`;
       namebox.style.borderColor = "red";
     }
   };
 
-  // function to validate last name
-  const validateLastName = (event) => {
-    const namebox = document.getElementById("last_name");
-    const name = event.target.value;
-    const lastNameWarn = document.getElementById("last_name_warning");
-    if (nameRegex.test(name)) {
-      namebox.style.borderColor = "gray";
-      lastNameWarn.innerHTML = "";
-    } else {
-      lastNameWarn.innerHTML = "Please enter a valid last name";
-      namebox.style.borderColor = "red";
-    }
+
+  const handleInputChangeEmails = (event, index) => {
+    const { name, value } = event.target;
+    const emails = [...formData.emails];
+    emails[index] = value;
+    setFormData({ ...formData, emails });
   };
 
-  // function to set the values to setFormData state
-  const handleInputChange = (event) => {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-    });
-  };
+
 
   // function to handle the submit button in the form
   const handleSubmit = (event) => {
@@ -67,7 +67,21 @@ function CreateAddressBook({ onFormDataChange, editValue }) {
     onFormDataChange(formData);
     setFormData("");
     event.target.reset();
+    setFormData({
+      first_name: '',
+      last_name: '',
+      address_line1: '',
+      address_line2: '',
+      state: '',
+      country: '',
+      pin_code: '',
+      type_email: '',
+      email: [''],
+      phone_number: ''
+    })
+    console.log("items", formData)
   };
+
 
   return (
     <React.Fragment>
@@ -75,7 +89,7 @@ function CreateAddressBook({ onFormDataChange, editValue }) {
         <form onSubmit={handleSubmit} className="reset">
           {/* input fields for name */}
           <div className="name_bar">
-            <span style={{ display: "flex", flexDirection: "column" }}>
+            <span className="flex_column">
               <input
                 name="first_name"
                 className="input_address"
@@ -83,16 +97,15 @@ function CreateAddressBook({ onFormDataChange, editValue }) {
                 type="text"
                 id="name"
                 value={formData.first_name}
-                required
-                onChange={handleInputChange}
-                onBlurCapture={validateName}
+                onChange={(event) => setFormData({ ...formData, first_name: event.target.value })}
+                onBlurCapture={validateForm}
               />
               <div
                 id="name_warning"
-                style={{ color: "red", fontSize: "12px" }}
+                className='warning_message'
               ></div>
             </span>
-            <span style={{ display: "flex", flexDirection: "column" }}>
+            <span className="flex_column">
               <input
                 name="last_name"
                 className="input_address"
@@ -100,13 +113,12 @@ function CreateAddressBook({ onFormDataChange, editValue }) {
                 type="text"
                 id="last_name"
                 value={formData.last_name}
-                required
-                onChange={handleInputChange}
-                onBlurCapture={validateLastName}
+                onChange={(event) => setFormData({ ...formData, last_name: event.target.value })}
+                onBlurCapture={validateForm}
               />
               <div
                 id="last_name_warning"
-                style={{ color: "red", fontSize: "12px" }}
+                className='warning_message'
               ></div>
             </span>
           </div>
@@ -120,14 +132,15 @@ function CreateAddressBook({ onFormDataChange, editValue }) {
               </button>
             </div>
             <div className="form_grid wrapA1">
+
               <input
                 name="address_line1"
                 className="input_address"
                 placeholder="Line 1"
                 type="text"
-                required
                 value={formData.address_line1}
-                onChange={handleInputChange}
+                 onChange={(event) => setFormData({ ...formData, address_line1: event.target.value })}
+                required
               />
 
               <input
@@ -135,9 +148,9 @@ function CreateAddressBook({ onFormDataChange, editValue }) {
                 className="input_address"
                 placeholder="Line 2"
                 type="text"
-                required
                 value={formData.address_line2}
-                onChange={handleInputChange}
+                 onChange={(event) => setFormData({ ...formData, address_line2: event.target.value })}
+                required
               />
 
               <input
@@ -145,9 +158,9 @@ function CreateAddressBook({ onFormDataChange, editValue }) {
                 className="input_address"
                 placeholder="City"
                 type="text"
-                required
                 value={formData.city}
-                onChange={handleInputChange}
+                 onChange={(event) => setFormData({ ...formData, city: event.target.value })}
+                required
               />
 
               <input
@@ -155,16 +168,16 @@ function CreateAddressBook({ onFormDataChange, editValue }) {
                 className="input_address"
                 placeholder="State"
                 type="text"
-                required
                 value={formData.state}
-                onChange={handleInputChange}
+                 onChange={(event) => setFormData({ ...formData, state: event.target.value })}
+                required
               />
 
               <input
                 name="pin_code"
                 className="input_address"
                 placeholder="Pin Code"
-                onChange={handleInputChange}
+                 onChange={(event) => setFormData({ ...formData, pin_code: event.target.value })}
                 value={formData.pin_code}
                 required
               />
@@ -172,7 +185,7 @@ function CreateAddressBook({ onFormDataChange, editValue }) {
               <select
                 name="country"
                 className="select"
-                onChange={handleInputChange}
+                 onChange={(event) => setFormData({ ...formData, country: event.target.value })}
                 value={formData.country}
               >
                 <option className="option">Country</option>
@@ -186,7 +199,7 @@ function CreateAddressBook({ onFormDataChange, editValue }) {
               <select
                 className="select"
                 name="type_address"
-                onChange={handleInputChange}
+                 onChange={(event) => setFormData({ ...formData, type_address: event.target.value })}
                 value={formData.type_address}
               >
                 <option name="Type" className="option">
@@ -210,30 +223,29 @@ function CreateAddressBook({ onFormDataChange, editValue }) {
                 +
               </button>
             </div>
-
-            <div className="name_bar1 wrapA2">
-              <span style={{ display: "flex", flexDirection: "column" }}>
+            {formData.email.map((email, index) => (
+            <>
+            <div className="name_bar1 wrapA2" key={index}>
+              <span className="flex_column">
                 <input
                   id="email"
-                  name="email"
+                  name={`email-${index}`}
                   className="input_address"
                   placeholder="Email Address"
-                  type="email"
                   autoComplete="off"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  onBlurCapture={validateEmail}
-                  required
+                  value={email}
+                  onChange={(event) => handleInputChange(event, index)}
+                  onBlurCapture={validateForm}
                 />
                 <div
                   id="email_warning"
-                  style={{ color: "red", fontSize: "12px" }}
+                  className='warning_message'
                 ></div>
               </span>
               <select
                 name="type_email"
                 className="select"
-                onChange={handleInputChange}
+                 onChange={(event) => setFormData({ ...formData, type_email: event.target.value })}
                 value={formData.type_email}
               >
                 <option className="option">Type</option>
@@ -244,6 +256,8 @@ function CreateAddressBook({ onFormDataChange, editValue }) {
             <button className="button_1" type="button">
               Add
             </button>
+            </>
+            ))}
           </div>
 
           {/* input fields for phone number */}
@@ -254,35 +268,46 @@ function CreateAddressBook({ onFormDataChange, editValue }) {
                 +
               </button>
             </div>
-            <div className="name_bar1 wrapA3">
-              <input
-                name="phone_number"
-                className="input_address"
-                placeholder="Phone Number"
-                value={formData.phone_number}
-                onChange={handleInputChange}
-                required
-              />
-              <select
-                name="type_phone_number"
-                className="select"
-                required
-                onChange={handleInputChange}
-                value={formData.type_phone_number}
-              >
-                <option className="option">Type</option>
-                <option>Personal</option>
-                <option>Work</option>
-              </select>
-            </div>
-            <button className="button_1" type="button">
-              Add
-            </button>
-          </div>
+            
+              
+                <div className="name_bar1 wrapA3">
+                  <span className="flex_column">
+                    <input
+                      name="phone_number"
+                      className="input_address"
+                      placeholder="Phone Number"
+                      id="phone_number"
+                      value={formData.phone_number}
+                       onChange={(event) => setFormData({ ...formData, phone_number: event.target.value })}
+                      //  onChange={(event) => handleInputChange3(index, event)}
+                      onBlurCapture={validateForm}
+                    />
+                    <div
+                      id="phone_number_warning"
+                      className='warning_message'
+                    ></div>
+                  </span>
+                  <select
+                    name="type_phone_number"
+                    className="select"
+                     onChange={(event) => setFormData({ ...formData, type_phone_number: event.target.value })}
+                    // onChange={(event) => handleInputChange3(index, event)}
+                    value={formData.type_phone_number}
+                  >
+                    <option className="option">Type</option>
+                    <option>Personal</option>
+                    <option>Work</option>
+                  </select>
+                </div>
+                <button className="button_1" type="button">
+                  Add
+                </button>
 
+             
+          </div>
           {/* buttons for saving and cancelling record */}
           <div className="footer_address">
-            <button className="button_2" type="submit">
+            <button className="button_2" type="submit" onChange={(event) => event.target.reset()}>
               Save
             </button>
             <button className="button_2" type="button">

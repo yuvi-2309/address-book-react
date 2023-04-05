@@ -6,7 +6,7 @@ export default function View({ state }) {
   return (
     <>
       <div className="view_main_list">
-        <h2 style={{ paddingBottom: "10px" }}>
+        <h2>
           {state.first_name} {state.last_name}
         </h2>
 

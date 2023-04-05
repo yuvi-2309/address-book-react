@@ -19,7 +19,7 @@ function SideBar() {
             <div key={index}>
               <NavLink
                 to={item.path}
-                className="textColor"
+                className="side_bar_textColor"
                 onClick={item.onclick}
               >
                 <span>{item.title}</span>

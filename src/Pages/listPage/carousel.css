@@ -1,6 +1,7 @@
 .number-buttons {
   position: relative;
   margin-top: 1rem;
+  display: flex;
 }
 
 .button-container {
@@ -29,7 +30,7 @@
 }
 
 .carousel-arrow {
-  margin: 20px 10px 0 10px;
+  margin: 15px 5px 0 5px;
 }
 
 @media screen and (max-width:800px){

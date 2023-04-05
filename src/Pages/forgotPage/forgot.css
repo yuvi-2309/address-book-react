@@ -34,8 +34,7 @@
 
 .header_forgot {
   position: absolute;
-  margin-top: -30%;
-  margin-left: 20%;
+  margin: -30% 0 0 20%
 }
 
 .input_forgot {
@@ -46,14 +45,12 @@
   margin-top: 10px;
   width: 350px;
   outline: none;
-  padding-bottom: 0px;
   padding-left: 20px;
 }
 
 .header_img_forgot {
   position: absolute;
-  margin-top: -29%;
-  margin-left: 9%;
+  margin: -29% 0 0 9%;
 }
 
 .button_forgot {

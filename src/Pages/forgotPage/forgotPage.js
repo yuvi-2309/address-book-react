@@ -1,6 +1,6 @@
 import React from "react";
 
-import Logo from "../../Assets/logo.png";
+import Logo from "../../Assets/logo.svg";
 import "./forgot.css";
 
 function Forgot() {
@@ -31,7 +31,7 @@ function Forgot() {
   return (
     <div className="container_forgot">
       <form className="login_box_forgot" id="reset">
-        <img src={Logo} width="40px" alt="Logo" className="header_img_forgot" />
+        <img src={Logo} className="header_img_forgot logo" />
         <h1 className="header_forgot">Address Book</h1>
         <div className="input_group_forgot">
           <h3>Forgot Password?</h3>
@@ -51,7 +51,7 @@ function Forgot() {
           />
           <div
             id="email_warning"
-            style={{ color: "red", fontSize: "12px" }}
+            className="warning_message"
           ></div>
           <button className="button_forgot" type="button" onClick={sendMail}>
             Send

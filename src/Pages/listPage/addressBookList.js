@@ -25,6 +25,7 @@ function AddressList() {
     } else {
       formData[editDataID] = value;
     }
+    setEditData("");
     setIsSubmitted(true);
     setEditDataID(null);
   };
@@ -72,7 +73,7 @@ function AddressList() {
     setEditDataID(index);
     setIsSubmitted(false);
   };
-
+  
   return (
     <>
       {/* bread scrumbs */}
@@ -106,36 +107,21 @@ function AddressList() {
               // list page
               <>
                 <div className="main_page_list">
-                  
-
                   {/* renders if there is no data in the table */}
                   {formData.length === 0 ? (
-                    <div
-                      style={{
-                        textAlign: "left",
-                      }}
-                    >
-                      No records to display
-                    </div>
+                    <div>No records to display</div>
                   ) : (
                     <>
                       <input
-                    placeholder="Search"
-                    name="search"
-                    id="search"
-                    autoComplete="off"
-                    onChange={(e) => {
-                      setSearchQuery(e.target.value);
-                    }}
-                    style={{
-                      paddingLeft: "20px",
-                      marginLeft: "40px",
-                      marginBottom: "20px",
-                      marginTop: "10px",
-                      width: "30%",
-                      outline: "none",
-                    }}
-                  ></input>
+                        placeholder="Search"
+                        name="search"
+                        id="search"
+                        autoComplete="off"
+                        onChange={(e) => {
+                          setSearchQuery(e.target.value);
+                        }}
+                        className="search_query"
+                      ></input>
 
                       {/* table to display the records */}
                       <table className="tableWrapper">
@@ -151,10 +137,64 @@ function AddressList() {
 
                         <tbody className="table_body">
                           {/* renders if there is no search query */}
-                          {searchQuery.length === 0 &&(
+                          {searchQuery.length === 0 && (
                             <>
                               {formData.map((item, index) => (
                                 <tr key={index}>
+                                  <td>
+                                    {item.first_name} {item.last_name}
+                                  </td>
+                                  <td>{item.phone_number}</td>
+                                  <td>{item.email}</td>
+                                  <td>
+                                    {item.address_line1 +
+                                      ", " +
+                                      item.address_line2 +
+                                      ", " +
+                                      item.city +
+                                      "-" +
+                                      item.pin_code +
+                                      ", " +
+                                      item.state +
+                                      ", " +
+                                      item.country}
+                                  </td>
+                                  <td>
+                                    <span className="list_buttons">
+                                      <button
+                                        onClick={() => handleViewClick(item)}
+                                        className="button_list"
+                                      >
+                                        View details
+                                      </button>
+                                      <button
+                                        onClick={() => handleEdit(index, item)}
+                                        className="button_list"
+                                      >
+                                        Edit
+                                      </button>
+
+                                      <button
+                                        onClick={handleDelete(index)}
+                                        className="button_list"
+                                      >
+                                        Delete
+                                      </button>
+                                    </span>
+                                  </td>
+                                </tr>
+                              ))}
+                            </>
+                          )}
+
+                          {/* renders if the search bar is active */}
+                          {searchQuery.length !== 0 && (
+                            <>
+                              {filteredData.map((item, index) => (
+                                <tr
+                                  key={index}
+                                  onClick={() => handleViewClick(item)}
+                                >
                                   <td>
                                     {item.first_name} {item.last_name}
                                   </td>
@@ -181,13 +221,7 @@ function AddressList() {
                                       }}
                                     >
                                       <button
-                                        onClick={() => handleViewClick(item)}
-                                        className="button_list"
-                                      >
-                                        View details
-                                      </button>
-                                      <button
-                                        onClick={() => handleEdit(index, item)}
+                                        onClick={() => handleEdit(item, index)}
                                         className="button_list"
                                       >
                                         Edit
@@ -204,83 +238,23 @@ function AddressList() {
                               ))}
                             </>
                           )}
-
-                          {/* renders if the search bar is active */}
-                          {/* {searchQuery.length !== 0 && (
-                        <>
-                          {filteredData.map((item, index) => (
-                            <tr
-                              key={index}
-                              onClick={() => handleViewClick(item)}
-                            >
-                              <td>
-                                {item.first_name} {item.last_name}
-                              </td>
-                              <td>{item.phone_number}</td>
-                              <td>{item.email}</td>
-                              <td>
-                                {item.address_line1 +
-                                  ", " +
-                                  item.address_line2 +
-                                  ", " +
-                                  item.city +
-                                  "-" +
-                                  item.pin_code +
-                                  ", " +
-                                  item.state +
-                                  ", " +
-                                  item.country}
-                              </td>
-                              <td>
-                                <span
-                                  style={{
-                                    display: "flex",
-                                    gap: "5px",
-                                  }}
-                                >
-                                  <button
-                                    onClick={() => handleEdit(item, index)}
-                                    className="button_list"
-                                  >
-                                    Edit
-                                  </button>
-                                  <button
-                                    onClick={handleDelete(index)}
-                                    className="button_list"
-                                  >
-                                    Delete
-                                  </button>
-                                </span>
-                              </td>
-                            </tr>
-                          ))}
-                        </>
-                      )} */}
                         </tbody>
                       </table>
                       <div className="carousel">
-                    {/* carousel is called here */}
-                    <NumberCarousel />
-                  </div>
+                        {/* carousel is called here */}
+                        <NumberCarousel />
+                      </div>
                     </>
                   )}
 
                   {/* renders if the search query is not found */}
                   {searchQuery.length !== 0 && filteredData.length === 0 && (
                     <>
-                      <div
-                        style={{
-                          textAlign: "center",
-                          marginTop: "50px",
-                          marginBottom: "-60px",
-                        }}
-                      >
+                      <div className="search_query_message">
                         Searched field does not exist
                       </div>
                     </>
                   )}
-
-                  
                 </div>
               </>
             ) : (
@@ -288,7 +262,7 @@ function AddressList() {
               <CreateAddressBook
                 editValue={editData}
                 onFormDataChange={handleFormDataChange}
-                // editID={editData}
+                editID={editDataID}
               />
             )}
           </>

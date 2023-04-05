@@ -29,6 +29,7 @@ export const H2_tag = styled.h2`
 
 export const Input_field = styled.div`
   padding: 10px;
+  margin-left: 5px;
   border: none;
 `;
 
@@ -51,7 +52,7 @@ export const Input_tag = styled.input`
   padding-left: 20px;
   border: 1.5px solid #ccc;
   display: inline-block;
-  border-radius: 5px;
+  border-radius: 3px;
   width: 250px;
   outline: none;
 `;

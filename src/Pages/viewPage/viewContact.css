@@ -2,8 +2,11 @@
 
 .view_main_list {
   height: fit-content;
-  margin-left: 20px;
-  margin-top: 20px;
+  margin : 20px 0 0 20px;
+}
+
+.view_main_list h2 {
+  padding-bottom: 10px;
 }
 
 .list_content {

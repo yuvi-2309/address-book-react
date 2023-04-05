@@ -26,7 +26,7 @@ function NumberCarousel() {
   return (
     <div className="number-carousel">
       <div className="number-buttons">
-        <div style={{ display: "flex", position: "relative" }}>
+        
           <FaChevronLeft className="carousel-arrow" onClick={prevNumber} />
 
           <div className="button-container">
@@ -43,7 +43,7 @@ function NumberCarousel() {
 <FaChevronRight className="carousel-arrow" onClick={nextNumber} />
         </div>
       </div>
-    </div>
+ 
   );
 }
 
