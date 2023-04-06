@@ -4,26 +4,31 @@ import React, { useState } from "react";
 import "./addressBook.css";
 import countryData from "../../JSON files/countryData.json";
 
-
-
-function CreateAddressBook({ onFormDataChange, editValue, editID }) {
-  const [formData, setFormData] = useState(editValue ? editValue : {
-    first_name: '',
-    last_name: '',
-    address_line1: '',
-    address_line2: '',
-    state: '',
-    country: '',
-    pin_code: '',
-    type_email: '',
-    email: [''],
-    phone_number: ''
-  });
+function CreateAddressBook({ onFormDataChange, editValue : initialValue, editID }) {
+  const [formData, setFormData] = useState(
+    initialValue
+      ? initialValue
+      :
+       {
+          first_name: "",
+          last_name: "",
+          address_line1: "",
+          address_line2: "",
+          state: "",
+          country: "",
+          pin_code: "",
+          type_email: "",
+          emails: [{}],
+          phone_number: "",
+        }
+  );
 
   // regex for validation
-  const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  const emailRegex =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   const nameRegex = /^([a-zA-Z]{1,29})+$/;
-  const numberRegex = /((\+*)((0[ -]*)*|((91 )*))((\d{12})+|(\d{10})+))|\d{5}([- ]*)\d{6}/;
+  const numberRegex =
+    /((\+*)((0[ -]*)*|((91 )*))((\d{12})+|(\d{10})+))|\d{5}([- ]*)\d{6}/;
 
   // function to validate the respective form fields
   const validateForm = () => {
@@ -35,7 +40,7 @@ function CreateAddressBook({ onFormDataChange, editValue, editID }) {
     validate("name", "name_warning", firstName, nameRegex);
     validate("last_name", "last_name_warning", lastName, nameRegex);
     validate("email", "email_warning", email, emailRegex);
-    validate("phone_number", "phone_number_warning", phone, numberRegex)
+    validate("phone_number", "phone_number_warning", phone, numberRegex);
   };
 
   const validate = (inputId, warningId, name, regex) => {
@@ -46,42 +51,45 @@ function CreateAddressBook({ onFormDataChange, editValue, editID }) {
       namebox.style.borderColor = "gray";
       nameWarn.innerHTML = "";
     } else {
-      nameWarn.innerHTML = `Please enter a valid ${inputId.replace('_', ' ')}`;
+      nameWarn.innerHTML = `Please enter a valid ${inputId.replace("_", " ")}`;
       namebox.style.borderColor = "red";
     }
   };
 
+  const [emailset, setEmailset] = useState([{}]);
 
-  const handleInputChangeEmails = (event, index) => {
+  const handleInputChange = (event, index) => {
     const { name, value } = event.target;
     const emails = [...formData.emails];
-    emails[index] = value;
+    emails[index][name] = value;
     setFormData({ ...formData, emails });
   };
 
+  const handleAddToEmails = () => {
+    // setEmailset({ ...emailset, emailset });
+    console.log("addemail", formData);
+  };
 
+  const handleAddFields = (index) => {
+    const emails = [...formData.emails];
+    emails.push({});
+    setFormData({ ...formData, emails });
+    console.log('addfield', formData);
+  };
 
   // function to handle the submit button in the form
   const handleSubmit = (event) => {
     event.preventDefault();
     onFormDataChange(formData);
-    setFormData("");
     event.target.reset();
-    setFormData({
-      first_name: '',
-      last_name: '',
-      address_line1: '',
-      address_line2: '',
-      state: '',
-      country: '',
-      pin_code: '',
-      type_email: '',
-      email: [''],
-      phone_number: ''
-    })
-    console.log("items", formData)
+    setFormData("")
+    console.log("items", formData);
+    
   };
 
+  const cancel =() => {
+    console.log(initialValue)
+  }
 
   return (
     <React.Fragment>
@@ -97,13 +105,12 @@ function CreateAddressBook({ onFormDataChange, editValue, editID }) {
                 type="text"
                 id="name"
                 value={formData.first_name}
-                onChange={(event) => setFormData({ ...formData, first_name: event.target.value })}
+                onChange={(event) =>
+                  setFormData({ ...formData, first_name: event.target.value })
+                }
                 onBlurCapture={validateForm}
               />
-              <div
-                id="name_warning"
-                className='warning_message'
-              ></div>
+              <div id="name_warning" className="warning_message"></div>
             </span>
             <span className="flex_column">
               <input
@@ -113,13 +120,12 @@ function CreateAddressBook({ onFormDataChange, editValue, editID }) {
                 type="text"
                 id="last_name"
                 value={formData.last_name}
-                onChange={(event) => setFormData({ ...formData, last_name: event.target.value })}
+                onChange={(event) =>
+                  setFormData({ ...formData, last_name: event.target.value })
+                }
                 onBlurCapture={validateForm}
               />
-              <div
-                id="last_name_warning"
-                className='warning_message'
-              ></div>
+              <div id="last_name_warning" className="warning_message"></div>
             </span>
           </div>
 
@@ -132,14 +138,18 @@ function CreateAddressBook({ onFormDataChange, editValue, editID }) {
               </button>
             </div>
             <div className="form_grid wrapA1">
-
               <input
                 name="address_line1"
                 className="input_address"
                 placeholder="Line 1"
                 type="text"
                 value={formData.address_line1}
-                 onChange={(event) => setFormData({ ...formData, address_line1: event.target.value })}
+                onChange={(event) =>
+                  setFormData({
+                    ...formData,
+                    address_line1: event.target.value,
+                  })
+                }
                 required
               />
 
@@ -149,7 +159,12 @@ function CreateAddressBook({ onFormDataChange, editValue, editID }) {
                 placeholder="Line 2"
                 type="text"
                 value={formData.address_line2}
-                 onChange={(event) => setFormData({ ...formData, address_line2: event.target.value })}
+                onChange={(event) =>
+                  setFormData({
+                    ...formData,
+                    address_line2: event.target.value,
+                  })
+                }
                 required
               />
 
@@ -159,7 +174,9 @@ function CreateAddressBook({ onFormDataChange, editValue, editID }) {
                 placeholder="City"
                 type="text"
                 value={formData.city}
-                 onChange={(event) => setFormData({ ...formData, city: event.target.value })}
+                onChange={(event) =>
+                  setFormData({ ...formData, city: event.target.value })
+                }
                 required
               />
 
@@ -169,7 +186,9 @@ function CreateAddressBook({ onFormDataChange, editValue, editID }) {
                 placeholder="State"
                 type="text"
                 value={formData.state}
-                 onChange={(event) => setFormData({ ...formData, state: event.target.value })}
+                onChange={(event) =>
+                  setFormData({ ...formData, state: event.target.value })
+                }
                 required
               />
 
@@ -177,7 +196,9 @@ function CreateAddressBook({ onFormDataChange, editValue, editID }) {
                 name="pin_code"
                 className="input_address"
                 placeholder="Pin Code"
-                 onChange={(event) => setFormData({ ...formData, pin_code: event.target.value })}
+                onChange={(event) =>
+                  setFormData({ ...formData, pin_code: event.target.value })
+                }
                 value={formData.pin_code}
                 required
               />
@@ -185,7 +206,9 @@ function CreateAddressBook({ onFormDataChange, editValue, editID }) {
               <select
                 name="country"
                 className="select"
-                 onChange={(event) => setFormData({ ...formData, country: event.target.value })}
+                onChange={(event) =>
+                  setFormData({ ...formData, country: event.target.value })
+                }
                 value={formData.country}
               >
                 <option className="option">Country</option>
@@ -199,7 +222,9 @@ function CreateAddressBook({ onFormDataChange, editValue, editID }) {
               <select
                 className="select"
                 name="type_address"
-                 onChange={(event) => setFormData({ ...formData, type_address: event.target.value })}
+                onChange={(event) =>
+                  setFormData({ ...formData, type_address: event.target.value })
+                }
                 value={formData.type_address}
               >
                 <option name="Type" className="option">
@@ -219,44 +244,47 @@ function CreateAddressBook({ onFormDataChange, editValue, editID }) {
           <div className="email_address">
             <div className="wrap">
               <h3>Email Address</h3>
-              <button className="button_add" type="button">
+
+            </div>
+            {formData.emails.map((email, index) => (
+              <>
+
+                <div className="name_bar1 wrapA2" key={index}>
+                <button className="button_add" type="button" onClick={() => handleAddFields(index)}>
                 +
               </button>
-            </div>
-            {formData.email.map((email, index) => (
-            <>
-            <div className="name_bar1 wrapA2" key={index}>
-              <span className="flex_column">
-                <input
-                  id="email"
-                  name={`email-${index}`}
-                  className="input_address"
-                  placeholder="Email Address"
-                  autoComplete="off"
-                  value={email}
-                  onChange={(event) => handleInputChange(event, index)}
-                  onBlurCapture={validateForm}
-                />
-                <div
-                  id="email_warning"
-                  className='warning_message'
-                ></div>
-              </span>
-              <select
-                name="type_email"
-                className="select"
-                 onChange={(event) => setFormData({ ...formData, type_email: event.target.value })}
-                value={formData.type_email}
-              >
-                <option className="option">Type</option>
-                <option>Personal</option>
-                <option>Work</option>
-              </select>
-            </div>
-            <button className="button_1" type="button">
-              Add
-            </button>
-            </>
+                  <span className="flex_column">
+                    <input
+                      id="email"
+                      name="email"
+                      className="input_address"
+                      placeholder="Email Address"
+                      value={email.email}
+                      onChange={(event) => handleInputChange(event, index)}
+                      onBlurCapture={validateForm}
+                    />
+                    <div id="email_warning" className="warning_message"></div>
+                  </span>
+                  <select
+                    name="type_email"
+                    className="select"
+                    onChange={(event) => handleInputChange(event, index)}
+                    value={email.type_email}
+                  
+                  >
+                    <option className="option">Type</option>
+                    <option>Personal</option>
+                    <option>Work</option>
+                  </select>
+                </div>
+                <button
+                  className="button_1"
+                  type="button"
+                  onClick={() => handleAddToEmails(email)}
+                >
+                  Add
+                </button>
+              </>
             ))}
           </div>
 
@@ -268,49 +296,60 @@ function CreateAddressBook({ onFormDataChange, editValue, editID }) {
                 +
               </button>
             </div>
-            
-              
-                <div className="name_bar1 wrapA3">
-                  <span className="flex_column">
-                    <input
-                      name="phone_number"
-                      className="input_address"
-                      placeholder="Phone Number"
-                      id="phone_number"
-                      value={formData.phone_number}
-                       onChange={(event) => setFormData({ ...formData, phone_number: event.target.value })}
-                      //  onChange={(event) => handleInputChange3(index, event)}
-                      onBlurCapture={validateForm}
-                    />
-                    <div
-                      id="phone_number_warning"
-                      className='warning_message'
-                    ></div>
-                  </span>
-                  <select
-                    name="type_phone_number"
-                    className="select"
-                     onChange={(event) => setFormData({ ...formData, type_phone_number: event.target.value })}
-                    // onChange={(event) => handleInputChange3(index, event)}
-                    value={formData.type_phone_number}
-                  >
-                    <option className="option">Type</option>
-                    <option>Personal</option>
-                    <option>Work</option>
-                  </select>
-                </div>
-                <button className="button_1" type="button">
-                  Add
-                </button>
 
-             
+            <div className="name_bar1 wrapA3">
+              <span className="flex_column">
+                <input
+                  name="phone_number"
+                  className="input_address"
+                  placeholder="Phone Number"
+                  id="phone_number"
+                  value={formData.phone_number}
+                  onChange={(event) =>
+                    setFormData({
+                      ...formData,
+                      phone_number: event.target.value,
+                    })
+                  }
+                  //  onChange={(event) => handleInputChange3(index, event)}
+                  onBlurCapture={validateForm}
+                />
+                <div
+                  id="phone_number_warning"
+                  className="warning_message"
+                ></div>
+              </span>
+              <select
+                name="type_phone_number"
+                className="select"
+                onChange={(event) =>
+                  setFormData({
+                    ...formData,
+                    type_phone_number: event.target.value,
+                  })
+                }
+                // onChange={(event) => handleInputChange3(index, event)}
+                value={formData.type_phone_number}
+              >
+                <option className="option">Type</option>
+                <option>Personal</option>
+                <option>Work</option>
+              </select>
+            </div>
+            <button className="button_1" type="button">
+              Add
+            </button>
           </div>
           {/* buttons for saving and cancelling record */}
           <div className="footer_address">
-            <button className="button_2" type="submit" onChange={(event) => event.target.reset()}>
+            <button
+              className="button_2"
+              type="submit"
+              onChange={(event) => event.target.reset()}
+            >
               Save
             </button>
-            <button className="button_2" type="button">
+            <button className="button_2" type="button" onClick={cancel}>
               Cancel
             </button>
           </div>

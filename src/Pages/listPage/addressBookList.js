@@ -12,7 +12,18 @@ function AddressList() {
   const [formData, setFormData] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [editData, setEditData] = useState([]);
+  const [editData, setEditData] = useState({       
+    first_name: "",
+    last_name: "",
+    address_line1: "",
+    address_line2: "",
+    state: "",
+    country: "",
+    pin_code: "",
+    type_email: "",
+    emails: [{}],
+    phone_number: "",
+  });
   const [selectedData, viewSelectedData] = useState();
   const [viewAddress, setView] = useState(false);
   const [editDataID, setEditDataID] = useState(null);
@@ -145,7 +156,14 @@ function AddressList() {
                                     {item.first_name} {item.last_name}
                                   </td>
                                   <td>{item.phone_number}</td>
-                                  <td>{item.email}</td>
+                                  <td>
+                                    {item.emails.map((email, email_index) => (
+                                    <span key={email_index}>
+                                      {email.email}
+                                    </span>
+
+                                  )).slice(0,1)}
+                                  </td>
                                   <td>
                                     {item.address_line1 +
                                       ", " +
