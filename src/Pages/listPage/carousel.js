@@ -1,49 +1,37 @@
-import React, { useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import "./carousel.css"
 
-import "./carousel.css";
-function NumberCarousel() {
-  // numbers to be shown in the carousel
-  const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+function NumberCarousel({ numPages, currentPage, onPageChange }) {
+  const pages = [...Array(numPages).keys()].map((i) => i + 1);
 
-  // useState 
-  const [currentNumber, setCurrentNumber] = useState(0);
-
-  // function to move to the next number
   const nextNumber = () => {
-    setCurrentNumber(
-      currentNumber === numbers.length - 1 ? 0 : currentNumber + 1
-    );
+    onPageChange(currentPage === numPages ? 1 : currentPage + 1);
   };
 
-  // function to move to the previous number
   const prevNumber = () => {
-    setCurrentNumber(
-      currentNumber === 0 ? numbers.length - 1 : currentNumber - 1
-    );
+    onPageChange(currentPage === 1 ? numPages : currentPage - 1);
   };
 
   return (
     <div className="number-carousel">
       <div className="number-buttons">
-        
-          <FaChevronLeft className="carousel-arrow" onClick={prevNumber} />
+        <FaChevronLeft className="carousel-arrow" onClick={prevNumber} />
 
-          <div className="button-container">
-            {numbers.map((number, index) => (
-              <button
-                key={index}
-                className={currentNumber === index ? "active" : ""}
-                onClick={() => setCurrentNumber(index)}
-              >
-                {number}
-              </button>
-            ))}
-          </div>
-<FaChevronRight className="carousel-arrow" onClick={nextNumber} />
+        <div className="button-container">
+          {pages.map((page) => (
+            <button
+              key={page}
+              className={currentPage === page ? "active" : ""}
+              onClick={() => onPageChange(page)}
+            >
+              {page}
+            </button>
+          ))}
         </div>
+
+        <FaChevronRight className="carousel-arrow" onClick={nextNumber} />
       </div>
- 
+    </div>
   );
 }
 

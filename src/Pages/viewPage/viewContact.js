@@ -3,6 +3,18 @@ import React from "react";
 import "./viewContact.css";
 
 export default function View({ state }) {
+
+  const addressList = state.addresses.map((item, address_index) => (
+    <span key={address_index}>
+      <h4>{item.type_address}</h4>
+      <p>{item.address_line1}</p>
+      <p>{item.address_line2}</p>
+      <p>
+        {item.city}, {item.state},
+      </p>
+      {item.country}-{item.pin_code}
+    </span>
+  ));
   return (
     <>
       <div className="view_main_list">
@@ -13,15 +25,7 @@ export default function View({ state }) {
         <div className="list_content">
           <div>
             <h3>Addresses</h3>
-            <h4>{state.type_address}</h4>
-            <p>{state.address_line1}</p>
-            <p>{state.address_line2}</p>
-            <p>
-              {state.city}
-              {", "} {state.state}
-              {", "}
-            </p>
-            {state.country} - {state.pin_code}
+            {addressList}
           </div>
           <div>
             <h3>Email Address</h3>

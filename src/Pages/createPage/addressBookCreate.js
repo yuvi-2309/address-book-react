@@ -14,11 +14,21 @@ function CreateAddressBook({
     initialValue
       ? initialValue
       : {
-          
           first_name: "",
           last_name: "",
           emails: [{}],
           phone_number: [{}],
+          addresses: [
+            {
+              address_line1: "",
+              address_line2: "",
+              state: "",
+              city: "",
+              country: "",
+              pin_code: "",
+              type_address: "",
+            },
+          ],
         }
   );
 
@@ -30,12 +40,12 @@ function CreateAddressBook({
   const inputRef = useRef(null);
   const [editAddress, setEditAddress] = useState({
     address_line1: "",
-          address_line2: "",
-          state: "",
-          city: "",
-          country: "",
-          pin_code: "",
-          type_address: ""
+    address_line2: "",
+    state: "",
+    city: "",
+    country: "",
+    pin_code: "",
+    type_address: "",
   });
   const [address, setAddress] = useState([]);
 
@@ -48,31 +58,29 @@ function CreateAddressBook({
     const values = formData.reduce((data, input) => {
       data[input.name] = input.value;
       return data;
-    },{});
+    }, {});
 
-    if(editAddressID === null){
+    if (editAddressID === null) {
       setAddress([...address, values]);
     } else {
-      address[editAddressID] = values;    
+      address[editAddressID] = values;
     }
-    
+
     setEditAddressID(null);
     setEditAddress({
       address_line1: "",
-            address_line2: "",
-            state: "",
-            city: "",
-            country: "",
-            pin_code: "",
-            type_address: ""
-    })
-  };  
-  
+      address_line2: "",
+      state: "",
+      city: "",
+      country: "",
+      pin_code: "",
+      type_address: "",
+    });
+  };
 
   const handleEdit = (item, index) => {
     setEditAddress(item);
     setEditAddressID(index);
-    console.log("Edit",item)
   };
 
   const handleDelete = (index) => {
@@ -140,7 +148,6 @@ function CreateAddressBook({
     }
   };
 
-  const [emailset, setEmailset] = useState([{}]);
   const handleInputChangeEmails = (event, index) => {
     const { name, value } = event.target;
     const emails = [...formData.emails];
@@ -148,33 +155,54 @@ function CreateAddressBook({
     setFormData({ ...formData, emails });
   };
 
-  const handleAddToEmails = () => {
-    setEmailset({ ...emailset, emailset });
-  };
   const handleAddFieldsEmail = () => {
     const emails = [...formData.emails];
     emails.push({});
     setFormData({ ...formData, emails });
   };
 
-  const [phoneset, setPhoneset] = useState([{}]);
+  const handleAddToEmails = (index) => {
+    const warning_message = document.getElementById("minimum_field_warning_email");
+
+    if (index > 0) {
+      const emails = [...formData.emails];
+      emails.splice(index, 1);
+      setFormData({ ...formData, emails });
+    } else {
+      warning_message.innerHTML = "A minimum of one field is required";
+      warning_message.style.color = "red";
+      setTimeout(() => {
+        warning_message.innerHTML = "";
+      }, 3000);
+    }
+  };
+
   const handleInputChangePhone = (event, index) => {
     const { name, value } = event.target;
     const phone_number = [...formData.phone_number];
     phone_number[index][name] = value;
     setFormData({ ...formData, phone_number });
   };
-  const handleAddToPhone = () => {
-    setPhoneset({ ...phoneset, emailset });
-    console.log("addphone", formData);
+  const handleAddToPhone = (index) => {
+    const warning_message = document.getElementById("minimum_field_warning_phone");
+    
+     if (index > 0) {
+    const phone_number = [...formData.phone_number];
+    phone_number.splice(index, 1);
+    setFormData({ ...formData, phone_number });
+    } else {
+      warning_message.innerHTML = "A minimum of one field is required";
+      warning_message.style.color = "red";
+      setTimeout(() => {
+        warning_message.innerHTML = "";
+      }, 3000);
+    }
   };
   const handleAddFieldsPhone = () => {
     const phone_number = [...formData.phone_number];
     phone_number.push({});
     setFormData({ ...formData, phone_number });
-    console.log("addfield", formData);
   };
-
 
   // function to handle the submit button in the form
   const handleSubmit = (event) => {
@@ -183,13 +211,10 @@ function CreateAddressBook({
     event.preventDefault();
     onFormDataChange(updatedFormData);
     event.target.reset();
-    console.log(updatedFormData)
-    setAddress([])
   };
 
   const cancel = () => {
     console.log(initialValue);
-    
   };
 
   return (
@@ -206,10 +231,10 @@ function CreateAddressBook({
                 type="text"
                 id="name"
                 value={formData.first_name}
-                onChange={(event) =>
-                  setFormData({ ...formData, first_name: event.target.value })
+                onChange={(event) => {
+                  setFormData({ ...formData, first_name: event.target.value }); validateForm(); }
                 }
-                onBlurCapture={validateForm}
+              
               />
               <div id="name_warning" className="warning_message"></div>
             </span>
@@ -221,10 +246,10 @@ function CreateAddressBook({
                 type="text"
                 id="last_name"
                 value={formData.last_name}
-                onChange={(event) =>
-                  setFormData({ ...formData, last_name: event.target.value })
+                onChange={(event) =>{
+                  setFormData({ ...formData, last_name: event.target.value }); validateForm();}
                 }
-                onBlurCapture={validateForm}
+              
               />
               <div id="last_name_warning" className="warning_message"></div>
             </span>
@@ -305,7 +330,10 @@ function CreateAddressBook({
                 placeholder="Pin Code"
                 value={editAddress.pin_code}
                 onChange={(event) =>
-                  setEditAddress({ ...editAddress, pin_code: event.target.value })
+                  setEditAddress({
+                    ...editAddress,
+                    pin_code: event.target.value,
+                  })
                 }
                 // required
               />
@@ -315,7 +343,10 @@ function CreateAddressBook({
                 className="select address_fields"
                 value={editAddress.country}
                 onChange={(event) =>
-                  setEditAddress({ ...editAddress, country: event.target.value })
+                  setEditAddress({
+                    ...editAddress,
+                    country: event.target.value,
+                  })
                 }
               >
                 <option className="option">Country</option>
@@ -331,7 +362,10 @@ function CreateAddressBook({
                 name="type_address"
                 value={editAddress.type_address}
                 onChange={(event) =>
-                  setEditAddress({ ...editAddress, type_address: event.target.value })
+                  setEditAddress({
+                    ...editAddress,
+                    type_address: event.target.value,
+                  })
                 }
               >
                 <option name="Type" className="option">
@@ -354,22 +388,33 @@ function CreateAddressBook({
                 </tr>
               </thead>
               <tbody>
-                {address.map((item, index) => (
+                {address.map((item, index) => {
+                const addressStr = `${item.address_line1}, ${item.address_line2}, ${item.city}, ${item.state}, ${item.country}-${item.pin_code}`;
+                return(
                   <tr key={index}>
-                    <td>{item.address_line1 + ", " + item.address_line2 + ", " + item.city + ", " + item.state + ", " +item.country + "-" + item.pin_code }</td>
+                    <td>{addressStr}</td>
+
                     <td>{item.type_address}</td>
                     <td>
-                      <button type="button"
-                       onClick={() => handleEdit(item, index)}
-                       >
-                        Edit
-                      </button>
-                      <button type="button" onClick={handleDelete(index)}>
-                        Delete
-                      </button>
+                      <span className="list_buttons">
+                        <button
+                          type="button"
+                          className="button_list"
+                          onClick={() => handleEdit(item, index)}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          type="button"
+                          onClick={handleDelete(index)}
+                          className="button_list"
+                        >
+                          Delete
+                        </button>
+                      </span>
                     </td>
                   </tr>
-                ))}
+                )})}
               </tbody>
             </table>
           </div>
@@ -385,6 +430,10 @@ function CreateAddressBook({
               >
                 +
               </button>
+              <span
+                id="minimum_field_warning_email"
+                className="minimum_field_message"
+              ></span>
             </div>
             {formData.emails.map((email, index) => (
               <>
@@ -396,10 +445,11 @@ function CreateAddressBook({
                       className="input_address"
                       placeholder="Email Address"
                       value={email.email}
-                      onChange={(event) =>
-                        handleInputChangeEmails(event, index)
-                      }
-                      onBlurCapture={validateForm}
+                      onChange={(event) =>{
+                        handleInputChangeEmails(event, index);
+                         validateForm();
+                      }}
+                     
                     />
                     <div id="email_warning" className="warning_message"></div>
                   </span>
@@ -418,9 +468,9 @@ function CreateAddressBook({
                 <button
                   className="button_1"
                   type="button"
-                  onClick={() => handleAddToEmails(email)}
+                  onClick={() => handleAddToEmails(index)}
                 >
-                  Add
+                  Remove
                 </button>
               </>
             ))}
@@ -437,6 +487,10 @@ function CreateAddressBook({
               >
                 +
               </button>
+              <span
+                id="minimum_field_warning_phone"
+                className="minimum_field_message"
+              ></span>
             </div>
             {formData.phone_number.map((phone, index) => (
               <>
@@ -448,8 +502,9 @@ function CreateAddressBook({
                       placeholder="Phone Number"
                       id="phone_number"
                       value={phone.phone_number}
-                      onChange={(event) => handleInputChangePhone(event, index)}
-                      onBlurCapture={validateForm}
+                      onChange={(event) => {handleInputChangePhone(event, index);
+                      validateForm();}}
+                   
                     />
                     <div
                       id="phone_number_warning"
@@ -460,7 +515,7 @@ function CreateAddressBook({
                     name="type_phone_number"
                     className="select"
                     onChange={(event) => handleInputChangePhone(event, index)}
-                    // onChange={(event) => handleInputChange3(index, event)}
+                   
                     value={phone.type_phone_number}
                     required
                   >
@@ -472,9 +527,9 @@ function CreateAddressBook({
                 <button
                   className="button_1"
                   type="button"
-                  onClick={() => handleAddToPhone(phone)}
+                  onClick={() => handleAddToPhone(index)}
                 >
-                  Add
+                  Remove
                 </button>
               </>
             ))}
