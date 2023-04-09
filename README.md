@@ -74,4 +74,3 @@ Use of dependencies
     1. antd : For the popup of the delete record in table
     2. styled-components : Used in the login page
     3. react-icons : Used in the carousel page for the arrows
-    4. 

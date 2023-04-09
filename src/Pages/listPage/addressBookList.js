@@ -1,6 +1,6 @@
-import React from "react";
+import React, {useState} from "react";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+
 import { Modal } from "antd";
 import "./addressBookList.css";
 import CreateAddressBook from "../createPage/addressBookCreate";
@@ -15,15 +15,11 @@ function AddressList() {
   const [editData, setEditData] = useState({       
     first_name: "",
     last_name: "",
-    address_line1: "",
-    address_line2: "",
-    state: "",
-    country: "",
-    pin_code: "",
-    type_email: "",
     emails: [{}],
-    phone_number: "",
+    phone_number: [{}],
+    addresses: [{}]
   });
+  
   const [selectedData, viewSelectedData] = useState();
   const [viewAddress, setView] = useState(false);
   const [editDataID, setEditDataID] = useState(null);
@@ -83,6 +79,7 @@ function AddressList() {
     setEditData(item);
     setEditDataID(index);
     setIsSubmitted(false);
+    console.log(item);
   };
   
   return (
@@ -92,10 +89,10 @@ function AddressList() {
         <Link to="/home" className="textColor">
           Home /
         </Link>
-        <Link to="/home" className="textColor">
+        <Link to="/home" className="textColor" onClick={() => setIsSubmitted(true)}>
           Address Book /
         </Link>
-        <Link to="/home" className="textColor">
+        <Link to="/home" className="textColor" onClick={() => setIsSubmitted(false)}>
           Create
         </Link>
 
@@ -155,7 +152,12 @@ function AddressList() {
                                   <td>
                                     {item.first_name} {item.last_name}
                                   </td>
-                                  <td>{item.phone_number}</td>
+                                  <td>{item.phone_number.map((phone, phone_index) => (
+                                    <span key={phone_index}>
+                                      {phone.phone_number}
+                                    </span>
+
+                                  )).slice(0,1)}</td>
                                   <td>
                                     {item.emails.map((email, email_index) => (
                                     <span key={email_index}>
@@ -165,17 +167,11 @@ function AddressList() {
                                   )).slice(0,1)}
                                   </td>
                                   <td>
-                                    {item.address_line1 +
-                                      ", " +
-                                      item.address_line2 +
-                                      ", " +
-                                      item.city +
-                                      "-" +
-                                      item.pin_code +
-                                      ", " +
-                                      item.state +
-                                      ", " +
-                                      item.country}
+                                    {item.addresses.map((address, address_index) => (
+                                      <span key={address_index}>
+                                        {address.address_line1}, {address.address_line2}, {address.city}, {address.state}, {address.country}-{address.pin_code}
+                                      </span>
+                                    )).slice(0,1)}
                                   </td>
                                   <td>
                                     <span className="list_buttons">

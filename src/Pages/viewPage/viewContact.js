@@ -25,13 +25,21 @@ export default function View({ state }) {
           </div>
           <div>
             <h3>Email Address</h3>
-            <h4>{state.type_email}</h4>
-            {state.email}
+            {state.emails.map((email, email_index) => (
+              <span key={email_index}>
+                <h4>{email.type_email}</h4>
+                {email.email}
+              </span>
+            ))}
           </div>
           <div>
             <h3>Phone number</h3>
-            <h4>{state.type_phone_number}</h4>
-            {state.phone_number}
+            {state.phone_number.map((phone, phone_index) => (
+              <span key={phone_index}>
+                <h4>{phone.type_phone_number}</h4>
+                {phone.phone_number}
+              </span>
+            ))}
           </div>
         </div>
       </div>
