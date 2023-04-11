@@ -55,17 +55,6 @@
   height: 90vh;
   margin-top: 100px;
   z-index: 1;
-    
-  @media screen (max-width: 600px) {
-     width:100%;
-     height: 80px;
-     flex-direction: row;
-     top:10%;
-    
-    }
-     @media screen (max-width: 425px) {
-     top: 20%;
-     }
 }
 
 .main_content {

@@ -28,27 +28,34 @@ function Login() {
     const email = document.getElementById("email-login");
     const password = document.getElementById("password-login");
     const warning = document.getElementById("warning");
-    if (email.value === "yuvi@gmail.com" && password.value === "yuvi") {
+  
+    // email validation regular expression
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  
+    if (emailRegex.test(email.value) && email.value === "yuvi@gmail.com" && password.value === "yuvi") {
       Navigate("/home");
       localStorage.setItem("auth", true);
-    } 
-    if (password.value === "" && email.value === "") {
-      warning.innerText = "Password is required";
-      setMessage("Email is required");
+    } else if (email.value === "" || password.value === "") {
+      warning.innerText = "Email and password are required";
+      setMessage("Email and password are required");
       email.style.borderColor = "red";
       password.style.borderColor = "red";
-    }
-    else if(email.value === "yuvi@gmail.com" && password.value !== "yuvi") {
+    } else if (!emailRegex.test(email.value)) {
+      setMessage("Please enter a valid email address");
+      email.style.borderColor = "red";
+      password.style.borderColor = "gray";
+      warning.innerText = "Password is required";
+    } else if (email.value === "yuvi@gmail.com" && password.value !== "yuvi") {
+      setMessage("");
       warning.innerText = "Incorrect password!!";
       password.style.borderColor = "red";
       email.style.borderColor = "gray";
-    }
-    else if (password.value === "" && email.value !== "") {
+    } else if (password.value === "") {
       warning.innerText = "Password is required";
       setMessage("");
       email.style.borderColor = "gray";
       password.style.borderColor = "red";
-    } else if (password.value !== "" && email.value === "") {
+    } else if (email.value === "") {
       setMessage("Email is required");
       email.style.borderColor = "red";
       password.style.borderColor = "gray";
@@ -60,6 +67,7 @@ function Login() {
       password.style.borderColor = "red";
     }
   }
+  
 
 
   // function to reset the form fields

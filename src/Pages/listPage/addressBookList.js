@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { Modal } from "antd";
 import "./addressBookList.css";
 import CreateAddressBook from "../createPage/addressBookCreate";
@@ -9,6 +8,10 @@ import View from "../viewPage/viewContact";
 import NumberCarousel from "./carousel";
 
 function AddressList() {
+
+  
+
+     
   // useStates
   const [formData, setFormData] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(true);
@@ -80,7 +83,7 @@ function AddressList() {
     setEditData(item);
     setEditDataID(index);
     setIsSubmitted(false);
-    
+
   };
 
   let data = searchQuery.length === 0 ? formData : filteredData;
@@ -97,6 +100,15 @@ function AddressList() {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+
+  let buttonText;
+  if (viewAddress) {
+    buttonText = "Go back";
+  } else if (isSubmitted) {
+    buttonText = "Create Page";
+  } else {
+    buttonText = "List Page";
+  }
 
 
   return (
@@ -120,14 +132,14 @@ function AddressList() {
         >
           Create
         </Link>
-
+      
         {/* button to navigate to create and list page */}
         <button
           className="button_to_navigate"
           onClick={pageNav}
           id="changePage"
         >
-          {viewAddress ? "Go back" : isSubmitted ? "Create Page" : "List Page"}
+          {buttonText}
         </button>
       </div>
       <div className="main_page">
@@ -170,83 +182,83 @@ function AddressList() {
 
                         <tbody className="table_body">
                           {/* renders if there is no search query */}
-                          
-                          
-                            <>
-                              {displayedData.map((item, index) => (
-                                <tr key={index}>
-                                  <td>
-                                    {item.first_name} {item.last_name}
-                                  </td>
-                                  <td>
-                                    {item.phone_number
-                                      .map((phone, phone_index) => (
-                                        <span key={phone_index}>
-                                          {phone.phone_number}
-                                        </span>
-                                      ))
-                                      .slice(0, 1)}
-                                  </td>
-                                  <td>
-                                    {item.emails
-                                      .map((email, email_index) => (
-                                        <span key={email_index}>
-                                          {email.email}
-                                        </span>
-                                      ))
-                                      .slice(0, 1)}
-                                  </td>
-                                  <td>
-                                    {item.addresses
-                                      .map((address, address_index) => {
-                                        const addressStr = `${address.address_line1}, ${address.address_line2}, ${address.city}, ${address.state}, ${address.country}-${address.pin_code}`;
-                                        return (
-                                          <span key={address_index}>
-                                            {addressStr}
-                                          </span>
-                                        );
-                                      })
-                                      .slice(0, 1)}
-                                  </td>
-                                  <td>
-                                    <span className="list_buttons">
-                                      <button
-                                        onClick={() => handleViewClick(item)}
-                                        className="button_list"
-                                      >
-                                        View details
-                                      </button>
-                                      <button
-                                        onClick={() => handleEdit(index, item)}
-                                        className="button_list"
-                                      >
-                                        Edit
-                                      </button>
 
-                                      <button
-                                        onClick={handleDelete(index)}
-                                        className="button_list"
-                                      >
-                                        Delete
-                                      </button>
-                                    </span>
-                                  </td>
-                                </tr>
-                              ))}
-                            </>
+
+                          <>
+                            {displayedData.map((item, index) => (
+                              <tr key={index}>
+                                <td>
+                                  {item.first_name} {item.last_name}
+                                </td>
+                                <td>
+                                  {item.phone_number
+                                    .map((phone, phone_index) => (
+                                      <span key={phone_index}>
+                                        {phone.phone_number}
+                                      </span>
+                                    ))
+                                    .slice(0, 1)}
+                                </td>
+                                <td>
+                                  {item.emails
+                                    .map((email, email_index) => (
+                                      <span key={email_index}>
+                                        {email.email}
+                                      </span>
+                                    ))
+                                    .slice(0, 1)}
+                                </td>
+                                <td>
+                                  {item.addresses
+                                    .map((address, address_index) => {
+                                      const addressStr = `${address.address_line1}, ${address.address_line2}, ${address.city}, ${address.state}, ${address.country}-${address.pin_code}`;
+                                      return (
+                                        <span key={address_index}>
+                                          {addressStr}
+                                        </span>
+                                      );
+                                    })
+                                    .slice(0, 1)}
+                                </td>
+                                <td>
+                                  <span className="list_buttons">
+                                    <button
+                                      onClick={() => handleViewClick(item)}
+                                      className="button_list"
+                                    >
+                                      View details
+                                    </button>
+                                    <button
+                                      onClick={() => handleEdit(index, item)}
+                                      className="button_list"
+                                    >
+                                      Edit
+                                    </button>
+
+                                    <button
+                                      onClick={handleDelete(index)}
+                                      className="button_list"
+                                    >
+                                      Delete
+                                    </button>
+                                  </span>
+                                </td>
+                              </tr>
+                            ))}
+                          </>
                         </tbody>
                       </table>
-                      
-                    
-        <div className="carousel">
-          <NumberCarousel
-        numPages={numPages}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-      />
 
-        </div>
-     
+
+                      <div className="carousel">
+                        <NumberCarousel
+                          numPages={numPages}
+                          currentPage={currentPage}
+                          onPageChange={handlePageChange}
+                        />
+
+                      </div>
+
 
                     </>
                   )}
@@ -264,6 +276,7 @@ function AddressList() {
             ) : (
               // child page is called here
               <CreateAddressBook
+                
                 editValue={editData}
                 onFormDataChange={handleFormDataChange}
                 editID={editDataID}

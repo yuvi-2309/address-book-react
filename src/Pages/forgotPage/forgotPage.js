@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Logo from "../../Assets/logo.svg";
 import "./forgot.css";
@@ -6,6 +6,8 @@ import "./forgot.css";
 function Forgot() {
   // regex for email validation
   const emailRegex = /^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$/;
+  const [emailSent, setEmailSent] = useState(false);
+
 
   // function to validate email
   const validateEmail = (event) => {
@@ -24,8 +26,15 @@ function Forgot() {
   // function to send mail in the console for now
   const sendMail = (event) => {
     const email = document.getElementById("email").value;
+    console.log(email);
     const clear = document.getElementById("reset");
+    if(email !== ""){
+      setEmailSent(true);
+    }
     clear.reset();
+    setTimeout(() => {
+      setEmailSent(false);
+    }, 3000);
   };
 
   return (
@@ -53,11 +62,14 @@ function Forgot() {
             id="email_warning"
             className="warning_message"
           ></div>
+          {emailSent && <div className="email_sent_message">Email sent successfully!</div>}
           <button className="button_forgot" type="button" onClick={sendMail}>
             Send
           </button>
+          
         </div>
       </form>
+      
     </div>
   );
 }

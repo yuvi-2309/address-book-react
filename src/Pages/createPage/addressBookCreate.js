@@ -32,6 +32,7 @@ function CreateAddressBook({
         }
   );
 
+     
   // regex for validation
   const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
   const nameRegex = /^([a-zA-Z]{1,29})+$/;
@@ -96,53 +97,29 @@ function CreateAddressBook({
             setAddress(items.filter((item, index) => index !== Index));
           }
           event.preventDefault();
-          console.log(address);
+          
         },
       });
     };
   };
 
-  // function to validate the respective form fields
-  const validateForm = () => {
-    const firstName = document.getElementById("name").value;
-    const lastName = document.getElementById("last_name").value;
-    const email = document.getElementById("email").value;
-    const phone = document.getElementById("phone_number").value;
-    const submitButton = document.getElementById("submit_button");
-
-    const nameValid = validate("name", "name_warning", firstName, nameRegex);
-    const lastNameValid = validate(
-      "last_name",
-      "last_name_warning",
-      lastName,
-      nameRegex
-    );
-    const emailValid = validate("email", "email_warning", email, emailRegex);
-    const phoneValid = validate(
-      "phone_number",
-      "phone_number_warning",
-      phone,
-      numberRegex
-    );
-
-    // Disable submit button if any validation failed
-    if (!nameValid || !lastNameValid || !emailValid || !phoneValid) {
-      submitButton.disabled = true;
-    } else {
-      submitButton.disabled = false;
-    }
-  };
-
   const validate = (inputId, warningId, name, regex) => {
     const namebox = document.getElementById(inputId);
     const nameWarn = document.getElementById(warningId);
+    
+    if (!name) {
+      nameWarn.innerHTML = "This field is required";
+      namebox.style.borderColor = "red";
+      return false;
+    }
 
     if (regex.test(name)) {
       namebox.style.borderColor = "gray";
       nameWarn.innerHTML = "";
       return true;
     } else {
-      nameWarn.innerHTML = `Please enter a valid ${inputId.replace("_", " ")}`;
+      const inputName = inputId.replace(/\d+/g, ''); // remove digits from inputId
+      nameWarn.innerHTML = `Please enter a valid ${inputName.replace("_", " ")}`;
       namebox.style.borderColor = "red";
       return false;
     }
@@ -152,9 +129,10 @@ function CreateAddressBook({
     const { name, value } = event.target;
     const emails = [...formData.emails];
     emails[index][name] = value;
+    // validate(`email${index}`, `email_warning${index}`, value, emailRegex);
     setFormData({ ...formData, emails });
   };
-
+  
   const handleAddFieldsEmail = () => {
     const emails = [...formData.emails];
     emails.push({});
@@ -181,8 +159,11 @@ function CreateAddressBook({
     const { name, value } = event.target;
     const phone_number = [...formData.phone_number];
     phone_number[index][name] = value;
+    // validate(`phone number${index}`, `phone_warning${index}`, value, numberRegex);
     setFormData({ ...formData, phone_number });
   };
+  
+  
   const handleAddToPhone = (index) => {
     const warning_message = document.getElementById("minimum_field_warning_phone");
     
@@ -198,6 +179,7 @@ function CreateAddressBook({
       }, 3000);
     }
   };
+
   const handleAddFieldsPhone = () => {
     const phone_number = [...formData.phone_number];
     phone_number.push({});
@@ -206,12 +188,48 @@ function CreateAddressBook({
 
   // function to handle the submit button in the form
   const handleSubmit = (event) => {
-    const updatedFormData = { ...formData };
-    updatedFormData.addresses = address;
     event.preventDefault();
-    onFormDataChange(updatedFormData);
-    event.target.reset();
+  
+    let allFieldsValid = true;
+  
+    // Check first name
+    const firstNameValid = validate("name", "name_warning", formData.first_name, nameRegex);
+
+    // Check last name
+    const lastNameValid = validate("last name", "last_name_warning", formData.last_name, nameRegex);
+
+    if (!firstNameValid && !lastNameValid) {
+      allFieldsValid = false;
+    }
+  // Check all email fields
+    formData.emails.forEach((email, index) => {
+      const value = email.email;
+      if (!value) {
+        document.getElementById(`email_warning${index}`).textContent = "This field is required";
+        document.getElementById(`email${index}`).style.borderColor = "red";
+        allFieldsValid = false;
+      }
+    });
+  
+    // Check all phone number fields
+    formData.phone_number.forEach((phone, index) => {
+      const value = phone.phone_number;
+      if (!value) {
+        document.getElementById(`phone_warning${index}`).textContent = "This field is required";
+        document.getElementById(`phone number${index}`).style.borderColor = "red";
+        allFieldsValid = false;
+      }
+    });
+
+    // If all fields are valid, submit form
+    if (allFieldsValid) {
+      const updatedFormData = { ...formData };
+      updatedFormData.addresses = address;
+      onFormDataChange(updatedFormData);
+      event.target.reset();
+    }
   };
+  
 
   const cancel = () => {
     console.log(initialValue);
@@ -232,7 +250,8 @@ function CreateAddressBook({
                 id="name"
                 value={formData.first_name}
                 onChange={(event) => {
-                  setFormData({ ...formData, first_name: event.target.value }); validateForm(); }
+                  setFormData({ ...formData, first_name: event.target.value });
+                  validate("name","name_warning", event.target.value, nameRegex);  }
                 }
               
               />
@@ -244,10 +263,11 @@ function CreateAddressBook({
                 className="input_address"
                 placeholder="Last Name"
                 type="text"
-                id="last_name"
+                id="last name"
                 value={formData.last_name}
                 onChange={(event) =>{
-                  setFormData({ ...formData, last_name: event.target.value }); validateForm();}
+                  setFormData({ ...formData, last_name: event.target.value });
+                  validate("last name","last_name_warning", event.target.value, nameRegex)  }
                 }
               
               />
@@ -440,18 +460,18 @@ function CreateAddressBook({
                 <div className="name_bar1 wrapA2" key={index}>
                   <span className="flex_column">
                     <input
-                      id="email"
+                      id={`email${index}`}
                       name="email"
                       className="input_address"
                       placeholder="Email Address"
                       value={email.email}
                       onChange={(event) =>{
                         handleInputChangeEmails(event, index);
-                         validateForm();
+                        validate(`email${index}`, `email_warning${index}`, event.target.value, emailRegex);
                       }}
                      
                     />
-                    <div id="email_warning" className="warning_message"></div>
+                    <div id={`email_warning${index}`}className="warning_message"></div>
                   </span>
                   <select
                     name="type_email"
@@ -500,22 +520,26 @@ function CreateAddressBook({
                       name="phone_number"
                       className="input_address"
                       placeholder="Phone Number"
-                      id="phone_number"
+                      id={`phone number${index}`}
                       value={phone.phone_number}
                       onChange={(event) => {handleInputChangePhone(event, index);
-                      validateForm();}}
+                        validate(`phone number${index}`, `phone_warning${index}`, event.target.value, numberRegex)
+                      }}
                    
                     />
                     <div
-                      id="phone_number_warning"
+                      id={`phone_warning${index}`}
                       className="warning_message"
                     ></div>
                   </span>
                   <select
                     name="type_phone_number"
                     className="select"
-                    onChange={(event) => handleInputChangePhone(event, index)}
-                   
+                    onChange={(event) => {
+                      handleInputChangePhone(event, index);
+                      
+                    }}
+                      
                     value={phone.type_phone_number}
                     required
                   >
