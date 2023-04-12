@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import { NavLink } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+
 
 import { SideBarData } from "./sideBarData";
 
@@ -16,7 +16,7 @@ function SideBar() {
       <div className="side_bar">
         {SideBarData.map((item, index) => {
           return (
-            <div key={index}>
+            <div key={index} className="side_bar_content">
               <NavLink
                 to={item.path}
                 className="side_bar_textColor"

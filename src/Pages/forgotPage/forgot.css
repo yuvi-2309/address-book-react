@@ -56,11 +56,7 @@
 .button_forgot {
   height: 35px;
   padding-inline: 35px;
-  background-color: #20232a;
-  color: #ffffff;
   font-size: 15px;
-  border: none;
-  border-radius: 5px;
   margin: 30px 120px;
   cursor: pointer;
 }

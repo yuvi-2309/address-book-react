@@ -4,19 +4,20 @@ import Header from "./header";
 import NavPage from "./navPage";
 import SideBar from "./sideBar";
 
+
 function MainPage() {
   return (
-    <>
-      <div className="wrapper">
+    
+      <div className="container">
         <Header />
-        <div className="content">
-          <SideBar />
-          <div className="main_content">
-            <NavPage />
-          </div>
+    <div className="page_content">
+        <SideBar />
+        <div className="main_content">
+          <NavPage />
+        </div>
         </div>
       </div>
-    </>
+    
   );
 }
 

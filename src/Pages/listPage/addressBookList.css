@@ -14,12 +14,14 @@ table {
 
 thead {
   background-color: #f2f2f2;
+  
 }
 
 thead th {
   padding: 12px;
-  text-align: left;
-  font-weight: bold;
+  text-align: center;
+  font-weight: normal;
+  border: 1px solid gray;
 }
 
 tbody tr:nth-child(even) {
@@ -31,44 +33,91 @@ tbody tr:hover {
 }
 
 tbody td {
+  text-align: center;
   padding: 12px;
+  font-size: 14px;
+  border: 1px solid gray;
 }
 
 .button_list {
   width: 50px;
   padding: 1px;
-  border: none;
-  border-radius: 2px;
-  background: #f2f2f2;
   color: black;
   cursor: pointer;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 0 2px;
   font-size: 0.7rem;
-  font-weight: bold;
 }
 
 .search_query {
-  padding-left: 20px;
-  margin: 10px 0 20px 40px;
+  padding-left: 10px;
+  margin: 20px 0 20px 0px;
   width: 30%;
   outline: none;
 }
 
 .search_query_message {
-  text-align: center;
-  margin: 50px 0 -60px 0px;
+  font-size: 16px;
+  text-align: left;
+  margin: 50px 0 -60px 20px;
 }  
 .carousel {
-  position: absolute;
-  margin: 80px 0 30px 35%;
+  position: relative;
+  margin: 40px 0 10px 45%;
 }
 
 .list_buttons {
   display: flex;
   gap: 5px;
+  justify-content: center;
+}
+
+.flex_row{
+  display: flex;
+}
+
+.heading_address {
+  display: flex;
+  padding: 20px;
+  background-color: white;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+  box-shadow: 0 0 5px;
   
+}
+
+.heading_address h3 {
+  position: absolute;
+  right: 5%;
+  top: 30px;
+  font-size: 20px;
+  font-weight: normal;
+}
+
+.flex_row img {
+  margin-top: 5px;
+}
+
+.flex_row h1 {
+  font-size: 25px;
+  margin-top: 8px;
+  font-weight: normal;
+}
+
+.side_bar_content{
+  padding: 10px 10px; 
+} 
+
+.side_bar_content:hover {
+  background-color: #74acc4;
+}
+
+@media screen and (max-width: 1000px) {
+  .container_main_page{
+    width: 70vw;
+    margin-left: -50px;
+  }
 }
 
 @media screen and (max-width: 800px){
@@ -78,6 +127,13 @@ tbody td {
   .carousel {
     margin-left: 25%;
   }
+
+  
+  .container_main_page {
+    overflow-x:scroll;
+    width: 60vw;
+    margin-left: -60px;
+  }
 }
 
 @media screen and (max-width: 550px) {
@@ -85,14 +141,21 @@ tbody td {
     margin: 0px;
   }
   .carousel {
-    margin-left: 10%;
+    margin-left: 50vw;
   }
   thead th {
-    padding: 2px;
+    font-size: 20px;
+    padding: 0px;
   }
 
   tbody td {
+    font-size: 16px;
   padding: 0px;
 }
+.container_main_page {
+  margin-left: 30px;
+}
+
 
 }
+

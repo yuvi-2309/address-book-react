@@ -8,6 +8,7 @@ const NavPage = () => {
   return (
     <Routes>
       <Route path="/" element={<AddressList />} />
+      <Route path="/" element={<CreateAddressBook />} />
     </Routes>
   );
 };

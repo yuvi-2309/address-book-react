@@ -34,7 +34,7 @@ function Forgot() {
     clear.reset();
     setTimeout(() => {
       setEmailSent(false);
-    }, 3000);
+    }, 2000);
   };
 
   return (
@@ -66,7 +66,6 @@ function Forgot() {
           <button className="button_forgot" type="button" onClick={sendMail}>
             Send
           </button>
-          
         </div>
       </form>
       

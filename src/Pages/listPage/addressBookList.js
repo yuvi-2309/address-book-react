@@ -86,21 +86,20 @@ function AddressList() {
 
   };
 
+
+  // function to handle the number carousel
   let data = searchQuery.length === 0 ? formData : filteredData;
-
   const [currentPage, setCurrentPage] = useState(1);
-
-  // assuming data is an array of table records
   const numPages = Math.ceil(formData.length / 5);
-
   const startIdx = (currentPage - 1) * 5;
   const endIdx = startIdx + 5;
   const displayedData = data.slice(startIdx, endIdx);
-
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
+
+  // statement to assign a common name for the nested ternary operator
   let buttonText;
   if (viewAddress) {
     buttonText = "Go back";
@@ -114,6 +113,7 @@ function AddressList() {
   return (
     <>
       {/* bread scrumbs */}
+     
       <div className="nav_bar">
         <Link to="/home" className="textColor">
           Home /
@@ -142,6 +142,7 @@ function AddressList() {
           {buttonText}
         </button>
       </div>
+      <div className="container_main_page">
       <div className="main_page">
         {/* view page is called here */}
         {viewAddress ? (
@@ -154,7 +155,7 @@ function AddressList() {
                 <div className="main_page_list">
                   {/* renders if there is no data in the table */}
                   {formData.length === 0 ? (
-                    <div>No records to display</div>
+                    <div className="search_query_message">No records to display</div>
                   ) : (
                     <>
                       <input
@@ -176,7 +177,7 @@ function AddressList() {
                             <th>Phone Number</th>
                             <th>Email</th>
                             <th>Address</th>
-                            <th>Action</th>
+                            <th>Actions</th>
                           </tr>
                         </thead>
 
@@ -186,6 +187,7 @@ function AddressList() {
 
                           <>
                             {displayedData.map((item, index) => (
+                              <>
                               <tr key={index}>
                                 <td>
                                   {item.first_name} {item.last_name}
@@ -244,20 +246,24 @@ function AddressList() {
                                   </span>
                                 </td>
                               </tr>
+                              
+                            </>
                             ))}
+                            
                           </>
                         </tbody>
+                        
                       </table>
 
-
                       <div className="carousel">
-                        <NumberCarousel
-                          numPages={numPages}
-                          currentPage={currentPage}
-                          onPageChange={handlePageChange}
-                        />
-
-                      </div>
+                              <NumberCarousel
+                                numPages={numPages}
+                                currentPage={currentPage}
+                                onPageChange={handlePageChange}
+                              />
+      
+                            </div>
+                      
 
 
                     </>
@@ -284,6 +290,7 @@ function AddressList() {
             )}
           </>
         )}
+      </div>
       </div>
     </>
   );

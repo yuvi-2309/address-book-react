@@ -1,52 +1,53 @@
 import React from "react";
 
-import "./viewContact.css";
+
+import { Detail, ImportantDetail, ListContent, PrimaryDetail, SecondaryDetail, Span, ViewMainList } from "./viewContact.style";
 
 export default function View({ state }) {
 
   const addressList = state.addresses.map((item, address_index) => (
-    <span key={address_index}>
-      <h4>{item.type_address}</h4>
-      <p>{item.address_line1}</p>
-      <p>{item.address_line2}</p>
-      <p>
+    <Span key={address_index}>
+      <ImportantDetail>{item.type_address}</ImportantDetail>
+      <Detail>{item.address_line1}</Detail>
+      <Detail>{item.address_line2}</Detail>
+      <Detail>
         {item.city}, {item.state},
-      </p>
+      </Detail>
       {item.country}-{item.pin_code}
-    </span>
+    </Span>
   ));
   return (
     <>
-      <div className="view_main_list">
-        <h2>
-          {state.first_name} {state.last_name}
-        </h2>
+      <ViewMainList>
+        
 
-        <div className="list_content">
-          <div>
-            <h3>Addresses</h3>
+        <ListContent>
+        <PrimaryDetail>
+          {state.first_name} {state.last_name}
+        </PrimaryDetail>
+            <SecondaryDetail>Addresses</SecondaryDetail>
             {addressList}
-          </div>
-          <div>
-            <h3>Email Address</h3>
+         
+         
+            <SecondaryDetail>Email Address</SecondaryDetail>
             {state.emails.map((email, email_index) => (
-              <span key={email_index}>
-                <h4>{email.type_email}</h4>
-                {email.email}
-              </span>
+              <Span key={email_index}>
+                <ImportantDetail>{email.type_email}</ImportantDetail>
+                <Detail>{email.email}</Detail>
+              </Span>
             ))}
-          </div>
-          <div>
-            <h3>Phone number</h3>
+          
+          
+            <SecondaryDetail>Phone number</SecondaryDetail>
             {state.phone_number.map((phone, phone_index) => (
-              <span key={phone_index}>
-                <h4>{phone.type_phone_number}</h4>
-                {phone.phone_number}
-              </span>
+              <Span key={phone_index}>
+                <ImportantDetail>{phone.type_phone_number}</ImportantDetail>
+                <Detail>{phone.phone_number}</Detail>
+              </Span>
             ))}
-          </div>
-        </div>
-      </div>
+          
+        </ListContent>
+      </ViewMainList>
     </>
   );
 }
