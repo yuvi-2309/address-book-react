@@ -16,13 +16,13 @@ function SideBar() {
       <div className="side_bar">
         {SideBarData.map((item, index) => {
           return (
-            <div key={index} className="side_bar_content">
+            <div key={item.title} className="side_bar_content">
               <NavLink
                 to={item.path}
                 className="side_bar_textColor"
                 onClick={item.onclick}
               >
-                <span>{item.title}</span>
+                {item.title}
               </NavLink>
             </div>
           );

@@ -37,7 +37,7 @@ function Login() {
       localStorage.setItem("auth", true);
     } else if (email.value === "" || password.value === "") {
       warning.innerText = "Email and password are required";
-      setMessage("Email and password are required");
+      setMessage("");
       email.style.borderColor = "red";
       password.style.borderColor = "red";
     } else if (!emailRegex.test(email.value)) {
@@ -67,8 +67,6 @@ function Login() {
       password.style.borderColor = "red";
     }
   }
-  
-
 
   // function to reset the form fields
   function Reset() {

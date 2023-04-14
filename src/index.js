@@ -16,7 +16,7 @@ root.render(
       <Route path="/home" element={<MainPage />} />
       <Route path="/forgot" element={<Forgot />} />
       <Route path="/address-book" element={<AddressList />} />
-      <Route path="/address-book/create" element={<CreateAddressBook />} />
+      <Route path="/home/create" element={<CreateAddressBook />} />
     </Routes>
   </BrowserRouter>
 );

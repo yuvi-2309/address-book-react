@@ -9,9 +9,6 @@ import NumberCarousel from "./carousel";
 
 function AddressList() {
 
-  
-
-     
   // useStates
   const [formData, setFormData] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(true);
@@ -46,9 +43,15 @@ function AddressList() {
   const filteredData = items.filter((item) =>
     item.first_name.includes(searchQuery)
   );
-
+ 
+const handleCancel = (data) => {
+  pageNav(data)
+}
   // function to navigate between create and list page
-  const pageNav = () => {
+  const pageNav = (data) => {
+    if(data) {
+      setIsSubmitted(false);
+    }
     isSubmitted ? setIsSubmitted(false) : setIsSubmitted(true);
     setView(false);
   };
@@ -83,7 +86,6 @@ function AddressList() {
     setEditData(item);
     setEditDataID(index);
     setIsSubmitted(false);
-
   };
 
 
@@ -108,8 +110,7 @@ function AddressList() {
   } else {
     buttonText = "List Page";
   }
-
-
+  
   return (
     <>
       {/* bread scrumbs */}
@@ -123,14 +124,7 @@ function AddressList() {
           className="textColor"
           onClick={() => setIsSubmitted(true)}
         >
-          Address Book /
-        </Link>
-        <Link
-          to="/home"
-          className="textColor"
-          onClick={() => setIsSubmitted(false)}
-        >
-          Create
+          Address Book
         </Link>
       
         {/* button to navigate to create and list page */}
@@ -188,14 +182,14 @@ function AddressList() {
                           <>
                             {displayedData.map((item, index) => (
                               <>
-                              <tr key={index}>
+                              <tr key={item.first_name}>
                                 <td>
                                   {item.first_name} {item.last_name}
                                 </td>
                                 <td>
                                   {item.phone_number
                                     .map((phone, phone_index) => (
-                                      <span key={phone_index}>
+                                      <span key={phone.phone_index}>
                                         {phone.phone_number}
                                       </span>
                                     ))
@@ -204,7 +198,7 @@ function AddressList() {
                                 <td>
                                   {item.emails
                                     .map((email, email_index) => (
-                                      <span key={email_index}>
+                                      <span key={email.email}>
                                         {email.email}
                                       </span>
                                     ))
@@ -215,7 +209,7 @@ function AddressList() {
                                     .map((address, address_index) => {
                                       const addressStr = `${address.address_line1}, ${address.address_line2}, ${address.city}, ${address.state}, ${address.country}-${address.pin_code}`;
                                       return (
-                                        <span key={address_index}>
+                                        <span key={address.address_line1}>
                                           {addressStr}
                                         </span>
                                       );
@@ -270,7 +264,7 @@ function AddressList() {
                   )}
 
                   {/* renders if the search query is not found */}
-                  {searchQuery.length !== 0 && filteredData.length === 0 && (
+                  {searchQuery  && filteredData.length === 0 && (
                     <>
                       <div className="search_query_message">
                         Searched field does not exist
@@ -282,10 +276,11 @@ function AddressList() {
             ) : (
               // child page is called here
               <CreateAddressBook
-                
+                cancel={handleCancel}
                 editValue={editData}
                 onFormDataChange={handleFormDataChange}
                 editID={editDataID}
+                // editDetailsView = {editDataView}
               />
             )}
           </>
