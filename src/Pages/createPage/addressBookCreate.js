@@ -60,7 +60,7 @@ function CreateAddressBook({
    */
   const handleAddItem = () => {
     const formData = Array.from(
-      inputRef.current.querySelectorAll(".address_fields")
+      inputRef.current.querySelectorAll(".addressFields")
     );
     const values = formData.reduce((data, input) => {
       data[input.name] = input.value;
@@ -83,15 +83,15 @@ function CreateAddressBook({
       );
       validate(
         "line 2",
-        "address_line2_warning",
+        "addressLine2Warning",
         editAddress.address_line2,
         addressRegex
       );
-      validate("city", "city_warning", editAddress.city, addressRegex);
-      validate("state", "state_warning", editAddress.state, addressRegex);
+      validate("city", "cityWarning", editAddress.city, addressRegex);
+      validate("state", "stateWarning", editAddress.state, addressRegex);
       validate(
         "pin code",
-        "pin_code_warning",
+        "pinCodeWarning",
         editAddress.pin_code,
         pinCodeRegex
       );
@@ -231,7 +231,7 @@ function CreateAddressBook({
    * `formData` object.
    */
   const removeField = (index, field) => {
-    const warning_message = document.getElementById(
+    const warningMessage = document.getElementById(
       `minimum_field_warning_${field}`
     );
     if (index > 0) {
@@ -239,10 +239,10 @@ function CreateAddressBook({
       updatedField.splice(index, 1);
       setFormData({ ...formData, [field]: updatedField });
     } else {
-      warning_message.innerHTML = "A minimum of one field is required";
-      warning_message.style.color = "red";
+      warningMessage.innerHTML = "A minimum of one field is required";
+      warningMessage.style.color = "red";
       setTimeout(() => {
-        warning_message.innerHTML = "";
+        warningMessage.innerHTML = "";
       }, 2000);
     }
   };
@@ -263,7 +263,7 @@ function CreateAddressBook({
     // check first name
     const firstNameValid = validate(
       "name",
-      "name_warning",
+      "nameWarning",
       formData.first_name,
       nameRegex
     );
@@ -271,7 +271,7 @@ function CreateAddressBook({
     // Check last name
     const lastNameValid = validate(
       "last name",
-      "last_name_warning",
+      "lastNameWarning",
       formData.last_name,
       nameRegex
     );
@@ -304,18 +304,17 @@ function CreateAddressBook({
     });
 
     if (!isAddingAddress) {
-      document.getElementById("address_validation").textContent =
+      document.getElementById("addressValidation").textContent =
         "Atleast one address is required";
       allFieldsValid = false;
       setTimeout(() => {
-        document.getElementById("address_validation").textContent = "";
+        document.getElementById("addressValidation").textContent = "";
       }, 2000);
     }
 
     // if all fields are valid, submit form
     if (allFieldsValid) {
       onFormDataChange(updatedFormData);
-      event.target.reset();
     }
   };
 
@@ -333,11 +332,11 @@ function CreateAddressBook({
     <React.Fragment>
       <form onSubmit={handleSubmit} className="reset">
         {/* input fields for name */}
-        <div className="name_bar">
-          <span className="flex_column">
+        <div className="nameField">
+          <span className="flexColumn">
             <input
               name="first_name"
-              className="input_address"
+              className="inputAddress"
               placeholder="First Name"
               type="text"
               id="name"
@@ -345,15 +344,15 @@ function CreateAddressBook({
               value={formData.first_name}
               onChange={(event) => {
                 setFormData({ ...formData, first_name: event.target.value });
-                validate("name", "name_warning", event.target.value, nameRegex);
+                validate("name", "nameWarning", event.target.value, nameRegex);
               }}
             />
-            <div id="name_warning" className="warning_message"></div>
+            <div id="nameWarning" className="warningMessage"></div>
           </span>
-          <span className="flex_column">
+          <span className="flexColumn">
             <input
               name="last_name"
-              className="input_address"
+              className="inputAddress"
               placeholder="Last Name"
               type="text"
               id="last name"
@@ -362,29 +361,29 @@ function CreateAddressBook({
                 setFormData({ ...formData, last_name: event.target.value });
                 validate(
                   "last name",
-                  "last_name_warning",
+                  "lastNameWarning",
                   event.target.value,
                   nameRegex
                 );
               }}
             />
-            <div id="last_name_warning" className="warning_message"></div>
+            <div id="lastNameWarning" className="warningMessage"></div>
           </span>
         </div>
 
         {/* input fields for address */}
-        <div className="address_bar">
+        <div className="addressBar">
           <div className="wrap">
             <h3>Address</h3>
-            <button className="button_add" type="button">
+            <button className="buttonAdd" type="button">
               +
             </button>
           </div>
-          <div className="form_grid" ref={inputRef}>
-            <span className="flex_column">
+          <div className="formGrid" ref={inputRef}>
+            <span className="flexColumn">
               <input
                 name="address_line1"
-                className="input_address address_fields"
+                className="inputAddress addressFields"
                 placeholder="Line 1"
                 type="text"
                 id="line 1"
@@ -402,12 +401,12 @@ function CreateAddressBook({
                   );
                 }}
               />
-              <div id="address_line1_warning" className="warning_message"></div>
+              <div id="address_line1_warning" className="warningMessage"></div>
             </span>
-            <span className="flex_column">
+            <span className="flexColumn">
               <input
                 name="address_line2"
-                className="input_address address_fields"
+                className="inputAddress addressFields"
                 placeholder="Line 2"
                 type="text"
                 id="line 2"
@@ -419,18 +418,18 @@ function CreateAddressBook({
                   });
                   validate(
                     "line 2",
-                    "address_line2_warning",
+                    "addressLine2Warning",
                     event.target.value,
                     addressRegex
                   );
                 }}
               />
-              <div id="address_line2_warning" className="warning_message"></div>
+              <div id="addressLine2Warning" className="warningMessage"></div>
             </span>
-            <span className="flex_column">
+            <span className="flexColumn">
               <input
                 name="city"
-                className="input_address address_fields"
+                className="inputAddress addressFields"
                 placeholder="City"
                 id="city"
                 type="text"
@@ -439,18 +438,18 @@ function CreateAddressBook({
                   setEditAddress({ ...editAddress, city: event.target.value });
                   validate(
                     "city",
-                    "city_warning",
+                    "cityWarning",
                     event.target.value,
                     addressRegex
                   );
                 }}
               />
-              <div id="city_warning" className="warning_message"></div>
+              <div id="cityWarning" className="warningMessage"></div>
             </span>
-            <span className="flex_column">
+            <span className="flexColumn">
               <input
                 name="state"
-                className="input_address address_fields"
+                className="inputAddress addressFields"
                 placeholder="State"
                 id="state"
                 type="text"
@@ -459,18 +458,18 @@ function CreateAddressBook({
                   setEditAddress({ ...editAddress, state: event.target.value });
                   validate(
                     "state",
-                    "state_warning",
+                    "stateWarning",
                     event.target.value,
                     addressRegex
                   );
                 }}
               />
-              <div id="state_warning" className="warning_message"></div>
+              <div id="stateWarning" className="warningMessage"></div>
             </span>
-            <span className="flex_column">
+            <span className="flexColumn">
               <input
                 name="pin_code"
-                className="input_address address_fields"
+                className="inputAddress addressFields"
                 placeholder="Pin Code"
                 id="pin code"
                 value={editAddress.pin_code}
@@ -481,17 +480,17 @@ function CreateAddressBook({
                   });
                   validate(
                     "pin code",
-                    "pin_code_warning",
+                    "pinCodeWarning",
                     event.target.value,
                     pinCodeRegex
                   );
                 }}
               />
-              <div className="warning_message" id="pin_code_warning"></div>
+              <div className="warningMessage" id="pinCodeWarning"></div>
             </span>
             <select
               name="country"
-              className="select address_fields"
+              className="select addressFields"
               value={editAddress.country}
               onChange={(event) =>
                 setEditAddress({
@@ -512,7 +511,7 @@ function CreateAddressBook({
             </select>
 
             <select
-              className="select address_fields"
+              className="select addressFields"
               name="type_address"
               value={editAddress.type_address}
               onChange={(event) =>
@@ -535,12 +534,12 @@ function CreateAddressBook({
 
           <button
             type="button"
-            className="button_address"
+            className="buttonAddress"
             onClick={handleAddItem}
           >
             Add
           </button>
-          <div id="address_validation" className="warning_message"></div>
+          <div id="addressValidation" className="warningMessage"></div>
           {address.length > 0 && (
             <table>
               <thead>
@@ -558,10 +557,10 @@ function CreateAddressBook({
                       <td>{addressStr}</td>
                       <td>{item.type_address}</td>
                       <td>
-                        <span className="list_buttons">
+                        <span className="listButtons">
                           <button
                             type="button"
-                            className="button_list"
+                            className="buttonList"
                             onClick={() => handleEdit(item, index)}
                           >
                             Edit
@@ -569,7 +568,7 @@ function CreateAddressBook({
                           <button
                             type="button"
                             onClick={handleDelete(index)}
-                            className="button_list"
+                            className="buttonList"
                           >
                             Delete
                           </button>
@@ -584,44 +583,44 @@ function CreateAddressBook({
         </div>
 
         {/* input fields for email addresss */}
-        <div className="email_address">
+        <div className="emailAddress">
           <div className="wrap">
             <h3>Email Address</h3>
             <button
-              className="button_add"
+              className="buttonAdd"
               type="button"
               onClick={handleAddFieldsEmail}
             >
               +
             </button>
             <span
-              id="minimum_field_warning_email"
-              className="minimum_field_message"
+              id="minimumFieldWarningEmail"
+              className="minimumFieldMessage"
             ></span>
           </div>
           {formData.emails.map((email, index) => (
             <>
-              <div className="name_bar1 wrapA2" key={email.email}>
-                <span className="flex_column">
+              <div className="nameBar" key={email.email}>
+                <span className="flexColumn">
                   <input
                     id={`email${index}`}
                     name="email"
-                    className="input_address"
+                    className="inputAddress"
                     placeholder="Email Address"
                     value={email.email}
                     onChange={(event) => {
                       handleInputChangeEmails(event, index);
                       validate(
                         `email${index}`,
-                        `email_warning${index}`,
+                        `emailWarning${index}`,
                         event.target.value,
                         emailRegex
                       );
                     }}
                   />
                   <div
-                    id={`email_warning${index}`}
-                    className="warning_message"
+                    id={`emailWarning${index}`}
+                    className="warningMessage"
                   ></div>
                 </span>
                 <select
@@ -642,7 +641,7 @@ function CreateAddressBook({
                 </select>
               </div>
               <button
-                className="button_remove"
+                className="buttonRemove"
                 type="button"
                 onClick={() => removeField(index, "email")}
               >
@@ -653,28 +652,28 @@ function CreateAddressBook({
         </div>
 
         {/* input fields for phone number */}
-        <div className="phone_number">
+        <div className="phoneNumber">
           <div className="wrap">
             <h3>Phone number</h3>
             <button
-              className="button_add"
+              className="buttonAdd"
               type="button"
               onClick={handleAddFieldsPhone}
             >
               +
             </button>
             <span
-              id="minimum_field_warning_phone"
-              className="minimum_field_message"
+              id="minimumFieldWarningPhone"
+              className="minimumFieldMessage"
             ></span>
           </div>
           {formData.phone_number.map((phone, index) => (
             <>
-              <div className="name_bar1 wrapA3" key={phone.phone}>
-                <span className="flex_column">
+              <div className="nameBar" key={phone.phone}>
+                <span className="flexColumn">
                   <input
                     name="phone_number"
-                    className="input_address"
+                    className="inputAddress"
                     placeholder="Phone Number"
                     id={`phone number${index}`}
                     value={phone.phone_number}
@@ -682,15 +681,15 @@ function CreateAddressBook({
                       handleInputChangePhone(event, index);
                       validate(
                         `phone number${index}`,
-                        `phone_warning${index}`,
+                        `phoneWarning${index}`,
                         event.target.value,
                         numberRegex
                       );
                     }}
                   />
                   <div
-                    id={`phone_warning${index}`}
-                    className="warning_message"
+                    id={`phoneWarning${index}`}
+                    className="warningMessage"
                   ></div>
                 </span>
                 <select
@@ -712,7 +711,7 @@ function CreateAddressBook({
                 </select>
               </div>
               <button
-                className="button_remove"
+                className="buttonRemove"
                 type="button"
                 onClick={() => removeField(index, "phone")}
               >
@@ -722,17 +721,17 @@ function CreateAddressBook({
           ))}
         </div>
         {/* buttons for saving and cancelling record */}
-        <div className="footer_address">
+        <div className="footerAddress">
           <button
-            className="button_footer"
+            className="buttonFooter"
             type="submit"
-            id="submit_button"
+            id="submitButton"
             onChange={(event) => event.target.reset()}
           >
             {editID === null ? "Save" : "Update"}
           </button>
           <button
-            className="button_footer"
+            className="buttonFooter"
             type="button"
             onClick={handleCancel}
           >

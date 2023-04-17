@@ -13,12 +13,12 @@ function Forgot() {
   const validateEmail = (event) => {
     const emailbox = document.getElementById("email");
     const email = event.target.value;
-    const email_warning = document.getElementById("email_warning");
+    const emailWarning = document.getElementById("emailWarning");
     if (emailRegex.test(email)) {
       emailbox.style.borderColor = "gray";
-      email_warning.innerHTML = "";
+      emailWarning.innerHTML = "";
     } else {
-      email_warning.innerHTML = "Please enter a valid email";
+      emailWarning.innerHTML = "Please enter a valid email";
       emailbox.style.borderColor = "red";
     }
   };
@@ -38,20 +38,20 @@ function Forgot() {
   };
 
   return (
-    <div className="container_forgot">
-      <form className="login_box_forgot" id="reset">
-        <img src={Logo} className="header_img_forgot logo" />
-        <h1 className="header_forgot">Address Book</h1>
-        <div className="input_group_forgot">
+    <div className="containerForgot">
+      <form className="loginBoxForgot" id="reset">
+        <img src={Logo} className="headerImgForgot logo" alt="Logo"/>
+        <h1 className="headerForgot">Address Book</h1>
+        <div className="inputGroupForgot">
           <h3>Forgot Password?</h3>
-          <p className="para_forgot">
+          <p className="paraForgot">
             Enter your email address or username associated to your account
           </p>
-          <p className="para_forgot">
+          <p className="paraForgot">
             We will send you a link to reset your password
           </p>
           <input
-            className="input_forgot"
+            className="inputForgot"
             type="email"
             placeholder="Email"
             id="email"
@@ -59,11 +59,11 @@ function Forgot() {
             required
           />
           <div
-            id="email_warning"
-            className="warning_message"
+            id="emailWarning"
+            className="warningMessage"
           ></div>
-          {emailSent && <div className="email_sent_message">Email sent successfully!</div>}
-          <button className="button_forgot" type="button" onClick={sendMail}>
+          {emailSent && <div className="emailSentMessage">Email sent successfully!</div>}
+          <button className="buttonForgot" type="button" onClick={sendMail}>
             Send
           </button>
         </div>

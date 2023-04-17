@@ -115,7 +115,7 @@ const handleCancel = (data) => {
     <>
       {/* bread scrumbs */}
      
-      <div className="nav_bar">
+      <div className="navBar">
         <Link to="/home" className="textColor">
           Home /
         </Link>
@@ -129,15 +129,15 @@ const handleCancel = (data) => {
       
         {/* button to navigate to create and list page */}
         <button
-          className="button_to_navigate"
+          className="buttonToNavigate"
           onClick={pageNav}
           id="changePage"
         >
           {buttonText}
         </button>
       </div>
-      <div className="container_main_page">
-      <div className="main_page">
+      <div className="containerMainPage">
+      <div className="mainPage">
         {/* view page is called here */}
         {viewAddress ? (
           <View state={selectedData} />
@@ -146,10 +146,10 @@ const handleCancel = (data) => {
             {isSubmitted ? (
               // list page
               <>
-                <div className="main_page_list">
+                <div className="mainPageList">
                   {/* renders if there is no data in the table */}
                   {formData.length === 0 ? (
-                    <div className="search_query_message">No records to display</div>
+                    <div className="searchQueryMessage">No records to display</div>
                   ) : (
                     <>
                       <input
@@ -160,12 +160,12 @@ const handleCancel = (data) => {
                         onChange={(e) => {
                           setSearchQuery(e.target.value);
                         }}
-                        className="search_query"
+                        className="searchQuery"
                       ></input>
 
                       {/* table to display the records */}
-                      <table className="tableWrapper">
-                        <thead className="table_head">
+                      <table>
+                        <thead>
                           <tr>
                             <th>Name</th>
                             <th>Phone Number</th>
@@ -175,7 +175,7 @@ const handleCancel = (data) => {
                           </tr>
                         </thead>
 
-                        <tbody className="table_body">
+                        <tbody>
                           {/* renders if there is no search query */}
 
 
@@ -217,23 +217,23 @@ const handleCancel = (data) => {
                                     .slice(0, 1)}
                                 </td>
                                 <td>
-                                  <span className="list_buttons">
+                                  <span className="listButtons">
                                     <button
                                       onClick={() => handleViewClick(item)}
-                                      className="button_list"
+                                      className="buttonList"
                                     >
                                       View details
                                     </button>
                                     <button
                                       onClick={() => handleEdit(index, item)}
-                                      className="button_list"
+                                      className="buttonList"
                                     >
                                       Edit
                                     </button>
 
                                     <button
                                       onClick={handleDelete(index)}
-                                      className="button_list"
+                                      className="buttonList"
                                     >
                                       Delete
                                     </button>
@@ -257,16 +257,13 @@ const handleCancel = (data) => {
                               />
       
                             </div>
-                      
-
-
                     </>
                   )}
 
                   {/* renders if the search query is not found */}
                   {searchQuery  && filteredData.length === 0 && (
                     <>
-                      <div className="search_query_message">
+                      <div className="searchQueryMessage">
                         Searched field does not exist
                       </div>
                     </>

@@ -8,9 +8,9 @@ function MainPage() {
   return (    
       <div className="container">
         <Header />
-        <div className="page_content">
+        <div className="pageContent">
           <SideBar />
-          <div className="main_content">
+          <div className="mainContent">
             <NavPage />
           </div>
         </div>

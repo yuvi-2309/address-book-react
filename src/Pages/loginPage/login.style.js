@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Container_login = styled.div`
+export const ContainerLogin = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
@@ -8,7 +8,7 @@ export const Container_login = styled.div`
   align-items: center;
   letter-spacing: 0.5px;
 `;
-export const Login_box = styled.form`
+export const LoginBox = styled.form`
   height: 350px;
   width: 400px;
   max-width: 400px;
@@ -23,11 +23,11 @@ export const Login_box = styled.form`
   box-shadow: 0px 0px 5px;
 `;
 
-export const H2_tag = styled.h2`
+export const H2Tag = styled.h2`
   padding-bottom: 10px;
 `;
 
-export const Input_field = styled.div`
+export const InputField = styled.div`
   padding: 10px;
   margin-left: 5px;
   border: none;
@@ -37,17 +37,13 @@ export const Button = styled.div`
   padding: 10px;
 `;
 
-// export const button:hover = styled.div`
-//     transform: scale(1.1);
-// `
-
 export const Header = styled.h1`
   position: absolute;
   margin-top: -35%;
   margin-left: 15%;
 `;
 
-export const Input_tag = styled.input`
+export const InputTag = styled.input`
   height: 40px;
   padding-left: 20px;
   border: 1.5px solid #ccc;
@@ -57,7 +53,7 @@ export const Input_tag = styled.input`
   outline: none;
 `;
 
-export const Btn_sign = styled.button`
+export const ButtonSign = styled.button`
   background: rgb(15, 98, 167);
   border: none;
   color: white;
@@ -69,7 +65,7 @@ export const Btn_sign = styled.button`
   padding-inline: 30px;
 `;
 
-export const Btn_reset = styled.button`
+export const ButtonReset = styled.button`
   background: rgb(223, 148, 8);
   border: none;
   color: white;
@@ -81,7 +77,7 @@ export const Btn_reset = styled.button`
   padding-inline: 30px;
 `;
 
-export const Header_img = styled.img`
+export const HeaderImg = styled.img`
   position: absolute;
   margin-top: -35%;
   margin-left: -35%;
@@ -97,7 +93,3 @@ export const Pass = styled.div`
   color: #3b3a3a;
   text-decoration: none;
 `;
-
-// export const link:hover = styled.a `
-//   text-decoration: underline;
-// `

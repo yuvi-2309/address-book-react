@@ -13,13 +13,13 @@ function SideBar() {
 
   return (
     <React.Fragment>
-      <div className="side_bar">
+      <div className="sideBar">
         {SideBarData.map((item, index) => {
           return (
-            <div key={item.title} className="side_bar_content">
+            <div key={item.title} className="sideBarContent">
               <NavLink
                 to={item.path}
-                className="side_bar_textColor"
+                className="sideBarTextColor"
                 onClick={item.onclick}
               >
                 {item.title}

@@ -2,14 +2,17 @@ import React from "react";
 
 import CreateAddressBook from "../createPage/addressBookCreate";
 import AddressList from "../listPage/addressBookList";
-import { Route, Routes } from "react-router-dom";
+import { Outlet, Route, Routes } from "react-router-dom";
 
 const NavPage = () => {
-  return (
+  return (<>
     <Routes>
-      <Route path="/" element={<AddressList />} />
-      <Route path="/" element={<CreateAddressBook />} />
+      <Route path="/" element={<AddressList  />} />
+      <Route path="/address-book-create" element={<CreateAddressBook />} />
     </Routes>
+    <div>
+    <Outlet /></div>
+    </>
   );
 };
 

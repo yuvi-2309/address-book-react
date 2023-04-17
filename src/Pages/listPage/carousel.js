@@ -13,11 +13,11 @@ function NumberCarousel({ numPages, currentPage, onPageChange }) {
   };
 
   return (
-    <div className="number-carousel">
-      <div className="number-buttons">
-        <FaChevronLeft className="carousel-arrow" onClick={prevNumber} />
+    <div className="numberCarousel">
+      <div className="numberButtons">
+        <FaChevronLeft className="carouselArrow" onClick={prevNumber} />
 
-        <div className="button-container">
+        <div className="buttonContainer">
           {pages.map((page) => (
             <button
               key={page}
@@ -29,7 +29,7 @@ function NumberCarousel({ numPages, currentPage, onPageChange }) {
           ))}
         </div>
 
-        <FaChevronRight className="carousel-arrow" onClick={nextNumber} />
+        <FaChevronRight className="carouselArrow" onClick={nextNumber} />
       </div>
     </div>
   );

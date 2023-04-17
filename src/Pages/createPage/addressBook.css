@@ -29,7 +29,7 @@
   width: 90vw;
 }
 
-.side_bar {
+.sideBar {
   display: flex;
   flex-direction: column;
   width: 15%;
@@ -43,7 +43,7 @@
   z-index: 1;
 }
 
-.main_content {
+.mainContent {
   z-index: 0;
   flex: 1;
   padding-top: 9rem;
@@ -51,14 +51,14 @@
   margin-bottom: 30px;
 }
 
-.page_content {
+.pageContent {
   display: flex;
   flex-direction: row;
   width: 95vw;
   margin-right: 120px;
 }
 
-.container_main_page {
+.containerMainPage {
   box-shadow: 0 0 1px;
 }
 
@@ -74,13 +74,13 @@
   cursor: pointer;
 }
 
-.side_bar_textColor {
+.sideBarTextColor {
   text-decoration: none;
   color: white;
   font-weight: lighter;
 }
 
-.nav_bar {
+.navBar {
   padding: 10px;
   font-weight: 600;
   position: relative;
@@ -91,7 +91,7 @@
   margin-top: -8px;
 }
 
-.button_to_navigate {
+.buttonToNavigate {
   position: absolute;
   right: 20px;
   bottom: 10px;
@@ -102,13 +102,13 @@
   font-weight: normal;
 }
 
-.button_to_navigate:hover {
+.buttonToNavigate:hover {
   text-decoration: underline;
   text-underline-offset: 3px;
   cursor: pointer;
 }
 
-.name_bar {
+.nameField {
   padding: 20px;
   box-shadow: 0 0 1px;
   --input-width: 100%;
@@ -117,12 +117,12 @@
   gap: 10px;
 }
 
-.address_bar {
+.addressBar {
   padding: 20px;
   box-shadow: 0 0 1px;
 }
 
-.form_grid {
+.formGrid {
   --input-width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -139,7 +139,7 @@
   font-weight: 400;
 }
 
-.button_remove {
+.buttonRemove {
   display: flex;
   width: 70px;
   align-items: center;
@@ -149,27 +149,28 @@
   padding: 3px;
 }
 
-.forgot_login {
+.forgotLogin {
   text-decoration: none;
   color: #0e0d0d;
 }
 
-.forgot_login:hover {
+.forgotLogin:hover {
   text-decoration: underline;
   text-underline-offset: 3px;
 }
-.name_bar1 {
+
+.nameBar {
   --input-width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
 }
-.email_address {
+.emailAddress {
   padding: 20px;
   box-shadow: 0 0 1px;
 }
 
-.button_address {
+.buttonAddress {
   display: flex;
   width: 70px;
   align-items: center;
@@ -183,11 +184,11 @@
   color: white;
 }
 
-.button_address:hover {
+.buttonAddress:hover {
   background-color: #2c8eb8;
 }
 
-.button_add {
+.buttonAdd {
   border: none;
   background: none;
   font-size: 150%;
@@ -197,19 +198,19 @@
   color: #0c5675;
 }
 
-.phone_number {
+.phoneNumber {
   padding: 20px;
   box-shadow: 0 0 1px;
 }
 
-.footer_address {
+.footerAddress {
   display: flex;
   padding-bottom: 20px;
   justify-content: center;
   box-shadow: 0 0 1px;
 }
 
-.button_footer {
+.buttonFooter {
   width: 60px;
   align-items: center;
   justify-content: center;
@@ -223,7 +224,7 @@
   color: white;
 }
 
-.flex_column {
+.flexColumn {
   display: flex;
   flex-direction: column;
   text-align: left;
@@ -234,12 +235,12 @@
   height: 40px;
 }
 
-.warning_message {
+.warningMessage {
   color: red;
   font-size: 12px;
 }
 
-.input_address {
+.inputAddress {
   width: var(--input-width);
   border-radius: 2px;
   margin-top: 10px;
@@ -250,13 +251,13 @@
   font-size: 13px;
 }
 
-.minimum_field_message {
+.minimumFieldMessage {
   position: absolute;
   margin-top: 25px;
   font-size: 12px;
 }
 
-.input_address::placeholder {
+.inputAddress::placeholder {
   color: black;
   font-weight: 400;
 }
@@ -270,11 +271,11 @@
 }
 
 @media screen and (max-width: 800px) {
-  .main_content {
+  .mainContent {
     height: fit-content;
   }
   
-  .button_to_navigate {
+  .buttonToNavigate {
     position: relative;
     right: 0px;
     bottom: 0;
@@ -283,20 +284,20 @@
 }
 
 @media screen and (max-width: 650px) {
-  .form-flex {
+  .formFlex {
     grid-template-columns: 1fr;
   }
-  .side_bar {
+  .sideBar {
     width: 20%;
   }
-  .main_content {
+  .mainContent {
     height: fit-content;
     /* margin-left: 8rem; */
   }
 }
 
 @media screen and (max-width: 550px) {
-  .button_to_navigate {
+  .buttonToNavigate {
     position: relative;
     right: 0px;
     bottom: 0px;
@@ -304,11 +305,11 @@
   .textColor {
     padding-left: 0px;
   }
-  .main_content {
+  .mainContent {
     margin-top: 70px;
     margin-left: -150px;
   }
-  .side_bar {
+  .sideBar {
     width: 100%;
     height: 10%;
     flex-direction: row;
@@ -318,31 +319,31 @@
 }
 
 @media screen and (max-width: 490px) {
-  .main_content {
+  .mainContent {
     height: fit-content;
     margin-left: -200px;
     margin-bottom: 30px;
   }
 
-  .heading_address h3 {
+  .headingAddress h3 {
     font-size: 15px;
   }
 
-  .heading_address h1 {
+  .headingAddress h1 {
     font-size: 25px;
   }
-  .side_bar {
+  .sideBar {
     margin-top: 86px;
     height: 10%;
   }
 }
 
 @media screen and (max-width: 400px) {
-  .side_bar {
+  .sideBar {
     height: 8%;
   }
 
-  .container_main_page {
+  .containerMainPage {
     overflow-x:scroll ;
   }
 }

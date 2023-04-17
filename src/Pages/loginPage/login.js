@@ -4,17 +4,17 @@ import React, { useState, useEffect } from "react";
 import Logo from "../../Assets/logo.svg";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  Container_login,
-  Login_box,
-  Input_field,
+  ContainerLogin,
+  LoginBox,
+  InputField,
   Button,
   Header,
-  Input_tag,
-  Btn_reset,
-  Btn_sign,
-  Header_img,
+  InputTag,
+  ButtonReset,
+  ButtonSign,
+  HeaderImg,
   Pass,
-  H2_tag,
+  H2Tag
 } from "./login.style";
 
 
@@ -25,8 +25,8 @@ function Login() {
   // function to navigate to the address book page and validate email
   function LoginToAddressList(e) {
     e.preventDefault();
-    const email = document.getElementById("email-login");
-    const password = document.getElementById("password-login");
+    const email = document.getElementById("emailLogin");
+    const password = document.getElementById("passwordLogin");
     const warning = document.getElementById("warning");
   
     // email validation regular expression
@@ -35,27 +35,28 @@ function Login() {
     if (emailRegex.test(email.value) && email.value === "yuvi@gmail.com" && password.value === "yuvi") {
       Navigate("/home");
       localStorage.setItem("auth", true);
-    } else if (email.value === "" || password.value === "") {
-      warning.innerText = "Email and password are required";
-      setMessage("");
+    } else if (password.value === "" && email.value === "") {
+      warning.innerText = "Password is required";
+      setMessage("Email is required");
       email.style.borderColor = "red";
       password.style.borderColor = "red";
-    } else if (!emailRegex.test(email.value)) {
+    }
+    else if (!emailRegex.test(email.value) && password.value !== "") {
       setMessage("Please enter a valid email address");
       email.style.borderColor = "red";
       password.style.borderColor = "gray";
-      warning.innerText = "Password is required";
-    } else if (email.value === "yuvi@gmail.com" && password.value !== "yuvi") {
+      warning.innerText = "";
+    }else if (email.value === "yuvi@gmail.com" && password.value !== "yuvi") {
       setMessage("");
       warning.innerText = "Incorrect password!!";
       password.style.borderColor = "red";
       email.style.borderColor = "gray";
-    } else if (password.value === "") {
+    } else if (password.value === "" && email.value !== "") {
       warning.innerText = "Password is required";
       setMessage("");
       email.style.borderColor = "gray";
       password.style.borderColor = "red";
-    } else if (email.value === "") {
+    } else if (password.value !== "" && email.value === "") {
       setMessage("Email is required");
       email.style.borderColor = "red";
       password.style.borderColor = "gray";
@@ -66,11 +67,11 @@ function Login() {
       email.style.borderColor = "red";
       password.style.borderColor = "red";
     }
-  }
+  } 
 
   // function to reset the form fields
   function Reset() {
-    document.getElementById("reset-function").reset();
+    document.getElementById("resetFunction").reset();
   }
 
   useEffect(() => {
@@ -78,45 +79,45 @@ function Login() {
   });
 
   return (
-    <Container_login>
-      <Login_box id="reset-function">
-        <Header_img src={Logo} width="40px" alt="Logo" />
+    <ContainerLogin>
+      <LoginBox id="resetFunction">
+        <HeaderImg src={Logo} width="40px" alt="Logo" />
         <Header>Address Book</Header>
-        <H2_tag>Login to your account</H2_tag>
-        <Input_field>
-        <span className="flex_column">
-          <Input_tag type="email" placeholder="Email" id="email-login" />
+        <H2Tag>Login to your account</H2Tag>
+        <InputField>
+        <span className="flexColumn">
+          <InputTag type="email" placeholder="Email" id="emailLogin" />
           {message && (
-            <div className="warning_message">{message}</div>
+            <div className="warningMessage">{message}</div>
           )}
           </span>
-        </Input_field>
-        <Input_field>
-          <span className="flex_column">
-          <Input_tag
+        </InputField>
+        <InputField>
+          <span className="flexColumn">
+          <InputTag
             type="password"
             placeholder="Password"
-            id="password-login"
+            id="passwordLogin"
           />
-          <div id="warning" className="warning_message"></div>
+          <div id="warning" className="warningMessage"></div>
           </span>
-        </Input_field>
+        </InputField>
 
         <Pass>
-          <Link to="/forgot" className="forgot_login">
+          <Link to="/forgot" className="forgotLogin">
             Forgot Password?
           </Link>
         </Pass>
         <Button>
-          <Btn_sign type="submit" onClick={LoginToAddressList}>
+          <ButtonSign type="submit" onClick={LoginToAddressList}>
             Sign in
-          </Btn_sign>
-          <Btn_reset type="button" onClick={Reset}>
+          </ButtonSign>
+          <ButtonReset type="button" onClick={Reset}>
             Reset
-          </Btn_reset>
+          </ButtonReset>
         </Button>
-      </Login_box>
-    </Container_login>
+      </LoginBox>
+    </ContainerLogin>
   );
 }
 
