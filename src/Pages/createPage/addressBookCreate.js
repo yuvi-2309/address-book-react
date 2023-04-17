@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-globals */
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 import { Modal } from "antd";
 import "./addressBook.css";
@@ -13,7 +13,6 @@ function CreateAddressBook({
 }) {
   // regex for validation
   const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
-  const nameRegex = /^([a-zA-Z]{1,29})+$/;
   const numberRegex = /^(\+?\d{1,2}[ -]?)?\d{10}$/;
   const addressRegex = /^[a-zA-Z0-9\s,.-/]+$/;
   const pinCodeRegex = /^\d{6}$/;
@@ -51,6 +50,38 @@ function CreateAddressBook({
     type_address: "",
   });
 
+  const [firstNameError, setFirstNameError] = useState('');
+  const [lastNameError, setLastNameError] = useState('');
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+
+  const validateFirstName = () => {
+    if (!formData.first_name) {
+      setFirstNameError('First name is required');
+    } else if (formData.first_name.length < 2) {
+      setFirstNameError('First name must be at least 2 characters long');
+    } else if (!/^[a-zA-Z]+$/.test(formData.first_name)) {
+      setFirstNameError('First name must contain only letters');
+    } else {
+      setFirstNameError('');
+    }
+  };
+
+  const validateLastName = () => {
+    if (!formData.last_name) {
+      setLastNameError('Last name is required');
+    } else if (!/^[a-zA-Z]+$/.test(formData.last_name)) {
+      setLastNameError('Last name must contain only letters');
+    } else {
+      setLastNameError('');
+    }
+  };
+  
+  useEffect(() => {
+    validateFirstName();
+    validateLastName();
+  }, [formData.first_name, formData.last_name]);
+
   const [address, setAddress] = useState([]);
   const [editAddressID, setEditAddressID] = useState(null);
   const [isAddingAddress, setIsAddingAddress] = useState(false);
@@ -77,7 +108,7 @@ function CreateAddressBook({
     } else {
       validate(
         "line 1",
-        "address_line1_warning",
+        "addressLine1Warning",
         editAddress.address_line1,
         addressRegex
       );
@@ -260,43 +291,21 @@ function CreateAddressBook({
     // boolean to check whether all the fields are empty or not
     let allFieldsValid = true;
 
-    // check first name
-    const firstNameValid = validate(
-      "name",
-      "nameWarning",
-      formData.first_name,
-      nameRegex
-    );
-
-    // Check last name
-    const lastNameValid = validate(
-      "last name",
-      "lastNameWarning",
-      formData.last_name,
-      nameRegex
-    );
-
-    if (!firstNameValid && !lastNameValid) {
-      allFieldsValid = false;
-    }
-
     // Check all email fields
     formData.emails.forEach((email, index) => {
       const value = email.email;
       if (!value) {
-        document.getElementById(`email_warning${index}`).textContent =
-          "This field is required";
+        document.getElementById(`emailWarning${index}`).textContent = "This field is required";
         document.getElementById(`email${index}`).style.borderColor = "red";
         allFieldsValid = false;
       }
     });
-
+    
     // Check all phone number fields
     formData.phone_number.forEach((phone, index) => {
       const value = phone.phone_number;
       if (!value) {
-        document.getElementById(`phone_warning${index}`).textContent =
-          "This field is required";
+        document.getElementById(`phoneWarning${index}`).textContent = "This field is required";
         document.getElementById(`phone number${index}`).style.borderColor =
           "red";
         allFieldsValid = false;
@@ -312,8 +321,11 @@ function CreateAddressBook({
       }, 2000);
     }
 
+    if (firstNameError && lastNameError) {
+      allFieldsValid = false;
+    }
     // if all fields are valid, submit form
-    if (allFieldsValid) {
+    if (allFieldsValid ) {
       onFormDataChange(updatedFormData);
     }
   };
@@ -336,7 +348,7 @@ function CreateAddressBook({
           <span className="flexColumn">
             <input
               name="first_name"
-              className="inputAddress"
+              className={`inputAddress ${firstNameError ? 'warningBorderColor' : ''}`}
               placeholder="First Name"
               type="text"
               id="name"
@@ -344,30 +356,28 @@ function CreateAddressBook({
               value={formData.first_name}
               onChange={(event) => {
                 setFormData({ ...formData, first_name: event.target.value });
-                validate("name", "nameWarning", event.target.value, nameRegex);
+
               }}
+              
             />
-            <div id="nameWarning" className="warningMessage"></div>
+            {/* <div id="nameWarning" className="warningMessage"></div> */}
+            {firstNameError && <div className="warningMessage">{firstNameError}</div>}
           </span>
           <span className="flexColumn">
             <input
               name="last_name"
-              className="inputAddress"
+              className={`inputAddress ${lastNameError ? 'warningBorderColor' : ''}`}
               placeholder="Last Name"
               type="text"
               id="last name"
               value={formData.last_name}
               onChange={(event) => {
                 setFormData({ ...formData, last_name: event.target.value });
-                validate(
-                  "last name",
-                  "lastNameWarning",
-                  event.target.value,
-                  nameRegex
-                );
+                
               }}
             />
-            <div id="lastNameWarning" className="warningMessage"></div>
+            {/* <div id="lastNameWarning" className="warningMessage"></div> */}
+            {lastNameError && <div className="warningMessage">{lastNameError}</div>}
           </span>
         </div>
 
@@ -395,13 +405,13 @@ function CreateAddressBook({
                   });
                   validate(
                     "line 1",
-                    "address_line1_warning",
+                    "addressLine1Warning",
                     event.target.value,
                     addressRegex
                   );
                 }}
               />
-              <div id="address_line1_warning" className="warningMessage"></div>
+              <div id="addressLine1Warning" className="warningMessage"></div>
             </span>
             <span className="flexColumn">
               <input

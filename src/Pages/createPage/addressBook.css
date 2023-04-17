@@ -198,6 +198,10 @@
   color: #0c5675;
 }
 
+.inputAddress.warningBorderColor {
+  border: 1px solid red;
+}
+
 .phoneNumber {
   padding: 20px;
   box-shadow: 0 0 1px;
@@ -315,6 +319,9 @@
     flex-direction: row;
     margin-top: 80px;
     align-items: center;
+  }
+  .nameField {
+    grid-template-columns: 1fr;
   }
 }
 
