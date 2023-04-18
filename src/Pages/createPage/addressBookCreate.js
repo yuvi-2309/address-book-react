@@ -101,6 +101,7 @@ function CreateAddressBook({
     if (values.addressLine1 && values.addressLine2) {
       if (editAddressID === null) {
         setAddress([...address, values]);
+        
       } else {
         address[editAddressID] = values;
       }
@@ -316,7 +317,17 @@ function CreateAddressBook({
       }
     });
 
-    if (firstNameError && lastNameError) {
+    // to check atleast one address is added in the table
+    // if (!isAddingAddress) {
+    //   document.getElementById("addressValidation").textContent =
+    //     "Atleast one address is required";
+    //   allFieldsValid = false;
+    //   setTimeout(() => {
+    //     document.getElementById("addressValidation").textContent = "";
+    //   }, 2000);
+    // }
+
+    if (firstNameError || lastNameError) {
       allFieldsValid = false;
     }
 
@@ -332,13 +343,12 @@ function CreateAddressBook({
     { value: "Work", label: "Work" },
   ];
 
-  // function to handle the cancel button in the create page
   const handleCancel = () => {
     cancel(true);
   };
 
   return (
-    <>
+    <React.Fragment>
       <form onSubmit={handleSubmit} className="reset">
         {/* input fields for name */}
         <div className="nameField">
@@ -746,7 +756,7 @@ function CreateAddressBook({
           </button>
         </div>
       </form>
-    </>
+    </React.Fragment>
   );
 }
 
