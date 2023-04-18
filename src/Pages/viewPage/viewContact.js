@@ -4,7 +4,6 @@ import React from "react";
 import { Detail, ImportantDetail, ListContent, PrimaryDetail, SecondaryDetail, Span, ViewMainList } from "./viewContact.style";
 
 export default function View({ state, editDetailsView }) {
-console.log(state)
   const addressList = state.addresses.map((item, addressIndex) => (
     <Span key={item.typeAddress}>
       <ImportantDetail>{item.typeAddress}</ImportantDetail>

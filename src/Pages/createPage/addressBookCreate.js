@@ -84,7 +84,6 @@ function CreateAddressBook({
 
   const [address, setAddress] = useState([]);
   const [editAddressID, setEditAddressID] = useState(null);
-  const [isAddingAddress, setIsAddingAddress] = useState(false);
 
   /**
    * This function handles adding or editing an address and performs validation on the input fields.
@@ -102,7 +101,6 @@ function CreateAddressBook({
     if (values.addressLine1 && values.addressLine2) {
       if (editAddressID === null) {
         setAddress([...address, values]);
-        setIsAddingAddress(true);
       } else {
         address[editAddressID] = values;
       }
@@ -334,12 +332,13 @@ function CreateAddressBook({
     { value: "Work", label: "Work" },
   ];
 
+  // function to handle the cancel button in the create page
   const handleCancel = () => {
     cancel(true);
   };
 
   return (
-    <React.Fragment>
+    <>
       <form onSubmit={handleSubmit} className="reset">
         {/* input fields for name */}
         <div className="nameField">
@@ -747,7 +746,7 @@ function CreateAddressBook({
           </button>
         </div>
       </form>
-    </React.Fragment>
+    </>
   );
 }
 

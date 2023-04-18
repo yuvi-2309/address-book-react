@@ -33,17 +33,17 @@
   margin: 15px 5px 0 5px;
 }
 
-@media screen and (max-width:800px){
+@media screen and (max-width: 800px) {
   .buttonContainer button {
     padding: 0.2rem 0.4rem;
   }
 }
 
-@media screen and (max-width:650px){
+@media screen and (max-width: 650px) {
   .buttonContainer button {
     padding: 0.1rem 0.3rem;
   }
   .carouselArrow {
-  margin: 12px 5px 0px 5px;
-}
+    margin: 12px 5px 0px 5px;
+  }
 }

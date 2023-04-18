@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 
 .mainPageList {
- height: fit-content;
+  height: fit-content;
   margin: 15px 10px 0 10px;
   position: relative;
 }
@@ -14,7 +14,6 @@ table {
 
 thead {
   background-color: #f2f2f2;
-  
 }
 
 thead th {
@@ -60,7 +59,7 @@ tbody td {
   font-size: 16px;
   text-align: left;
   margin: 50px 0 -60px 20px;
-}  
+}
 .carousel {
   position: relative;
   margin: 40px 0 10px 45%;
@@ -72,7 +71,7 @@ tbody td {
   justify-content: center;
 }
 
-.flexRow{
+.flexRow {
   display: flex;
 }
 
@@ -84,7 +83,6 @@ tbody td {
   width: 100%;
   z-index: 1;
   box-shadow: 0 0 5px;
-  
 }
 
 .headingAddress h3 {
@@ -106,16 +104,16 @@ tbody td {
   position: relative;
 }
 
-.sideBarContent{
-  padding: 10px 10px; 
-} 
+.sideBarContent {
+  padding: 10px 10px;
+}
 
 .sideBarContent:hover {
   background-color: #74acc4;
 }
 
 @media screen and (max-width: 1000px) {
-  .containerMainPage{
+  .containerMainPage {
     width: 74vw;
     margin-left: -7%;
   }
@@ -125,14 +123,14 @@ tbody td {
   }
 }
 
-@media screen and (max-width: 800px){
+@media screen and (max-width: 800px) {
   tbody td {
-  padding: 2px;
-}
+    padding: 2px;
+  }
   .carousel {
     margin-left: 25%;
   }
-  .containerMainPage{
+  .containerMainPage {
     width: 70vw;
     margin-left: -5%;
   }
@@ -156,11 +154,11 @@ tbody td {
 
   tbody td {
     font-size: 16px;
-  padding: 0px;
-}
-.containerMainPage {
-  margin-left: 30px;
-  overflow-x: scroll;
-}
-}
+    padding: 0px;
+  }
 
+  .containerMainPage {
+    margin-left: 30px;
+    overflow-x: scroll;
+  }
+}

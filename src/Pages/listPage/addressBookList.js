@@ -8,7 +8,6 @@ import View from "../viewPage/viewContact";
 import NumberCarousel from "./carousel";
 
 function AddressList() {
-
   // useStates
   const [formData, setFormData] = useState([]);
   const [isSubmitted, setIsSubmitted] = useState(true);
@@ -43,13 +42,13 @@ function AddressList() {
   const filteredData = items.filter((item) =>
     item.firstName.includes(searchQuery)
   );
- 
-const handleCancel = (data) => {
-  pageNav(data)
-}
+
+  const handleCancel = (data) => {
+    pageNav(data);
+  };
   // function to navigate between create and list page
   const pageNav = (data) => {
-    if(data) {
+    if (data) {
       setIsSubmitted(false);
     }
     isSubmitted ? setIsSubmitted(false) : setIsSubmitted(true);
@@ -88,7 +87,6 @@ const handleCancel = (data) => {
     setIsSubmitted(false);
   };
 
-
   // function to handle the number carousel
   let data = searchQuery.length === 0 ? formData : filteredData;
   const [currentPage, setCurrentPage] = useState(1);
@@ -100,7 +98,6 @@ const handleCancel = (data) => {
     setCurrentPage(page);
   };
 
-
   // statement to assign a common name for the nested ternary operator
   let buttonText;
   if (viewAddress) {
@@ -110,11 +107,11 @@ const handleCancel = (data) => {
   } else {
     buttonText = "List Page";
   }
-  
+
   return (
     <>
       {/* bread scrumbs */}
-     
+
       <div className="navBar">
         <Link to="/home" className="textColor">
           Home /
@@ -126,163 +123,158 @@ const handleCancel = (data) => {
         >
           Address Book
         </Link>
-      
+
         {/* button to navigate to create and list page */}
-        <button
-          className="buttonToNavigate"
-          onClick={pageNav}
-          id="changePage"
-        >
+        <button className="buttonToNavigate" onClick={pageNav} id="changePage">
           {buttonText}
         </button>
       </div>
       <div className="containerMainPage">
-      <div className="mainPage">
-        {/* view page is called here */}
-        {viewAddress ? (
-          <View state={selectedData} />
-        ) : (
-          <>
-            {isSubmitted ? (
-              // list page
-              <>
-                <div className="mainPageList">
-                  {/* renders if there is no data in the table */}
-                  {formData.length === 0 ? (
-                    <div className="searchQueryMessage">No records to display</div>
-                  ) : (
-                    <>
-                      <input
-                        placeholder="Search"
-                        name="search"
-                        id="search"
-                        autoComplete="off"
-                        onChange={(e) => {
-                          setSearchQuery(e.target.value);
-                        }}
-                        className="searchQuery"
-                      ></input>
-
-                      {/* table to display the records */}
-                      <table>
-                        <thead>
-                          <tr>
-                            <th>Name</th>
-                            <th>Phone Number</th>
-                            <th>Email</th>
-                            <th>Address</th>
-                            <th>Actions</th>
-                          </tr>
-                        </thead>
-
-                        <tbody>
-                          {/* renders if there is no search query */}
-
-
-                          <>
-                            {displayedData.map((item, index) => (
-                              <>
-                              <tr key={item.firstName}>
-                                <td>
-                                  {item.firstName} {item.lastName}
-                                </td>
-                                <td>
-                                  {item.phoneNumber
-                                    .map((phone, phoneIndex) => (
-                                      <span key={phone.phoneIndex}>
-                                        {phone.phoneNumber}
-                                      </span>
-                                    ))
-                                    .slice(0, 1)}
-                                </td>
-                                <td>
-                                  {item.emails
-                                    .map((email, emailIndex) => (
-                                      <span key={email.email}>
-                                        {email.email}
-                                      </span>
-                                    ))
-                                    .slice(0, 1)}
-                                </td>
-                                <td>
-                                  {item.addresses
-                                    .map((address, addressIndex) => {
-                                      const addressStr = `${address.addressLine1}, ${address.addressline2}, ${address.city}, ${address.state}, ${address.country}-${address.pinCode}`;
-                                      return (
-                                        <span key={address.addressLine1}>
-                                          {addressStr}
-                                        </span>
-                                      );
-                                    })
-                                    .slice(0, 1)}
-                                </td>
-                                <td>
-                                  <span className="listButtons">
-                                    <button
-                                      onClick={() => handleViewClick(item)}
-                                      className="buttonList"
-                                    >
-                                      View details
-                                    </button>
-                                    <button
-                                      onClick={() => handleEdit(index, item)}
-                                      className="buttonList"
-                                    >
-                                      Edit
-                                    </button>
-
-                                    <button
-                                      onClick={handleDelete(index)}
-                                      className="buttonList"
-                                    >
-                                      Delete
-                                    </button>
-                                  </span>
-                                </td>
-                              </tr>
-                              
-                            </>
-                            ))}
-                            
-                          </>
-                        </tbody>
-                        
-                      </table>
-
-                      <div className="carousel">
-                              <NumberCarousel
-                                numPages={numPages}
-                                currentPage={currentPage}
-                                onPageChange={handlePageChange}
-                              />
-      
-                            </div>
-                    </>
-                  )}
-
-                  {/* renders if the search query is not found */}
-                  {searchQuery  && filteredData.length === 0 && (
-                    <>
+        <div className="mainPage">
+          {/* view page is called here */}
+          {viewAddress ? (
+            <View state={selectedData} />
+          ) : (
+            <>
+              {isSubmitted ? (
+                // list page
+                <>
+                  <div className="mainPageList">
+                    {/* renders if there is no data in the table */}
+                    {formData.length === 0 ? (
                       <div className="searchQueryMessage">
-                        Searched field does not exist
+                        No records to display
                       </div>
-                    </>
-                  )}
-                </div>
-              </>
-            ) : (
-              // child page is called here
-              <CreateAddressBook
-                cancel={handleCancel}
-                editValue={editData}
-                onFormDataChange={handleFormDataChange}
-                editID={editDataID}
-                // editDetailsView = {editDataView}
-              />
-            )}
-          </>
-        )}
-      </div>
+                    ) : (
+                      <>
+                        <input
+                          placeholder="Search"
+                          name="search"
+                          id="search"
+                          autoComplete="off"
+                          onChange={(e) => {
+                            setSearchQuery(e.target.value);
+                          }}
+                          className="searchQuery"
+                        ></input>
+
+                        {/* table to display the records */}
+                        <table>
+                          <thead>
+                            <tr>
+                              <th>Name</th>
+                              <th>Phone Number</th>
+                              <th>Email</th>
+                              <th>Address</th>
+                              <th>Actions</th>
+                            </tr>
+                          </thead>
+
+                          <tbody>
+                            {/* renders if there is no search query */}
+
+                            <>
+                              {displayedData.map((item, index) => (
+                                <>
+                                  <tr key={item.firstName}>
+                                    <td>
+                                      {item.firstName} {item.lastName}
+                                    </td>
+                                    <td>
+                                      {item.phoneNumber
+                                        .map((phone, phoneIndex) => (
+                                          <span key={phone.phoneIndex}>
+                                            {phone.phoneNumber}
+                                          </span>
+                                        ))
+                                        .slice(0, 1)}
+                                    </td>
+                                    <td>
+                                      {item.emails
+                                        .map((email, emailIndex) => (
+                                          <span key={email.email}>
+                                            {email.email}
+                                          </span>
+                                        ))
+                                        .slice(0, 1)}
+                                    </td>
+                                    <td>
+                                      {item.addresses
+                                        .map((address, addressIndex) => {
+                                          const addressStr = `${address.addressLine1}, ${address.addressline2}, ${address.city}, ${address.state}, ${address.country}-${address.pinCode}`;
+                                          return (
+                                            <span key={address.addressLine1}>
+                                              {addressStr}
+                                            </span>
+                                          );
+                                        })
+                                        .slice(0, 1)}
+                                    </td>
+                                    <td>
+                                      <span className="listButtons">
+                                        <button
+                                          onClick={() => handleViewClick(item)}
+                                          className="buttonList"
+                                        >
+                                          View details
+                                        </button>
+                                        <button
+                                          onClick={() =>
+                                            handleEdit(index, item)
+                                          }
+                                          className="buttonList"
+                                        >
+                                          Edit
+                                        </button>
+
+                                        <button
+                                          onClick={handleDelete(index)}
+                                          className="buttonList"
+                                        >
+                                          Delete
+                                        </button>
+                                      </span>
+                                    </td>
+                                  </tr>
+                                </>
+                              ))}
+                            </>
+                          </tbody>
+                        </table>
+
+                        <div className="carousel">
+                          <NumberCarousel
+                            numPages={numPages}
+                            currentPage={currentPage}
+                            onPageChange={handlePageChange}
+                          />
+                        </div>
+                      </>
+                    )}
+
+                    {/* renders if the search query is not found */}
+                    {searchQuery && filteredData.length === 0 && (
+                      <>
+                        <div className="searchQueryMessage">
+                          Searched field does not exist
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </>
+              ) : (
+                // child page is called here
+                <CreateAddressBook
+                  cancel={handleCancel}
+                  editValue={editData}
+                  onFormDataChange={handleFormDataChange}
+                  editID={editDataID}
+                  // editDetailsView = {editDataView}
+                />
+              )}
+            </>
+          )}
+        </div>
       </div>
     </>
   );

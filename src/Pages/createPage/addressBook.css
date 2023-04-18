@@ -277,7 +277,7 @@
   .mainContent {
     height: fit-content;
   }
-  
+
   .buttonToNavigate {
     position: relative;
     right: 0px;
@@ -350,6 +350,6 @@
   }
 
   .containerMainPage {
-    overflow-x:scroll ;
+    overflow-x: scroll;
   }
 }

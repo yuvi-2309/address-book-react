@@ -5,13 +5,15 @@ import AddressList from "../listPage/addressBookList";
 import { Outlet, Route, Routes } from "react-router-dom";
 
 const NavPage = () => {
-  return (<>
-    <Routes>
-      <Route path="/" element={<AddressList  />} />
-      <Route path="/address-book-create" element={<CreateAddressBook />} />
-    </Routes>
-    <div>
-    <Outlet /></div>
+  return (
+    <>
+      <Routes>
+        <Route path="/" element={<AddressList />} />
+        <Route path="/address-book-create" element={<CreateAddressBook />} />
+      </Routes>
+      <div>
+        <Outlet />
+      </div>
     </>
   );
 };

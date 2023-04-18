@@ -72,5 +72,5 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 Use of dependencies
     1. antd : For the popup of the delete record in table
-    2. styled-components : Used in the login page
+    2. styled-components : Used in the login, view and forgot pages
     3. react-icons : Used in the carousel page for the arrows

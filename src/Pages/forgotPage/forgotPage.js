@@ -8,7 +8,6 @@ function Forgot() {
   const emailRegex = /^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$/;
   const [emailSent, setEmailSent] = useState(false);
 
-
   // function to validate email
   const validateEmail = (event) => {
     const emailbox = document.getElementById("email");
@@ -26,9 +25,8 @@ function Forgot() {
   // function to send mail in the console for now
   const sendMail = (event) => {
     const email = document.getElementById("email").value;
-    console.log(email);
     const clear = document.getElementById("reset");
-    if(email !== ""){
+    if (email !== "") {
       setEmailSent(true);
     }
     clear.reset();
@@ -40,7 +38,7 @@ function Forgot() {
   return (
     <div className="containerForgot">
       <form className="loginBoxForgot" id="reset">
-        <img src={Logo} className="headerImgForgot logo" alt="Logo"/>
+        <img src={Logo} className="headerImgForgot logo" alt="Logo" />
         <h1 className="headerForgot">Address Book</h1>
         <div className="inputGroupForgot">
           <h3>Forgot Password?</h3>
@@ -58,17 +56,15 @@ function Forgot() {
             onBlur={validateEmail}
             required
           />
-          <div
-            id="emailWarning"
-            className="warningMessage"
-          ></div>
-          {emailSent && <div className="emailSentMessage">Email sent successfully!</div>}
+          <div id="emailWarning" className="warningMessage"></div>
+          {emailSent && (
+            <div className="emailSentMessage">Email sent successfully!</div>
+          )}
           <button className="buttonForgot" type="button" onClick={sendMail}>
             Send
           </button>
         </div>
       </form>
-      
     </div>
   );
 }

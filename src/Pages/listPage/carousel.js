@@ -1,5 +1,5 @@
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import "./carousel.css"
+import "./carousel.css";
 
 function NumberCarousel({ numPages, currentPage, onPageChange }) {
   const pages = [...Array(numPages).keys()].map((i) => i + 1);
