@@ -22,65 +22,65 @@ function CreateAddressBook({
     initialValue
       ? initialValue
       : {
-          first_name: "",
-          last_name: "",
+          firstName: "",
+          lastName: "",
           emails: [{}],
-          phone_number: [{}],
+          phoneNumber: [{}],
           addresses: [
             {
-              address_line1: "",
-              address_line2: "",
+              addressLine1: "",
+              addressLine2: "",
               state: "",
               city: "",
               country: "",
-              pin_code: "",
-              type_address: "",
+              pinCode: "",
+              typeAddress: "",
             },
           ],
         }
   );
 
   const [editAddress, setEditAddress] = useState({
-    address_line1: "",
-    address_line2: "",
+    addressLine1: "",
+    addressLine2: "",
     state: "",
     city: "",
     country: "",
-    pin_code: "",
-    type_address: "",
+    pinCode: "",
+    typeAddress: "",
   });
 
-  const [firstNameError, setFirstNameError] = useState('');
-  const [lastNameError, setLastNameError] = useState('');
+  const [firstNameError, setFirstNameError] = useState("");
+  const [lastNameError, setLastNameError] = useState("");
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
 
   const validateFirstName = () => {
-    if (!formData.first_name) {
-      setFirstNameError('First name is required');
-    } else if (formData.first_name.length < 2) {
-      setFirstNameError('First name must be at least 2 characters long');
-    } else if (!/^[a-zA-Z]+$/.test(formData.first_name)) {
-      setFirstNameError('First name must contain only letters');
+    if (!formData.firstName) {
+      setFirstNameError("First name is required");
+    } else if (formData.firstName.length < 2) {
+      setFirstNameError("First name must be at least 2 characters long");
+    } else if (!/^[a-zA-Z]+$/.test(formData.firstName)) {
+      setFirstNameError("First name must contain only letters");
     } else {
-      setFirstNameError('');
+      setFirstNameError("");
     }
   };
 
   const validateLastName = () => {
-    if (!formData.last_name) {
-      setLastNameError('Last name is required');
-    } else if (!/^[a-zA-Z]+$/.test(formData.last_name)) {
-      setLastNameError('Last name must contain only letters');
+    if (!formData.lastName) {
+      setLastNameError("Last name is required");
+    } else if (!/^[a-zA-Z]+$/.test(formData.lastName)) {
+      setLastNameError("Last name must contain only letters");
     } else {
-      setLastNameError('');
+      setLastNameError("");
     }
   };
-  
+
   useEffect(() => {
     validateFirstName();
     validateLastName();
-  }, [formData.first_name, formData.last_name]);
+  }, [formData.firstName, formData.lastName]);
 
   const [address, setAddress] = useState([]);
   const [editAddressID, setEditAddressID] = useState(null);
@@ -93,12 +93,13 @@ function CreateAddressBook({
     const formData = Array.from(
       inputRef.current.querySelectorAll(".addressFields")
     );
+
     const values = formData.reduce((data, input) => {
       data[input.name] = input.value;
       return data;
     }, {});
 
-    if (values.address_line1 && values.address_line2) {
+    if (values.addressLine1 && values.addressLine2) {
       if (editAddressID === null) {
         setAddress([...address, values]);
         setIsAddingAddress(true);
@@ -109,33 +110,28 @@ function CreateAddressBook({
       validate(
         "line 1",
         "addressLine1Warning",
-        editAddress.address_line1,
+        editAddress.addressLine1,
         addressRegex
       );
       validate(
         "line 2",
         "addressLine2Warning",
-        editAddress.address_line2,
+        editAddress.addressLine2,
         addressRegex
       );
       validate("city", "cityWarning", editAddress.city, addressRegex);
       validate("state", "stateWarning", editAddress.state, addressRegex);
-      validate(
-        "pin code",
-        "pinCodeWarning",
-        editAddress.pin_code,
-        pinCodeRegex
-      );
+      validate("pin code", "pinCodeWarning", editAddress.pinCode, pinCodeRegex);
     }
     setEditAddressID(null);
     setEditAddress({
-      address_line1: "",
-      address_line2: "",
+      addressLine1: "",
+      addressLine2: "",
       state: "",
       city: "",
       country: "",
-      pin_code: "",
-      type_address: "",
+      pinCode: "",
+      typeAddress: "",
     });
   };
 
@@ -241,16 +237,16 @@ function CreateAddressBook({
   // function to handle the input change in phone
   const handleInputChangePhone = (event, index) => {
     const { name, value } = event.target;
-    const phone_number = [...formData.phone_number];
-    phone_number[index][name] = value;
-    setFormData({ ...formData, phone_number });
+    const phoneNumber = [...formData.phoneNumber];
+    phoneNumber[index][name] = value;
+    setFormData({ ...formData, phoneNumber });
   };
 
   // function to add new fields in the phone column
   const handleAddFieldsPhone = () => {
-    const phone_number = [...formData.phone_number];
-    phone_number.push({});
-    setFormData({ ...formData, phone_number });
+    const phoneNumber = [...formData.phoneNumber];
+    phoneNumber.push({});
+    setFormData({ ...formData, phoneNumber });
   };
 
   /**
@@ -263,7 +259,7 @@ function CreateAddressBook({
    */
   const removeField = (index, field) => {
     const warningMessage = document.getElementById(
-      `minimum_field_warning_${field}`
+      `minimumFieldWarning_${field}`
     );
     if (index > 0) {
       const updatedField = [...formData[field]];
@@ -286,7 +282,15 @@ function CreateAddressBook({
   const handleSubmit = (event) => {
     event.preventDefault();
     const updatedFormData = { ...formData };
-    updatedFormData.addresses = address;
+    if (
+      editAddress.addressLine1 !== "" &&
+      editAddress.addressLine2 &&
+      !address.length === 0
+    ) {
+      updatedFormData.addresses = [editAddress];
+    } else {
+      updatedFormData.addresses = address;
+    }
 
     // boolean to check whether all the fields are empty or not
     let allFieldsValid = true;
@@ -295,37 +299,31 @@ function CreateAddressBook({
     formData.emails.forEach((email, index) => {
       const value = email.email;
       if (!value) {
-        document.getElementById(`emailWarning${index}`).textContent = "This field is required";
+        document.getElementById(`emailWarning${index}`).textContent =
+          "This field is required";
         document.getElementById(`email${index}`).style.borderColor = "red";
         allFieldsValid = false;
       }
     });
-    
+
     // Check all phone number fields
-    formData.phone_number.forEach((phone, index) => {
-      const value = phone.phone_number;
+    formData.phoneNumber.forEach((phone, index) => {
+      const value = phone.phoneNumber;
       if (!value) {
-        document.getElementById(`phoneWarning${index}`).textContent = "This field is required";
+        document.getElementById(`phoneWarning${index}`).textContent =
+          "This field is required";
         document.getElementById(`phone number${index}`).style.borderColor =
           "red";
         allFieldsValid = false;
       }
     });
 
-    if (!isAddingAddress) {
-      document.getElementById("addressValidation").textContent =
-        "Atleast one address is required";
-      allFieldsValid = false;
-      setTimeout(() => {
-        document.getElementById("addressValidation").textContent = "";
-      }, 2000);
-    }
-
     if (firstNameError && lastNameError) {
       allFieldsValid = false;
     }
+
     // if all fields are valid, submit form
-    if (allFieldsValid ) {
+    if (allFieldsValid) {
       onFormDataChange(updatedFormData);
     }
   };
@@ -347,37 +345,41 @@ function CreateAddressBook({
         <div className="nameField">
           <span className="flexColumn">
             <input
-              name="first_name"
-              className={`inputAddress ${firstNameError ? 'warningBorderColor' : ''}`}
+              name="firstName"
+              className={`inputAddress ${
+                firstNameError ? "warningBorderColor" : ""
+              }`}
               placeholder="First Name"
               type="text"
               id="name"
-              autoComplete="off"
-              value={formData.first_name}
+              value={formData.firstName}
               onChange={(event) => {
-                setFormData({ ...formData, first_name: event.target.value });
-
+                setFormData({ ...formData, firstName: event.target.value });
               }}
-              
             />
             {/* <div id="nameWarning" className="warningMessage"></div> */}
-            {firstNameError && <div className="warningMessage">{firstNameError}</div>}
+            {firstNameError && (
+              <div className="warningMessage">{firstNameError}</div>
+            )}
           </span>
           <span className="flexColumn">
             <input
-              name="last_name"
-              className={`inputAddress ${lastNameError ? 'warningBorderColor' : ''}`}
+              name="lastName"
+              className={`inputAddress ${
+                lastNameError ? "warningBorderColor" : ""
+              }`}
               placeholder="Last Name"
               type="text"
               id="last name"
-              value={formData.last_name}
+              value={formData.lastName}
               onChange={(event) => {
-                setFormData({ ...formData, last_name: event.target.value });
-                
+                setFormData({ ...formData, lastName: event.target.value });
               }}
             />
             {/* <div id="lastNameWarning" className="warningMessage"></div> */}
-            {lastNameError && <div className="warningMessage">{lastNameError}</div>}
+            {lastNameError && (
+              <div className="warningMessage">{lastNameError}</div>
+            )}
           </span>
         </div>
 
@@ -392,16 +394,16 @@ function CreateAddressBook({
           <div className="formGrid" ref={inputRef}>
             <span className="flexColumn">
               <input
-                name="address_line1"
+                name="addressLine1"
                 className="inputAddress addressFields"
                 placeholder="Line 1"
                 type="text"
                 id="line 1"
-                value={editAddress.address_line1}
+                value={editAddress.addressLine1}
                 onChange={(event) => {
                   setEditAddress({
                     ...editAddress,
-                    address_line1: event.target.value,
+                    addressLine1: event.target.value,
                   });
                   validate(
                     "line 1",
@@ -415,16 +417,16 @@ function CreateAddressBook({
             </span>
             <span className="flexColumn">
               <input
-                name="address_line2"
+                name="addressLine2"
                 className="inputAddress addressFields"
                 placeholder="Line 2"
                 type="text"
                 id="line 2"
-                value={editAddress.address_line2}
+                value={editAddress.addressLine2}
                 onChange={(event) => {
                   setEditAddress({
                     ...editAddress,
-                    address_line2: event.target.value,
+                    addressLine2: event.target.value,
                   });
                   validate(
                     "line 2",
@@ -478,15 +480,15 @@ function CreateAddressBook({
             </span>
             <span className="flexColumn">
               <input
-                name="pin_code"
+                name="pinCode"
                 className="inputAddress addressFields"
                 placeholder="Pin Code"
                 id="pin code"
-                value={editAddress.pin_code}
+                value={editAddress.pinCode}
                 onChange={(event) => {
                   setEditAddress({
                     ...editAddress,
-                    pin_code: event.target.value,
+                    pinCode: event.target.value,
                   });
                   validate(
                     "pin code",
@@ -522,12 +524,12 @@ function CreateAddressBook({
 
             <select
               className="select addressFields"
-              name="type_address"
-              value={editAddress.type_address}
+              name="typeAddress"
+              value={editAddress.typeAddress}
               onChange={(event) =>
                 setEditAddress({
                   ...editAddress,
-                  type_address: event.target.value,
+                  typeAddress: event.target.value,
                 })
               }
             >
@@ -561,11 +563,11 @@ function CreateAddressBook({
               </thead>
               <tbody>
                 {address.map((item, index) => {
-                  const addressStr = `${item.address_line1}, ${item.address_line2}, ${item.city}, ${item.state}, ${item.country}-${item.pin_code}`;
+                  const addressStr = `${item.addressLine1}, ${item.addressLine2}, ${item.city}, ${item.state}, ${item.country}-${item.pinCode}`;
                   return (
-                    <tr key={item.type_address}>
+                    <tr key={item.typeAddress}>
                       <td>{addressStr}</td>
-                      <td>{item.type_address}</td>
+                      <td>{item.typeAddress}</td>
                       <td>
                         <span className="listButtons">
                           <button
@@ -634,10 +636,10 @@ function CreateAddressBook({
                   ></div>
                 </span>
                 <select
-                  name="type_email"
+                  name="typeEmail"
                   className="select"
                   onChange={(event) => handleInputChangeEmails(event, index)}
-                  value={email.type_email}
+                  value={email.typeEmail}
                   required
                 >
                   <option disabled value="">
@@ -677,16 +679,16 @@ function CreateAddressBook({
               className="minimumFieldMessage"
             ></span>
           </div>
-          {formData.phone_number.map((phone, index) => (
+          {formData.phoneNumber.map((phone, index) => (
             <>
               <div className="nameBar" key={phone.phone}>
                 <span className="flexColumn">
                   <input
-                    name="phone_number"
+                    name="phoneNumber"
                     className="inputAddress"
                     placeholder="Phone Number"
                     id={`phone number${index}`}
-                    value={phone.phone_number}
+                    value={phone.phoneNumber}
                     onChange={(event) => {
                       handleInputChangePhone(event, index);
                       validate(
@@ -703,7 +705,7 @@ function CreateAddressBook({
                   ></div>
                 </span>
                 <select
-                  name="phone_number_type"
+                  name="phoneNumberType"
                   className="select"
                   onChange={(event) => {
                     handleInputChangePhone(event, index);
@@ -740,11 +742,7 @@ function CreateAddressBook({
           >
             {editID === null ? "Save" : "Update"}
           </button>
-          <button
-            className="buttonFooter"
-            type="button"
-            onClick={handleCancel}
-          >
+          <button className="buttonFooter" type="button" onClick={handleCancel}>
             Cancel
           </button>
         </div>

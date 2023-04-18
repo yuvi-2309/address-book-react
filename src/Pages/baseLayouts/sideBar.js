@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
-
 import { SideBarData } from "./sideBarData";
 
 function SideBar() {
@@ -16,15 +15,14 @@ function SideBar() {
       <div className="sideBar">
         {SideBarData.map((item, index) => {
           return (
-            <div key={item.title} className="sideBarContent">
-              <NavLink
-                to={item.path}
-                className="sideBarTextColor"
-                onClick={item.onclick}
-              >
-                {item.title}
-              </NavLink>
-            </div>
+            <NavLink
+              key={item.title}
+              to={item.path}
+              className="sideBarTextColor"
+              onClick={item.onclick}
+            >
+              <div className="sideBarContent">{item.title}</div>
+            </NavLink>
           );
         })}
       </div>

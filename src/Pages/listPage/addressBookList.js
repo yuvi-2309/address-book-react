@@ -14,10 +14,10 @@ function AddressList() {
   const [isSubmitted, setIsSubmitted] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [editData, setEditData] = useState({
-    first_name: "",
-    last_name: "",
+    firstName: "",
+    lastName: "",
     emails: [{}],
-    phone_number: [{}],
+    phoneNumber: [{}],
     addresses: [{}],
   });
 
@@ -41,7 +41,7 @@ function AddressList() {
   //function for search bar
   const items = formData;
   const filteredData = items.filter((item) =>
-    item.first_name.includes(searchQuery)
+    item.firstName.includes(searchQuery)
   );
  
 const handleCancel = (data) => {
@@ -66,8 +66,8 @@ const handleCancel = (data) => {
         onOk: () => {
           const items = formData;
           if (items.length > 0) {
-            const Index = index;
-            setFormData(items.filter((item, index) => index !== Index));
+            const tempIndex = index;
+            setFormData(items.filter((item, index) => index !== tempIndex));
           }
           event.preventDefault();
         },
@@ -182,22 +182,22 @@ const handleCancel = (data) => {
                           <>
                             {displayedData.map((item, index) => (
                               <>
-                              <tr key={item.first_name}>
+                              <tr key={item.firstName}>
                                 <td>
-                                  {item.first_name} {item.last_name}
+                                  {item.firstName} {item.lastName}
                                 </td>
                                 <td>
-                                  {item.phone_number
-                                    .map((phone, phone_index) => (
-                                      <span key={phone.phone_index}>
-                                        {phone.phone_number}
+                                  {item.phoneNumber
+                                    .map((phone, phoneIndex) => (
+                                      <span key={phone.phoneIndex}>
+                                        {phone.phoneNumber}
                                       </span>
                                     ))
                                     .slice(0, 1)}
                                 </td>
                                 <td>
                                   {item.emails
-                                    .map((email, email_index) => (
+                                    .map((email, emailIndex) => (
                                       <span key={email.email}>
                                         {email.email}
                                       </span>
@@ -206,10 +206,10 @@ const handleCancel = (data) => {
                                 </td>
                                 <td>
                                   {item.addresses
-                                    .map((address, address_index) => {
-                                      const addressStr = `${address.address_line1}, ${address.address_line2}, ${address.city}, ${address.state}, ${address.country}-${address.pin_code}`;
+                                    .map((address, addressIndex) => {
+                                      const addressStr = `${address.addressLine1}, ${address.addressline2}, ${address.city}, ${address.state}, ${address.country}-${address.pinCode}`;
                                       return (
-                                        <span key={address.address_line1}>
+                                        <span key={address.addressLine1}>
                                           {addressStr}
                                         </span>
                                       );

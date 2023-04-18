@@ -5,15 +5,15 @@ import { Detail, ImportantDetail, ListContent, PrimaryDetail, SecondaryDetail, S
 
 export default function View({ state, editDetailsView }) {
 console.log(state)
-  const addressList = state.addresses.map((item, address_index) => (
-    <Span key={item.type_address}>
-      <ImportantDetail>{item.type_address}</ImportantDetail>
-      <Detail>{item.address_line1}</Detail>
-      <Detail>{item.address_line2}</Detail>
+  const addressList = state.addresses.map((item, addressIndex) => (
+    <Span key={item.typeAddress}>
+      <ImportantDetail>{item.typeAddress}</ImportantDetail>
+      <Detail>{item.addressLine1}</Detail>
+      <Detail>{item.addressLine2}</Detail>
       <Detail>
         {item.city}, {item.state},
       </Detail>
-      <Detail>{item.country}-{item.pin_code}</Detail>  
+      <Detail>{item.country}-{item.pinCode}</Detail>  
     </Span>
   ));
 
@@ -27,7 +27,7 @@ console.log(state)
 
         <ListContent>
         <PrimaryDetail>
-          {state.first_name} {state.last_name}
+          {state.firstName} {state.lastName}
         </PrimaryDetail>
         <button onClick={handleEdit}>Edit</button>
             <SecondaryDetail>Addresses</SecondaryDetail>
@@ -35,19 +35,19 @@ console.log(state)
          
          
             <SecondaryDetail>Email Address</SecondaryDetail>
-            {state.emails.map((email, email_index) => (
+            {state.emails.map((email, emailIndex) => (
               <Span key={email.email}>
-                <ImportantDetail>{email.type_email}</ImportantDetail>
+                <ImportantDetail>{email.typeEmail}</ImportantDetail>
                 <Detail>{email.email}</Detail>
               </Span>
             ))}
           
           
             <SecondaryDetail>Phone number</SecondaryDetail>
-            {state.phone_number.map((phone, phone_index) => (
-              <Span key={phone.phone_number}>
-                <ImportantDetail>{phone.phone_number_type}</ImportantDetail>
-                <Detail>{phone.phone_number}</Detail>
+            {state.phoneNumber.map((phone, phoneIndex) => (
+              <Span key={phone.phoneNumber}>
+                <ImportantDetail>{phone.phoneNumberType}</ImportantDetail>
+                <Detail>{phone.phoneNumber}</Detail>
               </Span>
             ))}
           
