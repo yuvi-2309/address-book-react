@@ -18,6 +18,7 @@ function CreateAddressBook({
   const pinCodeRegex = /^\d{6}$/;
 
   const inputRef = useRef(null);
+  // use states for holding current state
   const [formData, setFormData] = useState(
     initialValue
       ? initialValue
@@ -40,6 +41,7 @@ function CreateAddressBook({
         }
   );
 
+  // use state for holding current editAddress
   const [editAddress, setEditAddress] = useState({
     addressLine1: "",
     addressLine2: "",
@@ -50,11 +52,13 @@ function CreateAddressBook({
     typeAddress: "",
   });
 
+  // use states for displaying errors in first and last name
   const [firstNameError, setFirstNameError] = useState("");
   const [lastNameError, setLastNameError] = useState("");
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
 
+  // function to validate firstName
   const validateFirstName = () => {
     if (!formData.firstName) {
       setFirstNameError("First name is required");
@@ -67,6 +71,7 @@ function CreateAddressBook({
     }
   };
 
+  // function to validate lastName
   const validateLastName = () => {
     if (!formData.lastName) {
       setLastNameError("Last name is required");
@@ -134,28 +139,13 @@ function CreateAddressBook({
     });
   };
 
-  /**
-   * The function sets the edit address and edit address ID based on the item and index passed as
-   * arguments.
-   * @param item - The item parameter is likely an object or a value that represents an address that
-   * the user wants to edit.
-   * @param index - The index parameter is a numeric value that represents the position of an item in
-   * an array. In this context, it is used to identify the index of the item that needs to be edited.
-   */
+  // function to handle edit data in the address table
   const handleEdit = (item, index) => {
     setEditAddress(item);
     setEditAddressID(index);
   };
 
-  /**
-   * The function handles the deletion of a record with a confirmation modal.
-   * @param index - The index parameter is a number that represents the index of the item to be deleted
-   * from the address array. It is used to filter out the item from the array when the user confirms
-   * the deletion.
-   * @returns A function is being returned. This function takes an event as an argument and displays a
-   * confirmation modal. If the user confirms the deletion, it removes the item at the specified index
-   * from the `address` array using the `setAddress` function.
-   */
+  // function to delete the record from the table
   const handleDelete = (index) => {
     return (event) => {
       Modal.confirm({
@@ -210,15 +200,7 @@ function CreateAddressBook({
     }
   };
 
-  // function to handle the data in the email fields and push it into the formData.emails
-  /**
-   * This function handles input changes for an array of email objects in a form data object.
-   * @param event - The event parameter is an object that contains information about the event that
-   * triggered the function. In this case, it is likely an onChange event from an input field.
-   * @param index - The index parameter is a number that represents the index of the email object in
-   * the emails array that needs to be updated. It is used to identify which email object needs to be
-   * updated when the handleInputChangeEmails function is called.
-   */
+  // function to handle input change in email fields
   const handleInputChangeEmails = (event, index) => {
     const { name, value } = event.target;
     const emails = [...formData.emails];
@@ -226,44 +208,20 @@ function CreateAddressBook({
     setFormData({ ...formData, emails });
   };
 
-  // function to add new field in the email column
+  // function to add new field in the email fields
   const handleAddFieldsEmail = () => {
     const emails = [...formData.emails];
     emails.push({});
     setFormData({ ...formData, emails });
   };
 
-  // function to handle the input change in phone
-  const handleInputChangePhone = (event, index) => {
-    const { name, value } = event.target;
-    const phoneNumber = [...formData.phoneNumber];
-    phoneNumber[index][name] = value;
-    setFormData({ ...formData, phoneNumber });
-  };
-
-  // function to add new fields in the phone column
-  const handleAddFieldsPhone = () => {
-    const phoneNumber = [...formData.phoneNumber];
-    phoneNumber.push({});
-    setFormData({ ...formData, phoneNumber });
-  };
-
-  /**
-   * This function removes a field from a form data object and displays a warning message if the
-   * minimum number of fields is not met.
-   * @param index - The index parameter is a number that represents the index of the field to be
-   * removed from the formData array.
-   * @param field - The `field` parameter is a string that represents the name of a field in the
-   * `formData` object.
-   */
-  const removeField = (index, field) => {
-    const warningMessage = document.getElementById(
-      `minimumFieldWarning_${field}`
-    );
-    if (index > 0) {
-      const updatedField = [...formData[field]];
-      updatedField.splice(index, 1);
-      setFormData({ ...formData, [field]: updatedField });
+  const handleRemoveEmail = (index) => {
+    const warningMessage = document.getElementById('minimumFieldWarningEmail');
+    const fieldData = [...formData.emails]
+    
+    if (index > 0) {   
+      fieldData.splice(index, 1);
+      setFormData({ ...formData,emails: fieldData });
     } else {
       warningMessage.innerHTML = "A minimum of one field is required";
       warningMessage.style.color = "red";
@@ -271,7 +229,39 @@ function CreateAddressBook({
         warningMessage.innerHTML = "";
       }, 2000);
     }
+  }
+
+  // function to handle the input change in phone fields
+  const handleInputChangePhone = (event, index) => {
+    const { name, value } = event.target;
+    const phoneNumber = [...formData.phoneNumber];
+    phoneNumber[index][name] = value;
+    setFormData({ ...formData, phoneNumber });
   };
+
+  // function to add new fields in the phone fields
+  const handleAddFieldsPhone = () => {
+    const phoneNumber = [...formData.phoneNumber];
+    phoneNumber.push({});
+    setFormData({ ...formData, phoneNumber });
+  };
+
+  // function to remove input fields. Used for email and phoneNumber fields
+  const handleRemovePhone = (index) => {
+    const warningMessage = document.getElementById('minimumFieldWarningPhone');
+    const fieldData = [...formData.phoneNumber]
+    
+    if (index > 0) {
+      fieldData.splice(index, 1);
+      setFormData({ ...formData, phoneNumber: fieldData });
+    } else {
+      warningMessage.innerHTML = "A minimum of one field is required";
+      warningMessage.style.color = "red";
+      setTimeout(() => {
+        warningMessage.innerHTML = "";
+      }, 2000);
+    }
+  }
 
   /**
    * This function handles form submission and validates all the fields before submitting the form.
@@ -281,11 +271,7 @@ function CreateAddressBook({
   const handleSubmit = (event) => {
     event.preventDefault();
     const updatedFormData = { ...formData };
-    if (
-      editAddress.addressLine1 !== "" &&
-      editAddress.addressLine2 &&
-      !address.length === 0
-    ) {
+    if (address.length === 0) {
       updatedFormData.addresses = [editAddress];
     } else {
       updatedFormData.addresses = address;
@@ -317,16 +303,6 @@ function CreateAddressBook({
       }
     });
 
-    // to check atleast one address is added in the table
-    // if (!isAddingAddress) {
-    //   document.getElementById("addressValidation").textContent =
-    //     "Atleast one address is required";
-    //   allFieldsValid = false;
-    //   setTimeout(() => {
-    //     document.getElementById("addressValidation").textContent = "";
-    //   }, 2000);
-    // }
-
     if (firstNameError || lastNameError) {
       allFieldsValid = false;
     }
@@ -343,6 +319,7 @@ function CreateAddressBook({
     { value: "Work", label: "Work" },
   ];
 
+  // function to handle cancel (Navigate to list page)
   const handleCancel = () => {
     cancel(true);
   };
@@ -576,7 +553,7 @@ function CreateAddressBook({
                   return (
                     <tr key={item.typeAddress}>
                       <td>{addressStr}</td>
-                      <td>{item.typeAddress}</td>
+                      <td>{item.typeAddress ? item.typeAddress : "NA"}</td>
                       <td>
                         <span className="listButtons">
                           <button
@@ -664,7 +641,7 @@ function CreateAddressBook({
               <button
                 className="buttonRemove"
                 type="button"
-                onClick={() => removeField(index, "email")}
+                onClick={() => handleRemoveEmail(index)}
               >
                 Remove
               </button>
@@ -734,7 +711,7 @@ function CreateAddressBook({
               <button
                 className="buttonRemove"
                 type="button"
-                onClick={() => removeField(index, "phone")}
+                onClick={() => handleRemovePhone(index)}
               >
                 Remove
               </button>

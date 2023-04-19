@@ -8,6 +8,7 @@ export const ContainerLogin = styled.div`
   align-items: center;
   letter-spacing: 0.5px;
 `;
+
 export const LoginBox = styled.form`
   height: 350px;
   width: 400px;

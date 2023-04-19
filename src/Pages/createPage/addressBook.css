@@ -195,6 +195,7 @@
   cursor: pointer;
   margin: -2px 0 0 5px;
   color: #0c5675;
+  font-size: 23px;
 }
 
 .inputAddress.warningBorderColor {
