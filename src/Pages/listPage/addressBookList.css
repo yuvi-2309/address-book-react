@@ -85,10 +85,15 @@ tbody td {
   box-shadow: 0 0 5px;
 }
 
-.headingAddress h3 {
+
+.alignRight {
   position: absolute;
   right: 5%;
   top: 30px;
+  display: flex;
+}
+
+.alignRight h3 {
   font-size: 20px;
   font-weight: normal;
 }
@@ -96,6 +101,7 @@ tbody td {
 .flexRow img {
   margin-top: 5px;
 }
+
 
 .flexRow h1 {
   font-size: 25px;

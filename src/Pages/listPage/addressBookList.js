@@ -38,8 +38,7 @@ function AddressList() {
   };
 
   //function for search bar
-  const items = formData;
-  const filteredData = items.filter((item) =>
+  const filteredData = formData.filter((item) =>
     item.firstName.includes(searchQuery)
   );
 

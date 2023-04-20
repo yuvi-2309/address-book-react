@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-globals */
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 
 import { Modal } from "antd";
 import "./addressBook.css";
@@ -59,12 +59,13 @@ function CreateAddressBook({
   // eslint-disable-next-line react-hooks/exhaustive-deps
 
   // function to validate firstName
-  const validateFirstName = () => {
-    if (!formData.firstName) {
+  const handleFirstNameChange = (event) => {
+    const firstNameValue = event.target.value;
+    setFormData({ ...formData, firstName: firstNameValue });
+
+    if (firstNameValue === "") {
       setFirstNameError("First name is required");
-    } else if (formData.firstName.length < 2) {
-      setFirstNameError("First name must be at least 2 characters long");
-    } else if (!/^[a-zA-Z]+$/.test(formData.firstName)) {
+    } else if (!/^[a-zA-Z]+$/.test(firstNameValue)) {
       setFirstNameError("First name must contain only letters");
     } else {
       setFirstNameError("");
@@ -72,20 +73,18 @@ function CreateAddressBook({
   };
 
   // function to validate lastName
-  const validateLastName = () => {
-    if (!formData.lastName) {
+  const handleLastNameChange = (event) => {
+    const lastNameValue = event.target.value;
+    setFormData({ ...formData, lastName: lastNameValue });
+
+    if (lastNameValue === "") {
       setLastNameError("Last name is required");
-    } else if (!/^[a-zA-Z]+$/.test(formData.lastName)) {
+    } else if (!/^[a-zA-Z]+$/.test(lastNameValue)) {
       setLastNameError("Last name must contain only letters");
     } else {
       setLastNameError("");
     }
   };
-
-  useEffect(() => {
-    validateFirstName();
-    validateLastName();
-  }, [formData.firstName, formData.lastName]);
 
   const [address, setAddress] = useState([]);
   const [editAddressID, setEditAddressID] = useState(null);
@@ -106,7 +105,6 @@ function CreateAddressBook({
     if (values.addressLine1 && values.addressLine2) {
       if (editAddressID === null) {
         setAddress([...address, values]);
-        
       } else {
         address[editAddressID] = values;
       }
@@ -215,13 +213,14 @@ function CreateAddressBook({
     setFormData({ ...formData, emails });
   };
 
+  // function to remove Email field
   const handleRemoveEmail = (index) => {
-    const warningMessage = document.getElementById('minimumFieldWarningEmail');
-    const fieldData = [...formData.emails]
-    
-    if (index > 0) {   
+    const warningMessage = document.getElementById("minimumFieldWarningEmail");
+    const fieldData = [...formData.emails];
+
+    if (index > 0) {
       fieldData.splice(index, 1);
-      setFormData({ ...formData,emails: fieldData });
+      setFormData({ ...formData, emails: fieldData });
     } else {
       warningMessage.innerHTML = "A minimum of one field is required";
       warningMessage.style.color = "red";
@@ -229,7 +228,7 @@ function CreateAddressBook({
         warningMessage.innerHTML = "";
       }, 2000);
     }
-  }
+  };
 
   // function to handle the input change in phone fields
   const handleInputChangePhone = (event, index) => {
@@ -248,9 +247,9 @@ function CreateAddressBook({
 
   // function to remove input fields. Used for email and phoneNumber fields
   const handleRemovePhone = (index) => {
-    const warningMessage = document.getElementById('minimumFieldWarningPhone');
-    const fieldData = [...formData.phoneNumber]
-    
+    const warningMessage = document.getElementById("minimumFieldWarningPhone");
+    const fieldData = [...formData.phoneNumber];
+
     if (index > 0) {
       fieldData.splice(index, 1);
       setFormData({ ...formData, phoneNumber: fieldData });
@@ -261,7 +260,7 @@ function CreateAddressBook({
         warningMessage.innerHTML = "";
       }, 2000);
     }
-  }
+  };
 
   /**
    * This function handles form submission and validates all the fields before submitting the form.
@@ -271,40 +270,49 @@ function CreateAddressBook({
   const handleSubmit = (event) => {
     event.preventDefault();
     const updatedFormData = { ...formData };
-    if (address.length === 0) {
-      updatedFormData.addresses = [editAddress];
-    } else {
-      updatedFormData.addresses = address;
-    }
+    const hasAddress = address.length > 0;
+    updatedFormData.addresses = hasAddress ? address : [editAddress];
 
     // boolean to check whether all the fields are empty or not
     let allFieldsValid = true;
 
     // Check all email fields
-    formData.emails.forEach((email, index) => {
-      const value = email.email;
+    const validateField = (fieldName, fieldData, index) => {
+      const value = fieldData[fieldName];
       if (!value) {
-        document.getElementById(`emailWarning${index}`).textContent =
+        document.getElementById(`${fieldName}Warning${index}`).textContent =
           "This field is required";
-        document.getElementById(`email${index}`).style.borderColor = "red";
+        document.getElementById(`${fieldName}${index}`).style.borderColor =
+          "red";
         allFieldsValid = false;
       }
+    };
+
+    // Check all email fields
+    formData.emails.forEach((email, index) => {
+      validateField("email", email, index);
     });
 
     // Check all phone number fields
     formData.phoneNumber.forEach((phone, index) => {
-      const value = phone.phoneNumber;
-      if (!value) {
-        document.getElementById(`phoneWarning${index}`).textContent =
-          "This field is required";
-        document.getElementById(`phone number${index}`).style.borderColor =
-          "red";
-        allFieldsValid = false;
-      }
+      validateField("phone", phone, index);
     });
 
-    if (firstNameError || lastNameError) {
-      allFieldsValid = false;
+    // function to check whether the name fields are filled
+    const isNameFieldEmpty = (field, setError) => {
+      const isEmpty = field === "";
+      setError(isEmpty && "This field is required");
+      if (isEmpty) {
+        allFieldsValid = false;
+      }
+      return isEmpty;
+    };
+    isNameFieldEmpty(formData.firstName, setFirstNameError);
+    isNameFieldEmpty(formData.lastName, setLastNameError);
+
+    if (updatedFormData.addresses.addressLine1 === "") {
+      document.getElementById("addressValidation").textContent =
+        "Atleast one address is required";
     }
 
     // if all fields are valid, submit form
@@ -339,9 +347,7 @@ function CreateAddressBook({
               type="text"
               id="name"
               value={formData.firstName}
-              onChange={(event) => {
-                setFormData({ ...formData, firstName: event.target.value });
-              }}
+              onChange={handleFirstNameChange}
             />
             {/* <div id="nameWarning" className="warningMessage"></div> */}
             {firstNameError && (
@@ -358,9 +364,7 @@ function CreateAddressBook({
               type="text"
               id="last name"
               value={formData.lastName}
-              onChange={(event) => {
-                setFormData({ ...formData, lastName: event.target.value });
-              }}
+              onChange={handleLastNameChange}
             />
             {/* <div id="lastNameWarning" className="warningMessage"></div> */}
             {lastNameError && (
@@ -373,9 +377,6 @@ function CreateAddressBook({
         <div className="addressBar">
           <div className="wrap">
             <h3>Address</h3>
-            <button className="buttonAdd" type="button">
-              +
-            </button>
           </div>
           <div className="formGrid" ref={inputRef}>
             <span className="flexColumn">
@@ -673,12 +674,12 @@ function CreateAddressBook({
                     name="phoneNumber"
                     className="inputAddress"
                     placeholder="Phone Number"
-                    id={`phone number${index}`}
+                    id={`phone${index}`}
                     value={phone.phoneNumber}
                     onChange={(event) => {
                       handleInputChangePhone(event, index);
                       validate(
-                        `phone number${index}`,
+                        `phone${index}`,
                         `phoneWarning${index}`,
                         event.target.value,
                         numberRegex

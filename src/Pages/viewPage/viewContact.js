@@ -16,9 +16,6 @@ export default function View({ state, editDetailsView }) {
     </Span>
   ));
 
-  const handleEdit = () => {
-    editDetailsView(state);
-  }
   return (
     <>
       <ViewMainList>
@@ -28,7 +25,6 @@ export default function View({ state, editDetailsView }) {
         <PrimaryDetail>
           {state.firstName} {state.lastName}
         </PrimaryDetail>
-        <button onClick={handleEdit}>Edit</button>
             <SecondaryDetail>Addresses</SecondaryDetail>
             {addressList}
          
